@@ -1,5 +1,5 @@
 #import modules
- 
+
 from tkinter import *
 import os
 import time
@@ -115,11 +115,11 @@ def select_mode_register():
     mode_screen = Tk()
     mode_screen.geometry("600x600")
     mode_screen.title("Pacing Mode select")
+    button = Button(mode_screen, text = "Back to Dashboard", command = combine_funcs(dashboard, delete_mode_screen)).pack()
     #embedded function to get selection
     def get_mode():
         selection = StringVar()
         selection = mode_sel.get()
-        
         label = Label(mode_screen, bg="green", text="Selection of " + selection + " is Successful")
         label.pack()
         button = Button(mode_screen, text = "Confirm", command = add2file).pack()
@@ -143,11 +143,11 @@ def select_mode_register():
  
     Label(text="Before Starting, please select a pacing mode", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack()
     mode_sel= StringVar()
-    mode_sel.set("Pacing mode:")
-    drop= OptionMenu(mode_screen, mode_sel,"AOO", "VOO","AAI","VVI") #andrew this is the type of line youre gonna wanna edit,
+    mode_sel.set("AOO")
+    ModeOptions = ["AOO","VOO","AAI","VVI"]
+    drop= tkinter.OptionMenu(mode_screen, mode_sel, *ModeOptions) #andrew this is the type of line youre gonna wanna edit,
     drop.pack()
     button = Button(mode_screen, text = "Select", command = get_mode).pack()
-    
 #when completed, these four functions will add the parameters to the txt file created upon register. I have not done that yet but probably will soon
     
 def AOO_selections():
@@ -155,34 +155,38 @@ def AOO_selections():
     AOO_screen.title("AOO Parameters")
     AOO_screen.geometry('600x600')
     Label(AOO_screen, text="AOO Parameter Selections", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack()
-
+    def delete_AOO_screen():
+        AOO_screen.destroy() #warning unsaved changes might be a good idea to implement here.  
+    button = Button(AOO_screen, text = "Back", command = combine_funcs(select_mode_register, delete_AOO_screen)).pack()
+    # add "unsaved changes warning" option on the back button
     ### FROM HERE TO NEXT COMMENT IS CRITICAL LRL ###
     label = Label(AOO_screen, text ="LRL selection:")
     label.place(x=150,y=50)
-    LRL_options_list = ["1", "2", "3", "4"]
+    LRL_options_list = ["30", "35", "40", "45", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89", "90", "95", "100", "105", "110", "115", "120", "125", "130", "135", "140", "145", "150", "155", "160", "165", "170", "175"]
     value_LRL = tkinter.StringVar(AOO_screen)
     value_LRL.set("Select a LRL value")
     
-
     LRL_menu = tkinter.OptionMenu(AOO_screen, value_LRL, *LRL_options_list)
     LRL_menu.pack()
 
     def get_LRL():
         LRL = tkinter.StringVar(AOO_screen)
         LRL = value_LRL.get()
-        label2 = Label(AOO_screen, bg="green", text="Selection of " + LRL + " is Successful")
+        label2 = Label(AOO_screen, bg="green", text="Selection of " + LRL + " is Successful");
         label2.place(x=350,y=50)
     button = Button(AOO_screen, text = "Select LRL", command = get_LRL).pack()
+    
    ### FROM HERE TO NEXT COMMENT IS CRITICAL URL ###
     label3 = Label(AOO_screen, text ="URL selection:")
     label3.place(x=150,y=100)
-    URL_options_list = ["1", "2", "3", "4"]
+    URL_options_list = ["placeholder 1", "placeholder 2"]
     value_URL = tkinter.StringVar(AOO_screen)
     value_URL.set("Select a URL value")
     
 
     URL_menu = tkinter.OptionMenu(AOO_screen, value_URL, *URL_options_list)
     URL_menu.pack()
+    
 
     def get_URL():
         URL = tkinter.StringVar(AOO_screen)
@@ -198,21 +202,27 @@ def VOO_selections():
     VOO_screen.title("VOO Parameters")
     VOO_screen.geometry('600x600')
     Label(VOO_screen, text="VOO Parameter Selections", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack()
-
+    def delete_VOO_screen():
+        VOO_screen.destroy() #warning unsaved changes might be a good idea to implement here.  
+    button = Button(VOO_screen, text = "Back", command = combine_funcs(select_mode_register, delete_VOO_screen)).pack()
                      
 def AAI_selections():
     AAI_screen = tkinter.Tk()
     AAI_screen.title("AAI Parameters")
     AAI_screen.geometry('600x600')
     Label(AAI_screen, text="AAI Parameter Selections", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack()
-
+    def delete_AAI_screen():
+        AAI_screen.destroy() #warning unsaved changes might be a good idea to implement here.  
+    button = Button(AAI_screen, text = "Back", command = combine_funcs(select_mode_register, delete_AAI_screen)).pack()
 
 def VVI_selections():
     VVI_screen = tkinter.Tk()
-    VVI_screen.title("AAI Parameters")
+    VVI_screen.title("VVI Parameters")
     VVI_screen.geometry('600x600')
-    Label(VVI_screen, text="AAI Parameter Selections", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack()
- 
+    Label(VVI_screen, text="VVI Parameter Selections", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack()
+    def delete_VVI_screen():
+        VVI_screen.destroy() #warning unsaved changes might be a good idea to implement here.  
+    button = Button(VVI_screen, text = "Back", command = combine_funcs(select_mode_register, delete_VVI_screen)).pack()
 
 
 def login_verify():
@@ -285,7 +295,13 @@ def user_not_found():
     user_not_found_screen.geometry("150x100")
     Label(user_not_found_screen, text="User Not Found").pack()
     Button(user_not_found_screen, text="OK", command=delete_user_not_found_screen).pack()
- 
+# combining functions for buttons 
+def combine_funcs(*funcs):
+    def combined_func(*arg1, **arg2):
+        for f in funcs:
+            f(*arg1, **arg2)
+    return combined_func
+
 # Deleting stuff
  
 def delete_login_success():
@@ -316,7 +332,8 @@ def delete_main_screen():
 
 def delete_mode_screen():
     mode_screen.destroy()
- 
+def delete_dashboard():
+    dash_screen.destroy()
  
 # Designing login/register (first) window
  
@@ -339,7 +356,7 @@ def dashboard():
     dash_screen.geometry("600x600")
     dash_screen.title("Dashboard")
     Label(text="Welcome to the Dashboard", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack() #adding which user it is would be nice
-    
+    button = Button(dash_screen, text = "Back to Login", command = combine_funcs(delete_dashboard, main_account_screen)).pack()
 ##TO DO: 1-make modes save to file, 2-make parameters save to file (probably same code for both), 3-add confirm button to parameters to update files 4- (andrew) make all parameters within guidelines and bound by eachother 5- read files to dashboard and allow edits from there 6-ask ta's about status of device
     
 #run start
