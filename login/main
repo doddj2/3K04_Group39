@@ -2,6 +2,8 @@
  
 from tkinter import *
 import os
+import time
+import tkinter
  
 #registration
  
@@ -86,8 +88,8 @@ def register_user():
     
     for i in files:
         tally = tally + 1
-    if tally <= 11:
-
+    if tally <= 110: #REMEBER TO CHANGE BACK TO 11 when completed
+ 
         if password_info != confirm_info:
             password_not_matched()
         else:
@@ -101,13 +103,118 @@ def register_user():
             confirm_entry.delete(0, END)
  
             Label(register_screen, text="Success", fg="green", font=("calibri", 11)).pack()
+            delete_register_screen()
+            delete_main_screen()
+            select_mode_register()
     else:
         max_users()
             
+# allow new user to pick mode
+def select_mode_register():
+    global mode_screen
+    mode_screen = Tk()
+    mode_screen.geometry("600x600")
+    mode_screen.title("Pacing Mode select")
+    #embedded function to get selection
+    def get_mode():
+        selection = StringVar()
+        selection = mode_sel.get()
+        
+        label = Label(mode_screen, bg="green", text="Selection of " + selection + " is Successful")
+        label.pack()
+        button = Button(mode_screen, text = "Confirm", command = add2file).pack()
+    #embedded function to add to file and move to parameter selection, still needs the actual file adding, currently only transports you to the next step
+    def add2file():
+        mode = StringVar()
+        mode = mode_sel.get()
+        if mode == "AOO":
+            AOO_selections()
+            delete_mode_screen()
+        elif mode == "VOO":
+            VOO_selections()
+            delete_mode_screen()
+        elif mode == "AAI":
+            AAI_selections()
+            delete_mode_screen()
+        elif mode == "VVI":
+            VVI_selections()
+            delete_mode_screen()
+        
  
+    Label(text="Before Starting, please select a pacing mode", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack()
+    mode_sel= StringVar()
+    mode_sel.set("Pacing mode:")
+    drop= OptionMenu(mode_screen, mode_sel,"AOO", "VOO","AAI","VVI") #andrew this is the type of line youre gonna wanna edit,
+    drop.pack()
+    button = Button(mode_screen, text = "Select", command = get_mode).pack()
+    
+#when completed, these four functions will add the parameters to the txt file created upon register. I have not done that yet but probably will soon
+    
+def AOO_selections():
+    AOO_screen = tkinter.Tk()
+    AOO_screen.title("AOO Parameters")
+    AOO_screen.geometry('600x600')
+    Label(AOO_screen, text="AOO Parameter Selections", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack()
+
+    ### FROM HERE TO NEXT COMMENT IS CRITICAL LRL ###
+    label = Label(AOO_screen, text ="LRL selection:")
+    label.place(x=150,y=50)
+    LRL_options_list = ["1", "2", "3", "4"]
+    value_LRL = tkinter.StringVar(AOO_screen)
+    value_LRL.set("Select a LRL value")
+    
+
+    LRL_menu = tkinter.OptionMenu(AOO_screen, value_LRL, *LRL_options_list)
+    LRL_menu.pack()
+
+    def get_LRL():
+        LRL = tkinter.StringVar(AOO_screen)
+        LRL = value_LRL.get()
+        label2 = Label(AOO_screen, bg="green", text="Selection of " + LRL + " is Successful")
+        label2.place(x=350,y=50)
+    button = Button(AOO_screen, text = "Select LRL", command = get_LRL).pack()
+   ### FROM HERE TO NEXT COMMENT IS CRITICAL URL ###
+    label3 = Label(AOO_screen, text ="URL selection:")
+    label3.place(x=150,y=100)
+    URL_options_list = ["1", "2", "3", "4"]
+    value_URL = tkinter.StringVar(AOO_screen)
+    value_URL.set("Select a URL value")
+    
+
+    URL_menu = tkinter.OptionMenu(AOO_screen, value_URL, *URL_options_list)
+    URL_menu.pack()
+
+    def get_URL():
+        URL = tkinter.StringVar(AOO_screen)
+        URL = value_URL.get()
+        label4 = Label(AOO_screen, bg="green", text="Selection of " + URL + " is Successful")
+        label4.place(x=350,y=100)
+    button = Button(AOO_screen, text = "Select URL", command = get_URL).pack()
+    ### ADD ALL THE OTHER PARAMETERS BY FOLLOWING FORMAT OF ABOVE TWO ###
+
+## NOW DO THE SAME AS ABOVE FOR THE FOLLOWING OTHER MODES, good luck have fun##    
+def VOO_selections():
+    VOO_screen = tkinter.Tk()
+    VOO_screen.title("VOO Parameters")
+    VOO_screen.geometry('600x600')
+    Label(VOO_screen, text="VOO Parameter Selections", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack()
+
+                     
+def AAI_selections():
+    AAI_screen = tkinter.Tk()
+    AAI_screen.title("AAI Parameters")
+    AAI_screen.geometry('600x600')
+    Label(AAI_screen, text="AAI Parameter Selections", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack()
+
+
+def VVI_selections():
+    VVI_screen = tkinter.Tk()
+    VVI_screen.title("AAI Parameters")
+    VVI_screen.geometry('600x600')
+    Label(VVI_screen, text="AAI Parameter Selections", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack()
  
-# click login
- 
+
+
 def login_verify():
     username1 = username_verify.get()
     password1 = password_verify.get()
@@ -136,9 +243,9 @@ def login_sucess():
     login_success_screen.geometry("150x100")
     Label(login_success_screen, text="Login Success").pack()
     Button(login_success_screen, text="OK", command=delete_login_success).pack()
-    dashboard()
     delete_login_screen()
     delete_main_screen()
+    dashboard()
 # Designing popup for too many users
  
 def max_users():
@@ -201,8 +308,14 @@ def delete_max_users_screen():
 def delete_login_screen():
     login_screen.destroy()
 
+def delete_register_screen():
+    register_screen.destroy()
+
 def delete_main_screen():
     main_screen.destroy()
+
+def delete_mode_screen():
+    mode_screen.destroy()
  
  
 # Designing login/register (first) window
@@ -223,8 +336,11 @@ def main_account_screen():
 def dashboard():
     global dash_screen
     dash_screen = Tk()
-    dash_screen.geometry("1000x1000")
+    dash_screen.geometry("600x600")
     dash_screen.title("Dashboard")
+    Label(text="Welcome to the Dashboard", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack() #adding which user it is would be nice
+    
+##TO DO: 1-make modes save to file, 2-make parameters save to file (probably same code for both), 3-add confirm button to parameters to update files 4- (andrew) make all parameters within guidelines and bound by eachother 5- read files to dashboard and allow edits from there 6-ask ta's about status of device
     
 #run start
 main_account_screen()
