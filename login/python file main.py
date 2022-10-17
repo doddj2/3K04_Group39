@@ -93,10 +93,11 @@ def register_user():
         if password_info != confirm_info:
             password_not_matched()
         else:
+            global file
             file = open(username_info, "w")
             file.write(username_info + "\n")
-            file.write(password_info)
-            file.close()
+            file.write(password_info + "\n")
+            #file.close()
  
             username_entry.delete(0, END)
             password_entry.delete(0, END)
@@ -127,16 +128,26 @@ def select_mode_register():
     def add2file():
         mode = StringVar()
         mode = mode_sel.get()
+        username_info = username.get()
         if mode == "AOO":
+            #file = open(username_info, "w")
+            file.write(mode + "\n")
+            file.close()
             AOO_selections()
             delete_mode_screen()
         elif mode == "VOO":
+            file.write(mode + "\n")
+            file.close()
             VOO_selections()
             delete_mode_screen()
         elif mode == "AAI":
+            file.write(mode + "\n")
+            file.close()
             AAI_selections()
             delete_mode_screen()
         elif mode == "VVI":
+            file.write(mode + "\n")
+            file.close()
             VVI_selections()
             delete_mode_screen()
         
@@ -352,11 +363,26 @@ def main_account_screen():
 #creating dashboard after login (this is where all selections will go)
 def dashboard():
     global dash_screen
-    dash_screen = Tk()
+    dash_screen = Tk()   
     dash_screen.geometry("600x600")
     dash_screen.title("Dashboard")
     Label(text="Welcome to the Dashboard", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack() #adding which user it is would be nice
-    button = Button(dash_screen, text = "Back to Login", command = combine_funcs(delete_dashboard, main_account_screen)).pack()
+    button = Button(dash_screen, text = "Back to Login", command = combine_funcs(delete_dashboard, main_account_screen)).pack()       
+    
+    def change_status_c2d():
+        status_label = Label(text="Status: connected", bg = 'green', width="30").place(x=60, y=600)
+        status = 1
+        Button(dash_screen, text = "change status", command = change_status_d2c).place(x=0, y=600)         
+
+    def change_status_d2c():  
+        status_label = Label(text="Status: disconnected", bg = 'red', width="30").place(x=60, y=600)
+        status = 0
+        Button(dash_screen, text = "change status", command = change_status_c2d).place(x=0, y=600)
+            
+
+    Button(dash_screen, text="get status", command = change_status_c2d).place(x=0, y=600)
+
+
 ##TO DO: 1-make modes save to file, 2-make parameters save to file (probably same code for both), 3-add confirm button to parameters to update files 4- (andrew) make all parameters within guidelines and bound by eachother 5- read files to dashboard and allow edits from there 6-ask ta's about status of device
     
 #run start
