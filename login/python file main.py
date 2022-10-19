@@ -367,20 +367,37 @@ def dashboard():
     dash_screen.geometry("600x600")
     dash_screen.title("Dashboard")
     Label(text="Welcome to the Dashboard", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack() #adding which user it is would be nice
-    button = Button(dash_screen, text = "Back to Login", command = combine_funcs(delete_dashboard, main_account_screen)).pack()       
+    button = Button(dash_screen, text = "Back to Login", command = combine_funcs(delete_dashboard, main_account_screen)).pack()
+    Label(text="FOR TESTING PURPOSES ONLY",bg = "yellow",font=("calibri", 14)).place(x=0, y=500)
+    username_info = username.get()
+    Label(text="Welcome, signed in as" + username_info ,font=("calibri", 16)).pack()
     
     def change_status_c2d():
         status_label = Label(text="Status: connected", bg = 'green', width="30").place(x=60, y=600)
-        status = 1
         Button(dash_screen, text = "change status", command = change_status_d2c).place(x=0, y=600)         
 
     def change_status_d2c():  
         status_label = Label(text="Status: disconnected", bg = 'red', width="30").place(x=60, y=600)
-        status = 0
         Button(dash_screen, text = "change status", command = change_status_c2d).place(x=0, y=600)
-            
 
-    Button(dash_screen, text="get status", command = change_status_c2d).place(x=0, y=600)
+    def change_pacemaker_1st():
+            Label(dash_screen, text = ' ', width = 100, height = 2).place(x=0,y=550)
+            status_label = Label(text="Pacemaker 1 Connected", bg = "cyan",width="30").place(x=60, y=550)
+            Button(dash_screen, text = "change status", command = change_pacemaker_2nd).place(x=0, y=550)
+            
+            
+    def change_pacemaker_2nd():
+            status_label = Label(text="Pacemaker 2 Connected", bg = "cyan", width="30").place(x=60, y=550)
+            Button(dash_screen, text = "change status", command = change_pacemaker_3rd).place(x=0, y=550)
+            
+    def change_pacemaker_3rd():
+        status_label = Label(text="Pacemaker 3 Connected",bg = "cyan", width="30").place(x=60, y=550)
+        Button(dash_screen, text = "change status", command = change_pacemaker_1st).place(x=0, y=550)            
+
+    Button(dash_screen, text="show status", command = change_status_c2d).place(x=0, y=600)
+    Button(dash_screen, text="show connected pacemaker", command = change_pacemaker_1st).place(x=0, y=550)
+    
+    
 
 
 ##TO DO: 1-make modes save to file, 2-make parameters save to file (probably same code for both), 3-add confirm button to parameters to update files 4- (andrew) make all parameters within guidelines and bound by eachother 5- read files to dashboard and allow edits from there 6-ask ta's about status of device
