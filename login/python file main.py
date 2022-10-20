@@ -4,7 +4,11 @@ from tkinter import *
 import os
 import time
 import tkinter
- 
+
+#global constants
+default_LRL = 60
+LRL_ranges = [30,50,90,175] #range 1 low, range 1 high, range 2 low, range 2 high, etc
+LRL_increments = [5,1,5] #range 1 increment, range 2 increment, range 3 increment 
 #registration
  
 def register():
@@ -160,8 +164,14 @@ def select_mode_register():
     drop.pack()
     button = Button(mode_screen, text = "Select", command = get_mode).pack()
 #when completed, these four functions will add the parameters to the txt file created upon register. I have not done that yet but probably will soon
-    
+def roundToNearest(input, toNearest=5):
+    return toNearest * round(input/toNearest)
+
 def AOO_selections():
+    #More to do:
+    #popups for rounding, explanation as to why it rounds 
+    #URL selection and rounding. 
+    #code cleanup, explanation "insert valid value"
     AOO_screen = tkinter.Tk()
     AOO_screen.title("AOO Parameters")
     AOO_screen.geometry('600x600')
@@ -173,18 +183,50 @@ def AOO_selections():
     ### FROM HERE TO NEXT COMMENT IS CRITICAL LRL ###
     label = Label(AOO_screen, text ="LRL selection:")
     label.place(x=150,y=50)
-    LRL_options_list = ["30", "35", "40", "45", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89", "90", "95", "100", "105", "110", "115", "120", "125", "130", "135", "140", "145", "150", "155", "160", "165", "170", "175"]
-    value_LRL = tkinter.StringVar(AOO_screen)
-    value_LRL.set("Select a LRL value")
-    
-    LRL_menu = tkinter.OptionMenu(AOO_screen, value_LRL, *LRL_options_list)
+    LRL_input = StringVar()
+    LRL_menu = tkinter.Entry(AOO_screen, textvariable=LRL_input)
+    LRL_menu.insert(0, str(default_LRL)) #once saving works, change this to "if a value is saved, insert that value here - if not, load the default."
     LRL_menu.pack()
 
     def get_LRL():
         LRL = tkinter.StringVar(AOO_screen)
-        LRL = value_LRL.get()
-        label2 = Label(AOO_screen, bg="green", text="Selection of " + LRL + " is Successful");
-        label2.place(x=350,y=50)
+        LRL = LRL_menu.get() #get the value from the insert
+        try: #check if the input is translatable to float
+            LRL=float(LRL)
+            if(LRL<LRL_ranges[0]): #if below lowest increment, set to minimum
+                LRL_menu.delete(0, END)
+                LRL_menu.insert(0, str(LRL_ranges[0]))
+                LRL = LRL_menu.get() 
+            #label saying [input] rounded to [blah]. See [button] to see why this is happening. 
+            elif(LRL_ranges[0]<LRL<LRL_ranges[1]): #if in the lowest range
+                if(LRL%LRL_increments[0] != 0): #and not of a valid value
+                    LRL = roundToNearest(LRL,LRL_increments[0]) #round to nearest valid value
+                    LRL_menu.delete(0, END)
+                    LRL_menu.insert(0, str(LRL)) #display that
+                #label saying [input] rounded to [blah]. See [button] to see why this is happening. 
+            elif(LRL_ranges[1]<LRL<LRL_ranges[2]):
+                if(LRL%LRL_increments[1] != 0): #and not of a valid value
+                    LRL = roundToNearest(LRL,LRL_increments[1]) #round to nearest valid value
+                    LRL_menu.delete(0, END)
+                    LRL_menu.insert(0, str(LRL)) #display that
+                #label saying [input] rounded to [blah]. See [button] to see why this is happening. 
+            elif(LRL_ranges[2]<LRL<LRL_ranges[3]):
+                if(LRL%LRL_increments[2] != 0): #and not of a valid value
+                    LRL = roundToNearest(LRL,LRL_increments[2]) #round to nearest valid value
+                    LRL_menu.delete(0, END)
+                    LRL_menu.insert(0, str(LRL)) #display that
+            elif(LRL>LRL_ranges[3]): #too big, round to highest valid 
+                LRL_menu.delete(0, END)
+                LRL_menu.insert(0, str(LRL_ranges[3]))
+                LRL = LRL_menu.get() 
+            label2 = Label(AOO_screen, bg="green", text="Selection of " + str(LRL) + " is Successful.");
+            label2.place(x=350,y=50)
+        except ValueError:
+            print("Not a float") #if not, set to default value 
+            LRL_menu.delete(0, END) #delete existing value
+            LRL_menu.insert(0, default_LRL) #insert default value
+            #label in the UI saying "you input not a float you dummy"
+        
     button = Button(AOO_screen, text = "Select LRL", command = get_LRL).pack()
     
    ### FROM HERE TO NEXT COMMENT IS CRITICAL URL ###
@@ -369,8 +411,9 @@ def dashboard():
     Label(text="Welcome to the Dashboard", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack() #adding which user it is would be nice
     button = Button(dash_screen, text = "Back to Login", command = combine_funcs(delete_dashboard, main_account_screen)).pack()
     Label(text="FOR TESTING PURPOSES ONLY",bg = "yellow",font=("calibri", 14)).place(x=0, y=500)
-    username_info = username.get()
-    Label(text="Welcome, signed in as" + username_info ,font=("calibri", 16)).pack()
+    #need to find a way to port username to dashboard, likley need to redo the way things save in register
+    #username_info = username.get()
+    #Label(text="Welcome, signed in as" + username_info ,font=("calibri", 16)).pack()
     
     def change_status_c2d():
         status_label = Label(text="Status: connected", bg = 'green', width="30").place(x=60, y=600)
@@ -400,7 +443,7 @@ def dashboard():
     
 
 
-##TO DO: 1-make modes save to file, 2-make parameters save to file (probably same code for both), 3-add confirm button to parameters to update files 4- (andrew) make all parameters within guidelines and bound by eachother 5- read files to dashboard and allow edits from there 6-ask ta's about status of device
+##TO DO: 1-make modes save to file, 2-make parameters save to file (probably same code for both), 3-add confirm button to parameters to update files 4- (andrew) make all parameters within guidelines and bound by eachother 5- read files to dashboard and allow edits from there
     
 #run start
 main_account_screen()
