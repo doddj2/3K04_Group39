@@ -156,7 +156,7 @@ def select_mode_register():
             delete_mode_screen()
         
  
-    Label(text="Before Starting, please select a pacing mode", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack()
+    Label(text="Before Starting, please select a pacing mode", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
     mode_sel= StringVar()
     mode_sel.set("AOO")
     ModeOptions = ["AOO","VOO","AAI","VVI"]
@@ -175,7 +175,7 @@ def AOO_selections():
     AOO_screen = tkinter.Tk()
     AOO_screen.title("AOO Parameters")
     AOO_screen.geometry('600x600')
-    Label(AOO_screen, text="AOO Parameter Selections", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack()
+    Label(AOO_screen, text="AOO Parameter Selections", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
     def delete_AOO_screen():
         AOO_screen.destroy() #warning unsaved changes might be a good idea to implement here.  
     button = Button(AOO_screen, text = "Back", command = combine_funcs(select_mode_register, delete_AOO_screen)).pack()
@@ -257,7 +257,7 @@ def VOO_selections():
     VOO_screen = tkinter.Tk()
     VOO_screen.title("VOO Parameters")
     VOO_screen.geometry('600x600')
-    Label(VOO_screen, text="VOO Parameter Selections", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack()
+    Label(VOO_screen, text="VOO Parameter Selections", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
     def delete_VOO_screen():
         VOO_screen.destroy() #warning unsaved changes might be a good idea to implement here.  
     button = Button(VOO_screen, text = "Back", command = combine_funcs(select_mode_register, delete_VOO_screen)).pack()
@@ -266,7 +266,7 @@ def AAI_selections():
     AAI_screen = tkinter.Tk()
     AAI_screen.title("AAI Parameters")
     AAI_screen.geometry('600x600')
-    Label(AAI_screen, text="AAI Parameter Selections", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack()
+    Label(AAI_screen, text="AAI Parameter Selections", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
     def delete_AAI_screen():
         AAI_screen.destroy() #warning unsaved changes might be a good idea to implement here.  
     button = Button(AAI_screen, text = "Back", command = combine_funcs(select_mode_register, delete_AAI_screen)).pack()
@@ -275,7 +275,7 @@ def VVI_selections():
     VVI_screen = tkinter.Tk()
     VVI_screen.title("VVI Parameters")
     VVI_screen.geometry('600x600')
-    Label(VVI_screen, text="VVI Parameter Selections", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack()
+    Label(VVI_screen, text="VVI Parameter Selections", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
     def delete_VVI_screen():
         VVI_screen.destroy() #warning unsaved changes might be a good idea to implement here.  
     button = Button(VVI_screen, text = "Back", command = combine_funcs(select_mode_register, delete_VVI_screen)).pack()
@@ -402,7 +402,7 @@ def main_account_screen():
     main_screen = Tk()
     main_screen.geometry("300x250")
     main_screen.title("Account Login")
-    Label(text="Select Your Choice", bg="maroon", width="300", height="2", font=("Calibri", 13)).pack()
+    Label(text="Select Your Choice", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
     Label(text="").pack()
     Button(text="Login", height="2", width="30", command = login).pack()
     Label(text="").pack()
@@ -415,7 +415,7 @@ def dashboard():
     dash_screen = Tk()   
     dash_screen.geometry("600x600")
     dash_screen.title("Dashboard")
-    Label(text="Welcome to the Dashboard", bg="maroon", width="300", height="2", font=("Calibri", 15)).pack() #adding which user it is would be nice
+    Label(text="Welcome to the Dashboard", bg="#C70039", width="300", height="2", font=("Calibri", 15)).pack() #adding which user it is would be nice
     button = Button(dash_screen, text = "Back to Login", command = combine_funcs(delete_dashboard, main_account_screen)).place(x=0,y=2)
     Label(text="FOR TESTING PURPOSES ONLY",bg = "orange",font=("calibri", 14)).place(x=0, y=500)
     #need to find a way to port username to dashboard, likley need to redo the way things save in register
@@ -432,25 +432,67 @@ def dashboard():
 
     def change_pacemaker_1st():
             Label(dash_screen, text = ' ', width = 100, height = 2).place(x=0,y=550)
-            status_label = Label(text="Pacemaker 1 Connected", bg = "cyan",width="30").place(x=60, y=550)
-            Button(dash_screen, text = "change status", command = change_pacemaker_2nd).place(x=0, y=550)
+            status_label = Label(text="Pacemaker 1 Connected", bg = "cyan",width="30").place(x=80, y=550)
+            Button(dash_screen, text = "change pacemaker", command = change_pacemaker_2nd).place(x=0, y=550)
             
             
     def change_pacemaker_2nd():
-            status_label = Label(text="Pacemaker 2 Connected", bg = "cyan", width="30").place(x=60, y=550)
-            Button(dash_screen, text = "change status", command = change_pacemaker_3rd).place(x=0, y=550)
+            status_label = Label(text="Pacemaker 2 Connected", bg = "cyan", width="30").place(x=80, y=550)
+            Button(dash_screen, text = "change pacemaker", command = change_pacemaker_3rd).place(x=0, y=550)
             
     def change_pacemaker_3rd():
-        status_label = Label(text="Pacemaker 3 Connected",bg = "cyan", width="30").place(x=60, y=550)
-        Button(dash_screen, text = "change status", command = change_pacemaker_1st).place(x=0, y=550)            
+        status_label = Label(text="Pacemaker 3 Connected",bg = "cyan", width="30").place(x=80, y=550)
+        Button(dash_screen, text = "change pacemaker", command = change_pacemaker_1st).place(x=0, y=550)
+        
     Button(dash_screen, text="show status", command = change_status_c2d).place(x=0, y=600)
     Button(dash_screen, text="show connected pacemaker", command = change_pacemaker_1st).place(x=0, y=550)
     Label(dash_screen, text = "Hello " + name +"!", bg = "yellow", font=("Calibri", 13)).pack()
-    
+    userfile = open(name, 'r')
+    filelines = userfile.readlines()
+    user_mode = filelines[2]
+    Label(dash_screen, text = "Your Current Settings", bg = "#C70039", font = ("Calibri", 12)).place(x=0,y=120)
+    Label(dash_screen, text = "mode = " + user_mode).place(x=0,y=150)
+    if user_mode == "AOO"+ '\n':
+        user_lrl = filelines[3]
+        user_url = filelines[4]
+        user_aa = filelines[5]
+        user_apw = filelines[6]
+        Label(dash_screen, text = "LRL = " + user_lrl).place(x=0,y=165)
+        Label(dash_screen, text = "URL = " + user_url).place(x=0,y=180)
+        Label(dash_screen, text = "AA = " + user_aa).place(x=0,y=195)
+        Label(dash_screen, text = "APW = " + user_apw).place(x=0,y=210)
+    elif user_mode == "VOO":
+        user_lrl = filelines[3]
+        user_url = filelines[4]
+        user_va = filelines[5]
+        user_vpw = filelines[6]
+        
+    elif user_mode == "AAI":
+        user_lrl = filelines[3]
+        user_url = filelines[4]
+        user_aa = filelines[5]
+        user_apw = filelines[6]
+        user_as = filelines[7]
+        user_arp = filelines[8]
+        user_pvarp = filelines[9]
+        user_hyster = filelines[10]
+        user_smooth = filelines[11]
+        
+    elif user_mode == "VVI":
+        user_lrl = filelines[3]
+        user_url = filelines[4]
+        user_va = filelines[5]
+        user_vpw = filelines[6]
+        user_vs = filelines[7]
+        user_vrp = filelines[8]
+        user_hyster = filelines[9]
+        user_smooth = filelines[10]
+        
+        
     
 
 
-##TO DO: 1-make modes save to file, 2-make parameters save to file (probably same code for both), 3-add confirm button to parameters to update files 4- (andrew) make all parameters within guidelines and bound by eachother 5- read files to dashboard and allow edits from there
+##TO DO: 2-make parameters save to file (probably same code for both), 3-add confirm button to parameters to update files 4- (andrew) make all parameters within guidelines and bound by eachother 5- read files to dashboard and allow edits from there
     
 #run start
 main_account_screen()
