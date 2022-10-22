@@ -187,54 +187,78 @@ def AOO_selections():
     LRL_menu = tkinter.Entry(AOO_screen, textvariable=LRL_input)
     LRL_menu.insert(0, str(default_LRL)) #once saving works, change this to "if a value is saved, insert that value here - if not, load the default."
     LRL_menu.pack()
+    
+    successLabelX = 400
+    successLabelY = 50
+    warningLabelX = 400
+    warningLabelY = 100
+    warningLabel = Label(AOO_screen, text="")
+    warningLabel.pack(side=BOTTOM, padx=0, pady=0, anchor='n')
+   # warningLabel.place(x=warningLabelX,y=warningLabelY)
 
     def get_LRL():
         LRL = tkinter.StringVar(AOO_screen)
         LRL = LRL_menu.get() #get the value from the insert
+        warningLabel.config(text = "") #make existing error invisible
+    #    warningLabel.place(x=warningLabelX,y=warningLabelY)
+        def success():
+            LRL = LRL_menu.get() 
+            warningLabel.config(bg="green", text="Selection of " + str(LRL) + " is Successful.");
+            file.write(str(LRL)+ '\n')
+           # file.close() ASK
         try: #check if the input is translatable to float
             LRL=float(LRL)
-            if(LRL<LRL_ranges[0]): #if below lowest increment, set to minimum
-                LRL_menu.delete(0, END)
-                LRL_menu.insert(0, str(LRL_ranges[0]))
-                LRL = LRL_menu.get() 
-            #label saying [input] rounded to [blah]. See [button] to see why this is happening. 
-            elif(LRL_ranges[0]<LRL<LRL_ranges[1]): #if in the lowest range
-                if(LRL%LRL_increments[0] != 0): #and not of a valid value
-                    LRL = roundToNearest(LRL,LRL_increments[0]) #round to nearest valid value
-                    LRL_menu.delete(0, END)
-                    LRL_menu.insert(0, str(LRL)) #display that
-                #label saying [input] rounded to [blah]. See [button] to see why this is happening. 
-            elif(LRL_ranges[1]<LRL<LRL_ranges[2]):
-                if(LRL%LRL_increments[1] != 0): #and not of a valid value
-                    LRL = roundToNearest(LRL,LRL_increments[1]) #round to nearest valid value
-                    LRL_menu.delete(0, END)
-                    LRL_menu.insert(0, str(LRL)) #display that
-                #label saying [input] rounded to [blah]. See [button] to see why this is happening. 
-            elif(LRL_ranges[2]<LRL<LRL_ranges[3]):
-                if(LRL%LRL_increments[2] != 0): #and not of a valid value
-                    LRL = roundToNearest(LRL,LRL_increments[2]) #round to nearest valid value
-                    LRL_menu.delete(0, END)
-                    LRL_menu.insert(0, str(LRL)) #display that
-            elif(LRL>LRL_ranges[3]): #too big, round to highest valid 
-                LRL_menu.delete(0, END)
-                LRL_menu.insert(0, str(LRL_ranges[3]))
-                LRL = LRL_menu.get() 
-            label2 = Label(AOO_screen, bg="green", text="Selection of " + str(LRL) + " is Successful.");
-            label2.place(x=350,y=50)
-            ## ALL THAT NEEDS TO BE ADDED TO SAVE
-            file.write(str(LRL)+ '\n')
-            file.close()
-        except ValueError:
+        except ValueError:  
             print("Not a float") #if not, set to default value 
             LRL_menu.delete(0, END) #delete existing value
             LRL_menu.insert(0, default_LRL) #insert default value
-            #label in the UI saying "you input not a float you dummy"
-        
+            
+            warningLabel.config(bg="red", text="Please insert a number. \n" + str(LRL) + " is not a number.")
+     #       warningLabel.place(x=warningLabelX,y=warningLabelY)
+        else:
+            if(LRL<LRL_ranges[0]): #if below lowest increment, set to minimum
+                LRL_menu.delete(0, END)
+                LRL_menu.insert(0, str(LRL_ranges[0]))
+                tempLRL = LRL_menu.get() 
+                warningLabel.config(bg="yellow", text="Inserted value is below the minimum. \n Rounded to " + str(LRL_ranges[0]) + " for patient safety.")
+      #          warningLabel.place(x=warningLabelX,y=warningLabelY)
+            elif(LRL_ranges[0]<=LRL<LRL_ranges[1]): #if in the lowest range
+                if(LRL%LRL_increments[0] != 0): #and not of a valid value
+                    tempLRL = roundToNearest(LRL,LRL_increments[0]) #round to nearest valid value
+                    LRL_menu.delete(0, END)
+                    LRL_menu.insert(0, str(tempLRL)) #display that
+                    warningLabel.config(bg="yellow", text="Inserted invalid value. \n Rounded to nearest valid increment, " + str(tempLRL) + ".")
+                else:
+                    success()
+            elif(LRL_ranges[1]<=LRL<LRL_ranges[2]):
+                if(LRL%LRL_increments[1] != 0): #and not of a valid value
+                    tempLRL = roundToNearest(LRL,LRL_increments[1]) #round to nearest valid value
+                    LRL_menu.delete(0, END)
+                    LRL_menu.insert(0, str(tempLRL)) #display that
+                    warningLabel.config(bg="yellow", text="Inserted invalid value. \n Rounded to nearest valid increment, " + str(tempLRL) + ".")
+                else: #if valid, succeed
+                    success()
+            elif(LRL_ranges[2]<=LRL<=LRL_ranges[3]):
+                if(LRL%LRL_increments[2] != 0): #and not of a valid value
+                    tempLRL = roundToNearest(LRL,LRL_increments[2]) #round to nearest valid value
+                    LRL_menu.delete(0, END)
+                    LRL_menu.insert(0, str(tempLRL))
+                    warningLabel.config(bg="yellow", text="Inserted invalid value. \n Rounded to nearest valid increment, " + str(tempLRL) + ".")      
+                else:
+                    success()
+            elif(LRL>LRL_ranges[3]): #too big, round to highest valid 
+                LRL_menu.delete(0, END)
+                LRL_menu.insert(0, str(LRL_ranges[3]))
+                warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(LRL_ranges[3]) + " for patient safety.")
+            ## ALL THAT NEEDS TO BE ADDED TO SAVE
+            
+   # warningLabel = Label(AOO_screen, bg="yellow", text="testing testing")
+    #warningLabel.place(x=350,y=80)    
     button = Button(AOO_screen, text = "Select LRL", command = get_LRL).pack()
     
    ### FROM HERE TO NEXT COMMENT IS CRITICAL URL ###
-    label3 = Label(AOO_screen, text ="URL selection:")
-    label3.place(x=150,y=100)
+    URLLabel = Label(AOO_screen, text ="URL selection:")
+    URLLabel.place(x=150,y=100)
     URL_options_list = ["placeholder 1", "placeholder 2"]
     value_URL = tkinter.StringVar(AOO_screen)
     value_URL.set("Select a URL value")
