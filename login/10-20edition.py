@@ -247,7 +247,6 @@ def AOO_selections():
                 LRL_menu.delete(0, END)
                 LRL_menu.insert(0, str(LRL_ranges[3]))
                 warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(LRL_ranges[3]) + " for patient safety.")
-            ## ALL THAT NEEDS TO BE ADDED TO SAVE 
     button = Button(AOO_screen, text = "Select LRL", command = get_LRL).pack()
     
    ### FROM HERE TO NEXT COMMENT IS CRITICAL URL ###
@@ -299,25 +298,276 @@ def AOO_selections():
     button = Button(AOO_screen, text = "Select URL", command = get_URL).pack()
     
     ###Ventricle Pulse Amplitude###
+    default_APulseAmp = 3.5
+    APulseAmp_ranges = [0.5,3.2] #range 1 low, range 1 high
+    APulseAmp_increments = [0.1] #range 1 increment, range 2 increment, range 3 increment 
+    APulseAmplabel = Label(AOO_screen, text ="APulseAmp selection (ppm):")
+    APulseAmplabel.place(x=CaptionLabelX, y = CaptionLabelY+CaptionLabelYIncrement*2)
+    APulseAmp_input = StringVar()
+    APulseAmp_menu = tkinter.Entry(AOO_screen, textvariable=APulseAmp_input)
+    APulseAmp_menu.insert(0, str(default_APulseAmp)) #once saving works, change this to "if a value is saved, insert that value here - if not, load the default."
+    APulseAmp_menu.pack()
+    #NEED TO ASK ABOUT THIS SECOND VALUE
+    def get_APulseAmp():
+        APulseAmp = tkinter.StringVar(AOO_screen)
+        APulseAmp = APulseAmp_menu.get() #get the value from the insert
+        warningLabel.config(text = "") #make existing error invisible
+    #    warningLabel.place(x=warningLabelX,y=warningLabelY)
+        def success():
+            APulseAmp = APulseAmp_menu.get()
+            if(str(APulseAmp) == "Off" or str(APulseAmp) == "off" or str(APulseAmp) == "OFF" or float(APulseAmp) == 0):
+                warningLabel.config(bg="green", text="Selection of " + str(APulseAmp) + " is Successful. \n You have just turned off the AOO pace amplitude.")
+            else:
+                warningLabel.config(bg="green", text="Selection of " + str(APulseAmp) + " is Successful.")
+            file.write(str(APulseAmp)+ '\n')
+            # file.close() ASK
+        if(str(APulseAmp) == "Off" or str(APulseAmp) == "off" or str(APulseAmp) == "OFF"): #if off
+            APulseAmp_menu.delete(0, END) #delete existing value
+            APulseAmp_menu.insert(0, 0) #0
+            success()
+            return
+        try: #check if the input is translatable to float
+            APulseAmp=float(APulseAmp)
+        except ValueError:  
+            print("Not a float") #if not, set to default value 
+            APulseAmp_menu.delete(0, END) #delete existing value
+            APulseAmp_menu.insert(0, default_APulseAmp) #insert default value
+            warningLabel.config(bg="red", text="Please insert a number. \n" + str(APulseAmp) + " is not a number.")
+        else:
+            if(float(APulseAmp) == 0): #if off
+                success()   
+                return 
+            if(APulseAmp<APulseAmp_ranges[0]): #if below lowest increment, set to minimum
+                APulseAmp_menu.delete(0, END)
+                APulseAmp_menu.insert(0, str(APulseAmp_ranges[0]))
+                tempAPulseAmp = APulseAmp_menu.get() 
+                warningLabel.config(bg="yellow", text="Inserted value is below the minimum. \n Rounded to " + str(APulseAmp_ranges[0]) + " for patient safety.")
+            elif(APulseAmp_ranges[0]<=APulseAmp<=APulseAmp_ranges[1]): #if in the lowest range
+                debugVar = float(APulseAmp*10)%float(APulseAmp_increments[0]*10)
+                if(debugVar != 0): #and not of a valid value
+                    tempAPulseAmp = float(int(roundToNearest(APulseAmp,APulseAmp_increments[0])*10)/10) #round to nearest valid value, in this scuffed way to account for floating point errors
+                    APulseAmp_menu.delete(0, END)
+                    APulseAmp_menu.insert(0, str(tempAPulseAmp)) #display that
+                    warningLabel.config(bg="yellow", text="Inserted invalid value. \n Rounded to nearest valid increment, " + str(tempAPulseAmp) + ".")
+                else:
+                    success()
+                    return
+            elif(APulseAmp>APulseAmp_ranges[1]): #if too high
+                APulseAmp_menu.delete(0, END)
+                APulseAmp_menu.insert(0, str(APulseAmp_ranges[1]))
+                warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(APulseAmp_ranges[1]) + " for patient safety.")
+    button = Button(AOO_screen, text = "Select APulse Amplitude (V)", command = get_APulseAmp).pack()
+
+    ###Atrial Pulse Amplitude###
+    default_APulseWidth = 0.4
+    APulseWidth_ranges = [0.1,1.9] #range 1 low, range 1 high
+    APulseWidth_increments = [0.1] #range 1 increment, range 2 increment, range 3 increment 
+    APulseWidthlabel = Label(AOO_screen, text ="APulseWidth selection (ms):")
+    APulseWidthlabel.place(x=CaptionLabelX, y = CaptionLabelY+CaptionLabelYIncrement*3)
+    APulseWidth_input = StringVar()
+    APulseWidth_menu = tkinter.Entry(AOO_screen, textvariable=APulseWidth_input)
+    APulseWidth_menu.insert(0, str(default_APulseWidth)) #once saving works, change this to "if a value is saved, insert that value here - if not, load the default."
+    APulseWidth_menu.pack()
+    #NEED TO ASK ABOUT THIS SECOND VALUE
+    def get_APulseWidth():
+        APulseWidth = tkinter.StringVar(AOO_screen)
+        APulseWidth = APulseWidth_menu.get() #get the value from the insert
+        warningLabel.config(text = "") #make existing error invisible
+    #    warningLabel.place(x=warningLabelX,y=warningLabelY)
+        def success():
+            APulseWidth = APulseWidth_menu.get()
+            warningLabel.config(bg="green", text="Selection of " + str(APulseWidth) + " is Successful.")
+            file.write(str(APulseWidth)+ '\n')
+            # file.close() ASK
+        try: #check if the input is translatable to float
+            APulseWidth=float(APulseWidth)
+        except ValueError:  
+            print("Not a float") #if not, set to default value 
+            APulseWidth_menu.delete(0, END) #delete existing value
+            APulseWidth_menu.insert(0, default_APulseWidth) #insert default value
+            warningLabel.config(bg="red", text="Please insert a number. \n" + str(APulseWidth) + " is not a number.")
+        else:
+            if(float(APulseWidth) < 0.05): 
+                warningLabel.config(bg="yellow", text="Inserted value is below the minimum. \n Rounded to " + "0.05 " + " for patient safety.")
+                APulseWidth_menu.delete(0, END)
+                APulseWidth_menu.insert(0, "0.05")
+                return
+            if(float(APulseWidth) == 0.05): #if that one specific value in the table 
+                success()   
+                return 
+            if(APulseWidth<APulseWidth_ranges[0]): #if below lowest increment, set to minimum
+                APulseWidth_menu.delete(0, END)
+                APulseWidth_menu.insert(0, str(APulseWidth_ranges[0]))
+                tempAPulseWidth = APulseWidth_menu.get() 
+                warningLabel.config(bg="yellow", text="Inserted invalid value. \n Rounded to nearest valid increment " + str(APulseWidth_ranges[0]) + " for patient safety.")
+            elif(APulseWidth_ranges[0]<=APulseWidth<=APulseWidth_ranges[1]): #if in the lowest range
+                debugVar = float(APulseWidth*10)%float(APulseWidth_increments[0]*10)
+                if(debugVar != 0): #and not of a valid value
+                    tempAPulseWidth = float(int(roundToNearest(APulseWidth,APulseWidth_increments[0])*10)/10) #round to nearest valid value, in this scuffed way to account for floating point errors
+                    APulseWidth_menu.delete(0, END)
+                    APulseWidth_menu.insert(0, str(tempAPulseWidth)) #display that
+                    warningLabel.config(bg="yellow", text="Inserted invalid value. \n Rounded to nearest valid increment, " + str(tempAPulseWidth) + ".")
+                else:
+                    success()
+                    return
+            elif(APulseWidth>APulseWidth_ranges[1]): #if too high
+                APulseWidth_menu.delete(0, END)
+                APulseWidth_menu.insert(0, str(APulseWidth_ranges[1]))
+                warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(APulseWidth_ranges[1]) + " for patient safety.")
+    button = Button(AOO_screen, text = "Select APulse Width (ms)", command = get_APulseWidth).pack()
+    
+def VOO_selections(): ##literally the same as AOO except with some varible names swapped
+    default_LRL = 60
+    LRL_ranges = [30,50,90,175] #range 1 low, range 1 high, range 2 low, range 2 high, etc
+    LRL_increments = [5,1,5] #range 1 increment, range 2 increment, range 3 increment 
+    
+    VOO_screen = tkinter.Tk()
+    VOO_screen.title("VOO Parameters")
+    VOO_screen.geometry('600x600')
+    Label(VOO_screen, text="VOO Parameter Selections", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
+    def delete_VOO_screen():
+        VOO_screen.destroy() #warning unsaved changes might be a good idea to implement here.  
+    button = Button(VOO_screen, text = "Back", command = combine_funcs(select_mode_register, delete_VOO_screen)).pack()
+    # add "unsaved changes warning" option on the back button
+    ### FROM HERE TO NEXT COMMENT IS CRITICAL LRL ###
+    label = Label(VOO_screen, text ="LRL selection (ppm):")
+    CaptionLabelX = 70
+    CaptionLabelY = 70
+    CaptionLabelYIncrement = 47
+    label.place(x=CaptionLabelX, y = CaptionLabelY)
+    LRL_input = StringVar()
+    LRL_menu = tkinter.Entry(VOO_screen, textvariable=LRL_input)
+    LRL_menu.insert(0, str(default_LRL)) #once saving works, change this to "if a value is saved, insert that value here - if not, load the default."
+    LRL_menu.pack()
+
+    warningLabel = Label(VOO_screen, text="")
+    warningLabel.pack(side=BOTTOM, padx=0, pady=0, anchor='n')
+   # warningLabel.place(x=warningLabelX,y=warningLabelY)
+
+    def get_LRL():
+        LRL = tkinter.StringVar(VOO_screen)
+        LRL = LRL_menu.get() #get the value from the insert
+        warningLabel.config(text = "") #make existing error invisible
+    #    warningLabel.place(x=warningLabelX,y=warningLabelY)
+        def success():
+            LRL = LRL_menu.get() 
+            warningLabel.config(bg="green", text="Selection of " + str(LRL) + " is Successful.");
+            file.write(str(LRL)+ '\n')
+           # file.close() ASK
+        try: #check if the input is translatable to float
+            LRL=float(LRL)
+        except ValueError:  
+            print("Not a float") #if not, set to default value 
+            LRL_menu.delete(0, END) #delete existing value
+            LRL_menu.insert(0, default_LRL) #insert default value
+            
+            warningLabel.config(bg="red", text="Please insert a number. \n" + str(LRL) + " is not a number.")
+     #       warningLabel.place(x=warningLabelX,y=warningLabelY)
+        else:
+            if(LRL<LRL_ranges[0]): #if below lowest increment, set to minimum
+                LRL_menu.delete(0, END)
+                LRL_menu.insert(0, str(LRL_ranges[0]))
+                tempLRL = LRL_menu.get() 
+                warningLabel.config(bg="yellow", text="Inserted value is below the minimum. \n Rounded to " + str(LRL_ranges[0]) + " for patient safety.")
+      #          warningLabel.place(x=warningLabelX,y=warningLabelY)
+            elif(LRL_ranges[0]<=LRL<LRL_ranges[1]): #if in the lowest range
+                if(LRL%LRL_increments[0] != 0): #and not of a valid value
+                    tempLRL = roundToNearest(LRL,LRL_increments[0]) #round to nearest valid value
+                    LRL_menu.delete(0, END)
+                    LRL_menu.insert(0, str(tempLRL)) #display that
+                    warningLabel.config(bg="yellow", text="Inserted invalid value. \n Rounded to nearest valid increment, " + str(tempLRL) + ".")
+                else:
+                    success()
+            elif(LRL_ranges[1]<=LRL<LRL_ranges[2]):
+                if(LRL%LRL_increments[1] != 0): #and not of a valid value
+                    tempLRL = roundToNearest(LRL,LRL_increments[1]) #round to nearest valid value
+                    LRL_menu.delete(0, END)
+                    LRL_menu.insert(0, str(tempLRL)) #display that
+                    warningLabel.config(bg="yellow", text="Inserted invalid value. \n Rounded to nearest valid increment, " + str(tempLRL) + ".")
+                else: #if valid, succeed
+                    success()
+            elif(LRL_ranges[2]<=LRL<=LRL_ranges[3]):
+                if(LRL%LRL_increments[2] != 0): #and not of a valid value
+                    tempLRL = roundToNearest(LRL,LRL_increments[2]) #round to nearest valid value
+                    LRL_menu.delete(0, END)
+                    LRL_menu.insert(0, str(tempLRL))
+                    warningLabel.config(bg="yellow", text="Inserted invalid value. \n Rounded to nearest valid increment, " + str(tempLRL) + ".")      
+                else:
+                    success()
+            elif(LRL>LRL_ranges[3]): #too big, round to highest valid 
+                LRL_menu.delete(0, END)
+                LRL_menu.insert(0, str(LRL_ranges[3]))
+                warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(LRL_ranges[3]) + " for patient safety.")
+    button = Button(VOO_screen, text = "Select LRL", command = get_LRL).pack()
+    
+   ### FROM HERE TO NEXT COMMENT IS CRITICAL URL ###
+    default_URL = 120
+    URL_ranges = [50,175] #range 1 low, range 1 high
+    URL_increments = [5,1,5] #range 1 increment, range 2 increment, range 3 increment 
+    URLlabel = Label(VOO_screen, text ="URL selection (ppm):")
+    URLlabel.place(x=CaptionLabelX, y = CaptionLabelY+CaptionLabelYIncrement)
+    URL_input = StringVar()
+    URL_menu = tkinter.Entry(VOO_screen, textvariable=URL_input)
+    URL_menu.insert(0, str(default_URL)) #once saving works, change this to "if a value is saved, insert that value here - if not, load the default."
+    URL_menu.pack()
+    #no need to recreate the warning label, it exists up lop already
+    def get_URL():
+        URL = tkinter.StringVar(VOO_screen)
+        URL = URL_menu.get() #get the value from the insert
+        warningLabel.config(text = "") #make existing error invisible
+    #    warningLabel.place(x=warningLabelX,y=warningLabelY)
+        def success():
+            URL = URL_menu.get() 
+            warningLabel.config(bg="green", text="Selection of " + str(URL) + " is Successful.");
+            file.write(str(URL)+ '\n')
+            # file.close() ASK
+        try: #check if the input is translatable to float
+            URL=float(URL)
+        except ValueError:  
+            print("Not a float") #if not, set to default value 
+            URL_menu.delete(0, END) #delete existing value
+            URL_menu.insert(0, default_URL) #insert default value
+            warningLabel.config(bg="red", text="Please insert a number. \n" + str(URL) + " is not a number.")
+        else:    
+            if(URL<URL_ranges[0]): #if below lowest increment, set to minimum
+                URL_menu.delete(0, END)
+                URL_menu.insert(0, str(URL_ranges[0]))
+                tempURL = URL_menu.get() 
+                warningLabel.config(bg="yellow", text="Inserted value is below the minimum. \n Rounded to " + str(URL_ranges[0]) + " for patient safety.")
+            elif(URL_ranges[0]<=URL<=URL_ranges[1]): #if in the lowest range
+                if(URL%URL_increments[0] != 0): #and not of a valid value
+                    tempURL = roundToNearest(URL,URL_increments[0]) #round to nearest valid value
+                    URL_menu.delete(0, END)
+                    URL_menu.insert(0, str(tempURL)) #display that
+                    warningLabel.config(bg="yellow", text="Inserted invalid value. \n Rounded to nearest valid increment, " + str(tempURL) + ".")
+                else:
+                    success()
+            elif(URL>URL_ranges[1]): #if too high
+                URL_menu.delete(0, END)
+                URL_menu.insert(0, str(URL_ranges[1]))
+                warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(URL_ranges[1]) + " for patient safety.")
+    button = Button(VOO_screen, text = "Select URL", command = get_URL).pack()
+    
+    ###Ventricle Pulse Amplitude###
     default_VPulseAmp = 3.5
     VPulseAmp_ranges = [0.5,3.2] #range 1 low, range 1 high
     VPulseAmp_increments = [0.1] #range 1 increment, range 2 increment, range 3 increment 
-    VPulseAmplabel = Label(AOO_screen, text ="VPulseAmp selection (ppm):")
+    VPulseAmplabel = Label(VOO_screen, text ="VPulseAmp selection (ppm):")
     VPulseAmplabel.place(x=CaptionLabelX, y = CaptionLabelY+CaptionLabelYIncrement*2)
     VPulseAmp_input = StringVar()
-    VPulseAmp_menu = tkinter.Entry(AOO_screen, textvariable=VPulseAmp_input)
+    VPulseAmp_menu = tkinter.Entry(VOO_screen, textvariable=VPulseAmp_input)
     VPulseAmp_menu.insert(0, str(default_VPulseAmp)) #once saving works, change this to "if a value is saved, insert that value here - if not, load the default."
     VPulseAmp_menu.pack()
     #NEED TO ASK ABOUT THIS SECOND VALUE
     def get_VPulseAmp():
-        VPulseAmp = tkinter.StringVar(AOO_screen)
+        VPulseAmp = tkinter.StringVar(VOO_screen)
         VPulseAmp = VPulseAmp_menu.get() #get the value from the insert
         warningLabel.config(text = "") #make existing error invisible
     #    warningLabel.place(x=warningLabelX,y=warningLabelY)
         def success():
             VPulseAmp = VPulseAmp_menu.get()
             if(str(VPulseAmp) == "Off" or str(VPulseAmp) == "off" or str(VPulseAmp) == "OFF" or float(VPulseAmp) == 0):
-                warningLabel.config(bg="green", text="Selection of " + str(VPulseAmp) + " is Successful. \n You have just turned off the VOO pace amplitude.")
+                warningLabel.config(bg="green", text="Selection of " + str(VPulseAmp) + " is Successful. \n You have just turned off the AOO pace amplitude.")
             else:
                 warningLabel.config(bg="green", text="Selection of " + str(VPulseAmp) + " is Successful.")
             file.write(str(VPulseAmp)+ '\n')
@@ -357,21 +607,21 @@ def AOO_selections():
                 VPulseAmp_menu.delete(0, END)
                 VPulseAmp_menu.insert(0, str(VPulseAmp_ranges[1]))
                 warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(VPulseAmp_ranges[1]) + " for patient safety.")
-    button = Button(AOO_screen, text = "Select A Pulse Amplitude (V)", command = get_VPulseAmp).pack()
+    button = Button(VOO_screen, text = "Select VPulse Amplitude (V)", command = get_VPulseAmp).pack()
 
-    ###Atrial Pulse Amplitude###
+    ###Ventrical Pulse Amplitude###
     default_VPulseWidth = 0.4
     VPulseWidth_ranges = [0.1,1.9] #range 1 low, range 1 high
     VPulseWidth_increments = [0.1] #range 1 increment, range 2 increment, range 3 increment 
-    VPulseWidthlabel = Label(AOO_screen, text ="VPulseWidth selection (ms):")
+    VPulseWidthlabel = Label(VOO_screen, text ="VPulseWidth selection (ms):")
     VPulseWidthlabel.place(x=CaptionLabelX, y = CaptionLabelY+CaptionLabelYIncrement*3)
     VPulseWidth_input = StringVar()
-    VPulseWidth_menu = tkinter.Entry(AOO_screen, textvariable=VPulseWidth_input)
+    VPulseWidth_menu = tkinter.Entry(VOO_screen, textvariable=VPulseWidth_input)
     VPulseWidth_menu.insert(0, str(default_VPulseWidth)) #once saving works, change this to "if a value is saved, insert that value here - if not, load the default."
     VPulseWidth_menu.pack()
     #NEED TO ASK ABOUT THIS SECOND VALUE
     def get_VPulseWidth():
-        VPulseWidth = tkinter.StringVar(AOO_screen)
+        VPulseWidth = tkinter.StringVar(VOO_screen)
         VPulseWidth = VPulseWidth_menu.get() #get the value from the insert
         warningLabel.config(text = "") #make existing error invisible
     #    warningLabel.place(x=warningLabelX,y=warningLabelY)
@@ -415,16 +665,7 @@ def AOO_selections():
                 VPulseWidth_menu.delete(0, END)
                 VPulseWidth_menu.insert(0, str(VPulseWidth_ranges[1]))
                 warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(VPulseWidth_ranges[1]) + " for patient safety.")
-    button = Button(AOO_screen, text = "Select A Pulse Width (ms)", command = get_VPulseWidth).pack()
-## NOW DO THE SAME AS ABOVE FOR THE FOLLOWING OTHER MODES, good luck have fun##    
-def VOO_selections():
-    VOO_screen = tkinter.Tk()
-    VOO_screen.title("VOO Parameters")
-    VOO_screen.geometry('600x600')
-    Label(VOO_screen, text="VOO Parameter Selections", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
-    def delete_VOO_screen():
-        VOO_screen.destroy() #warning unsaved changes might be a good idea to implement here.  
-    button = Button(VOO_screen, text = "Back", command = combine_funcs(select_mode_register, delete_VOO_screen)).pack()
+    button = Button(VOO_screen, text = "Select VPulse Width (ms)", command = get_VPulseWidth).pack()
                      
 def AAI_selections():
     AAI_screen = tkinter.Tk()
