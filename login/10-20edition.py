@@ -193,17 +193,17 @@ def select_mode_edit():
             delete_mode_screen()
         elif mode == "VOO":
             file.write(mode + "\n")
-            file.close()
+            #file.close()
             VOO_selections()
             delete_mode_screen()
         elif mode == "AAI":
             file.write(mode + "\n")
-            file.close()
+            #file.close()
             AAI_selections()
             delete_mode_screen()
         elif mode == "VVI":
             file.write(mode + "\n")
-            file.close()
+            #file.close()
             VVI_selections()
             delete_mode_screen()
         
@@ -366,7 +366,7 @@ def AOO_selections():
     ###Atrial Pulse Amplitude###
     default_APulseAmp = 3.5
     APulseAmp_ranges = [0.5,3.2] #range 1 low, range 1 high
-    APulseAmp_increments = [0.1] #range 1 increment, range 2 increment, range 3 increment 
+    APulseAmp_increments = [0.1,0,0.5] #range 1 increment, range 2 increment, range 3 increment 
     APulseAmplabel = Label(AOO_screen, text ="APulseAmp selection (ppm):")
     APulseAmplabel.place(x=CaptionLabelX, y = CaptionLabelY+CaptionLabelYIncrement*2)
     APulseAmp_input = StringVar()
@@ -908,8 +908,8 @@ def AAI_selections():
     button = Button(AAI_screen, text = "Select URL", command = get_URL).pack()
     ###Ventricle Pulse Amplitude###
     default_APulseAmp = 3.5
-    APulseAmp_ranges = [0.5,3.2] #range 1 low, range 1 high
-    APulseAmp_increments = [0.1] #range 1 increment, range 2 increment, range 3 increment 
+    APulseAmp_ranges = [0.5,3.2,3.5,5] #these ranges are wierd based on how its defined in the document, limited by the voltage of the pacemaker shield. 
+    APulseAmp_increments = [0.1,0,0.5] #range 1 increment, range 2 increment, range 3 increment 
     APulseAmplabel = Label(AAI_screen, text ="APulseAmp selection (ppm):")
     APulseAmplabel.place(x=CaptionLabelX, y = CaptionLabelY+CaptionLabelYIncrement*2)
     APulseAmp_input = StringVar()
@@ -961,10 +961,20 @@ def AAI_selections():
                 else:
                     success()
                     return
-            elif(APulseAmp>APulseAmp_ranges[1]): #if too high
+            elif(APulseAmp_ranges[2]<=APulseAmp<=APulseAmp_ranges[3]): #if in the lowest range
+                debugVar = float(APulseAmp*10)%float(APulseAmp_increments[2]*10)
+                if(debugVar != 0): #and not of a valid value
+                    tempAPulseAmp = float(int(roundToNearest(APulseAmp,APulseAmp_increments[2])*10)/10) #round to nearest valid value, in this scuffed way to account for floating point errors
+                    APulseAmp_menu.delete(0, END)
+                    APulseAmp_menu.insert(0, str(tempAPulseAmp)) #display that
+                    warningLabel.config(bg="yellow", text="Inserted invalid value. \n Rounded to nearest valid increment, " + str(tempAPulseAmp) + ".")
+                else:
+                    success()
+                    return
+            elif(APulseAmp>APulseAmp_ranges[3]): #if too high
                 APulseAmp_menu.delete(0, END)
-                APulseAmp_menu.insert(0, str(APulseAmp_ranges[1]))
-                warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(APulseAmp_ranges[1]) + " for patient safety.")
+                APulseAmp_menu.insert(0, str(APulseAmp_ranges[3]))
+                warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(APulseAmp_ranges[3]) + " for patient safety.")
     button = Button(AAI_screen, text = "Select APulse Amplitude (V)", command = get_APulseAmp).pack()
     ###Atrial Pulse Amplitude###
     default_APulseWidth = 0.4
@@ -1318,6 +1328,65 @@ def AAI_selections():
     button = Button(AAI_screen, text = "Select Rate Smoothing (%):", command = get_RS).pack()
     button = Button(AAI_screen, text = "Save all selections",bg = 'green', command = save_sel).pack()
 
+    default_PVARP = 250
+    PVARP_ranges = [150,500] #range 1 low, range 1 high
+    PVARP_increments = [10] #range 1 increment, range 2 increment, range 3 increment 
+    PVARPlabel = Label(AAI_screen, text ="PVARP (ms):")
+    PVARPlabel.place(x=CaptionLabelX, y = CaptionLabelY+CaptionLabelYIncrement*8-10)
+    PVARP_input = StringVar()
+    PVARP_menu = tkinter.Entry(AAI_screen, textvariable=PVARP_input)
+    PVARP_menu.insert(0, str(default_PVARP)) #once saving works, change this to "if a value is saved, insert that value here - if not, load the default."
+    PVARP_menu.pack()
+    def get_PVARP():
+        PVARP = tkinter.StringVar(AAI_screen)
+        PVARP = PVARP_menu.get() #get the value from the insert
+        warningLabel.config(text = "") #make existing error invisible
+        def success():
+            PVARP = PVARP_menu.get() 
+            warningLabel.config(bg="green", text="Selection of " + str(PVARP) + " is Successful.")
+            file.write(str(PVARP)+ '\n')
+            # file.close() ASK
+        if(str(PVARP) == "Off" or str(PVARP) == "off" or str(PVARP) == "OFF"): #if off
+            PVARP_menu.delete(0, END) #delete existing value
+            PVARP_menu.insert(0, 0) #0
+            success()
+            return
+        try: #check if the input is translatable to float
+            PVARP=float(PVARP)
+        except ValueError:  
+            print("Not a float") #if not, set to default value 
+            PVARP_menu.delete(0, END) #delete existing value
+            PVARP_menu.insert(0, default_PVARP) #insert default value
+            
+            warningLabel.config(bg="red", text="Please insert a number. \n" + str(PVARP) + " is not a number.")
+     #       warningLabel.place(x=warningLabelX,y=warningLabelY)
+        else:
+            if(float(PVARP)==0):
+                PVARP_menu.delete(0, END) #delete existing value
+                PVARP_menu.insert(0, 0) #0
+                success()
+                return 
+            if(PVARP<PVARP_ranges[0]): #if below lowest increment, set to minimum
+                PVARP_menu.delete(0, END)
+                PVARP_menu.insert(0, str(PVARP_ranges[0]))
+                tempPVARP = PVARP_menu.get() 
+                warningLabel.config(bg="yellow", text="Inserted value is below the minimum. \n Rounded to " + str(PVARP_ranges[0]) + " for patient safety.")
+      #          warningLabel.place(x=warningLabelX,y=warningLabelY)
+            elif(PVARP_ranges[0]<=PVARP<=PVARP_ranges[1]): #if in the lowest range
+                if(PVARP%PVARP_increments[0] != 0): #and not of a valid value
+                    tempPVARP = roundToNearest(PVARP,PVARP_increments[0]) #round to nearest valid value
+                    PVARP_menu.delete(0, END)
+                    PVARP_menu.insert(0, str(tempPVARP)) #display that
+                    warningLabel.config(bg="yellow", text="Inserted invalid value. \n Rounded to nearest valid increment, " + str(tempPVARP) + ".")
+                else:
+                    success()
+            elif(PVARP>PVARP_ranges[1]): #too big, round to highest valid 
+                PVARP_menu.delete(0, END)
+                PVARP_menu.insert(0, str(PVARP_ranges[1]))
+                warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(PVARP_ranges[1]) + " for patient safety.") 
+    button = Button(AAI_screen, text = "Select PVARP (ms):", command = get_PVARP).pack()
+
+
 def VVI_selections():
     default_LRL = 60
     LRL_ranges = [30,50,90,175] #range 1 low, range 1 high, range 2 low, range 2 high, etc
@@ -1450,28 +1519,27 @@ def VVI_selections():
     button = Button(VVI_screen, text = "Select URL", command = get_URL).pack()
     ###Ventricle Pulse Amplitude###
     default_VPulseAmp = 3.5
-    VPulseAmp_ranges = [0.5,3.2] #range 1 low, range 1 high
-    VPulseAmp_increments = [0.1] #range 1 increment, range 2 increment, range 3 increment 
+    VPulseAmp_ranges = [0.5,3.2,3.5,5] #range 1 low, range 1 high, range 2 low, range 2 high. this is a weird one because of how its defined in the table
+    VPulseAmp_increments = [0.1,0,0.5] #range 1 increment, range 2 increment, range 3 increment, where range 2 is a filler value  
     VPulseAmplabel = Label(VVI_screen, text ="VPulseAmp selection (ppm):")
     VPulseAmplabel.place(x=CaptionLabelX, y = CaptionLabelY+CaptionLabelYIncrement*2)
     VPulseAmp_input = StringVar()
     VPulseAmp_menu = tkinter.Entry(VVI_screen, textvariable=VPulseAmp_input)
     VPulseAmp_menu.insert(0, str(default_VPulseAmp)) #once saving works, change this to "if a value is saved, insert that value here - if not, load the default."
     VPulseAmp_menu.pack()
-    #NEED TO VSK VBOUT THIS SECOND VVLUE
     def get_VPulseAmp():
         VPulseAmp = tkinter.StringVar(VVI_screen)
         VPulseAmp = VPulseAmp_menu.get() #get the value from the insert
         warningLabel.config(text = "") #make existing error invisible
-    #    warningLabel.place(x=warningLabelX,y=warningLabelY)
         def success():
             VPulseAmp = VPulseAmp_menu.get()
             if(str(VPulseAmp) == "Off" or str(VPulseAmp) == "off" or str(VPulseAmp) == "OFF" or float(VPulseAmp) == 0):
                 warningLabel.config(bg="green", text="Selection of " + str(VPulseAmp) + " is Successful. \n You have just turned off the VVI pace amplitude.")
             else:
                 warningLabel.config(bg="green", text="Selection of " + str(VPulseAmp) + " is Successful.")
-            #file.write(str(VPulseAmp)+ '\n')
-            # file.close() VSK
+
+            file.write(str(VPulseAmp)+ '\n')
+
         if(str(VPulseAmp) == "Off" or str(VPulseAmp) == "off" or str(VPulseAmp) == "OFF"): #if off
             VPulseAmp_menu.delete(0, END) #delete existing value
             VPulseAmp_menu.insert(0, 0) #0
@@ -1503,10 +1571,20 @@ def VVI_selections():
                 else:
                     success()
                     return
-            elif(VPulseAmp>VPulseAmp_ranges[1]): #if too high
+            elif(VPulseAmp_ranges[2]<=VPulseAmp<=VPulseAmp_ranges[3]): #if in the lowest range
+                debugVar = float(VPulseAmp*10)%float(VPulseAmp_increments[2]*10)
+                if(debugVar != 0): #and not of a valid value
+                    tempVPulseAmp = float(int(roundToNearest(VPulseAmp,VPulseAmp_increments[2])*10)/10) #round to nearest valid value, in this scuffed way to account for floating point errors
+                    VPulseAmp_menu.delete(0, END)
+                    VPulseAmp_menu.insert(0, str(tempVPulseAmp)) #display that
+                    warningLabel.config(bg="yellow", text="Inserted invalid value. \n Rounded to nearest valid increment, " + str(tempVPulseAmp) + ".")
+                else:
+                    success()
+                    return
+            elif(VPulseAmp>VPulseAmp_ranges[3]): #if too high
                 VPulseAmp_menu.delete(0, END)
-                VPulseAmp_menu.insert(0, str(VPulseAmp_ranges[1]))
-                warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(VPulseAmp_ranges[1]) + " for patient safety.")
+                VPulseAmp_menu.insert(0, str(VPulseAmp_ranges[3]))
+                warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(VPulseAmp_ranges[3]) + " for patient safety.")
     button = Button(VVI_screen, text = "Select VPulse Amplitude (V)", command = get_VPulseAmp).pack()
     ###Vtrial Pulse Amplitude###
     default_VPulseWidth = 0.4
