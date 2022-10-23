@@ -23,7 +23,7 @@ def register():
     global password_entry
     global confirm_entry
     
-    username = StringVar()
+    username = tkinter.StringVar(register_screen)
     password = StringVar()
     confirm = StringVar()
  
@@ -82,7 +82,8 @@ def login():
 # click register
  
 def register_user():
- 
+    global username_info
+    username_info = StringVar()
     username_info = username.get()
     password_info = password.get()
     confirm_info = confirm.get()
@@ -112,31 +113,33 @@ def register_user():
             select_mode_register()
     else:
         max_users()
+
             
 # allow new user to pick mode
 def select_mode_register():
+    global i
+    i = 1
     global mode_screen
     mode_screen = Tk()
     mode_screen.geometry("600x600")
     mode_screen.title("Pacing Mode select")
     button = Button(mode_screen, text = "Back to Dashboard", command = combine_funcs(dashboard, delete_mode_screen)).pack()
-    
     #embedded function to get selection
     def get_mode():
-        selection = StringVar()
+        selection = tkinter.StringVar(mode_screen)
         selection = mode_sel.get()
         label = Label(mode_screen, bg="green", text="Selection of " + selection + " is Successful")
         label.pack()
         button = Button(mode_screen, text = "Confirm", command = add2file).pack()
     #embedded function to add to file and move to parameter selection, still needs the actual file adding, currently only transports you to the next step
     def add2file():
-        mode = StringVar()
+        mode = tkinter.StringVar(mode_screen)
         mode = mode_sel.get()
         username_info = username.get()
         if mode == "AOO":
             #file = open(username_info, "w")
             file.write(mode + "\n")
-            #file.close()
+            file.close()
             AOO_selections()
             delete_mode_screen()
         elif mode == "VOO":
@@ -156,8 +159,57 @@ def select_mode_register():
             delete_mode_screen()
         
  
-    Label(text="Before Starting, please select a pacing mode", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
-    mode_sel= StringVar()
+    Label(mode_screen, text="Before Starting, please select a pacing mode", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
+    mode_sel= tkinter.StringVar(mode_screen)
+    mode_sel.set("AOO")
+    ModeOptions = ["AOO","VOO","AAI","VVI"]
+    drop= tkinter.OptionMenu(mode_screen, mode_sel, *ModeOptions) #andrew this is the type of line youre gonna wanna edit,
+    drop.pack()
+    button = Button(mode_screen, text = "Select", command = get_mode).pack()
+def select_mode_edit():
+    global i
+    i = 0
+    global mode_screen
+    mode_screen = Tk()
+    mode_screen.geometry("600x600")
+    mode_screen.title("Pacing Mode select")
+    button = Button(mode_screen, text = "Back to Dashboard", command = combine_funcs(dashboard, delete_mode_screen)).pack()
+    file = open(name, 'a')
+    #embedded function to get selection
+    def get_mode():
+        selection = tkinter.StringVar(mode_screen)
+        selection = mode_sel.get()
+        label = Label(mode_screen, bg="green", text="Selection of " + selection + " is Successful")
+        label.pack()
+        button = Button(mode_screen, text = "Confirm", command = add2file).pack()
+    #embedded function to add to file and move to parameter selection, still needs the actual file adding, currently only transports you to the next step
+    def add2file():
+        mode = tkinter.StringVar(mode_screen)
+        mode = mode_sel.get()
+        if mode == "AOO":
+            file.write(mode + "\n")
+            file.close()
+            AOO_selections()
+            delete_mode_screen()
+        elif mode == "VOO":
+            file.write(mode + "\n")
+            file.close()
+            VOO_selections()
+            delete_mode_screen()
+        elif mode == "AAI":
+            file.write(mode + "\n")
+            file.close()
+            AAI_selections()
+            delete_mode_screen()
+        elif mode == "VVI":
+            file.write(mode + "\n")
+            file.close()
+            VVI_selections()
+            delete_mode_screen()
+        
+ 
+    Label(mode_screen, text="Before Starting, please select a pacing mode", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
+    mode_sel= tkinter.StringVar(mode_screen)
     mode_sel.set("AOO")
     ModeOptions = ["AOO","VOO","AAI","VVI"]
     drop= tkinter.OptionMenu(mode_screen, mode_sel, *ModeOptions) #andrew this is the type of line youre gonna wanna edit,
@@ -167,10 +219,22 @@ def select_mode_register():
 def roundToNearest(input, toNearest=5):
     return toNearest * round(input/toNearest)
 
+def success_param():
+    global success_screen
+    success_screen = Tk()
+    success_screen.geometry("300x300")
+    success_screen.title("parameter save success")
+    def to_login():
+        delete_success_screen()
+        main_account_screen()
+        
+    Label(success_screen, text = 'Your parameters have been saved!', font=("Calibri", 13), bg = "#20E714", width="300", height="2").pack()
+    Button(success_screen, text = "Back to main screen", command = to_login).pack()
+    
 def AOO_selections():
     default_LRL = 60
     LRL_ranges = [30,50,90,175] #range 1 low, range 1 high, range 2 low, range 2 high, etc
-    LRL_increments = [5,1,5] #range 1 increment, range 2 increment, range 3 increment 
+    LRL_increments = [5,1,5] #range 1 increment, range 2 increment, range 3 increment
     
     AOO_screen = tkinter.Tk()
     AOO_screen.title("AOO Parameters")
@@ -203,7 +267,7 @@ def AOO_selections():
         def success():
             LRL = LRL_menu.get() 
             warningLabel.config(bg="green", text="Selection of " + str(LRL) + " is Successful.");
-            file.write(str(LRL)+ '\n')
+            ##file.write(str(LRL)+ '\n')
            # file.close() ASK
         try: #check if the input is translatable to float
             LRL=float(LRL)
@@ -270,7 +334,7 @@ def AOO_selections():
         def success():
             URL = URL_menu.get() 
             warningLabel.config(bg="green", text="Selection of " + str(URL) + " is Successful.");
-            file.write(str(URL)+ '\n')
+            #file.write(str(URL)+ '\n')
             # file.close() ASK
         try: #check if the input is translatable to float
             URL=float(URL)
@@ -321,7 +385,7 @@ def AOO_selections():
                 warningLabel.config(bg="green", text="Selection of " + str(APulseAmp) + " is Successful. \n You have just turned off the AOO pace amplitude.")
             else:
                 warningLabel.config(bg="green", text="Selection of " + str(APulseAmp) + " is Successful.")
-            file.write(str(APulseAmp)+ '\n')
+            #file.write(str(APulseAmp)+ '\n')
             # file.close() ASK
         if(str(APulseAmp) == "Off" or str(APulseAmp) == "off" or str(APulseAmp) == "OFF"): #if off
             APulseAmp_menu.delete(0, END) #delete existing value
@@ -379,7 +443,7 @@ def AOO_selections():
         def success():
             APulseWidth = APulseWidth_menu.get()
             warningLabel.config(bg="green", text="Selection of " + str(APulseWidth) + " is Successful.")
-            file.write(str(APulseWidth)+ '\n')
+            #file.write(str(APulseWidth)+ '\n')
             # file.close() ASK
         try: #check if the input is translatable to float
             APulseWidth=float(APulseWidth)
@@ -416,7 +480,28 @@ def AOO_selections():
                 APulseWidth_menu.delete(0, END)
                 APulseWidth_menu.insert(0, str(APulseWidth_ranges[1]))
                 warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(APulseWidth_ranges[1]) + " for patient safety.")
+    def save_sel():
+        if i == 0:
+            #print(name) #work for edit but not initial
+            file = open(name, 'a')
+        elif i == 1:
+            #print(username_info) #works for register but not edit
+            file = open(username_info, 'a')
+        LRL = LRL_menu.get()
+        URL = URL_menu.get()
+        AA = APulseAmp_menu.get()
+        APW = APulseWidth_menu.get()
+        file.write(LRL + '\n')
+        file.write(URL + '\n')
+        file.write(AA + '\n')
+        file.write(APW + '\n')
+        file.close()
+        success_param()
+        delete_AOO_screen()
+        
     button = Button(AOO_screen, text = "Select APulse Width (ms)", command = get_APulseWidth).pack()
+    button = Button(AOO_screen, text = "Save all selections",bg = 'green', command = save_sel).pack()
+    
     
 def VOO_selections(): ##literally the same as AOO except with some varible names swapped
     default_LRL = 60
@@ -454,7 +539,7 @@ def VOO_selections(): ##literally the same as AOO except with some varible names
         def success():
             LRL = LRL_menu.get() 
             warningLabel.config(bg="green", text="Selection of " + str(LRL) + " is Successful.");
-            file.write(str(LRL)+ '\n')
+            #file.write(str(LRL)+ '\n')
            # file.close() ASK
         try: #check if the input is translatable to float
             LRL=float(LRL)
@@ -521,7 +606,7 @@ def VOO_selections(): ##literally the same as AOO except with some varible names
         def success():
             URL = URL_menu.get() 
             warningLabel.config(bg="green", text="Selection of " + str(URL) + " is Successful.");
-            file.write(str(URL)+ '\n')
+            #file.write(str(URL)+ '\n')
             # file.close() ASK
         try: #check if the input is translatable to float
             URL=float(URL)
@@ -572,7 +657,7 @@ def VOO_selections(): ##literally the same as AOO except with some varible names
                 warningLabel.config(bg="green", text="Selection of " + str(VPulseAmp) + " is Successful. \n You have just turned off the AOO pace amplitude.")
             else:
                 warningLabel.config(bg="green", text="Selection of " + str(VPulseAmp) + " is Successful.")
-            file.write(str(VPulseAmp)+ '\n')
+            #file.write(str(VPulseAmp)+ '\n')
             # file.close() ASK
         if(str(VPulseAmp) == "Off" or str(VPulseAmp) == "off" or str(VPulseAmp) == "OFF"): #if off
             VPulseAmp_menu.delete(0, END) #delete existing value
@@ -630,7 +715,7 @@ def VOO_selections(): ##literally the same as AOO except with some varible names
         def success():
             VPulseWidth = VPulseWidth_menu.get()
             warningLabel.config(bg="green", text="Selection of " + str(VPulseWidth) + " is Successful.")
-            file.write(str(VPulseWidth)+ '\n')
+            #file.write(str(VPulseWidth)+ '\n')
             # file.close() ASK
         try: #check if the input is translatable to float
             VPulseWidth=float(VPulseWidth)
@@ -667,7 +752,29 @@ def VOO_selections(): ##literally the same as AOO except with some varible names
                 VPulseWidth_menu.delete(0, END)
                 VPulseWidth_menu.insert(0, str(VPulseWidth_ranges[1]))
                 warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(VPulseWidth_ranges[1]) + " for patient safety.")
+
+    def save_sel():
+        if i == 0:
+            #print(name) #work for edit but not initial
+            file = open(name, 'a')
+        elif i == 1:
+            #print(username_info) #works for register but not edit
+            file = open(username_info, 'a')
+        LRL = LRL_menu.get()
+        URL = URL_menu.get()
+        VA = VPulseAmp_menu.get()
+        VPW = VPulseWidth_menu.get()
+        file.write(LRL + '\n')
+        file.write(URL + '\n')
+        file.write(VA + '\n')
+        file.write(VPW + '\n')
+        file.close()
+        success_param()
+        delete_VOO_screen()
+        
     button = Button(VOO_screen, text = "Select VPulse Width (ms)", command = get_VPulseWidth).pack()
+    button = Button(VOO_screen, text = "Save all selections",bg = 'green', command = save_sel).pack()   
+    
                      
 def AAI_selections():
     default_LRL = 60
@@ -704,7 +811,7 @@ def AAI_selections():
         def success():
             LRL = LRL_menu.get() 
             warningLabel.config(bg="green", text="Selection of " + str(LRL) + " is Successful.");
-            file.write(str(LRL)+ '\n')
+            #file.write(str(LRL)+ '\n')
            # file.close() ASK
         try: #check if the input is translatable to float
             LRL=float(LRL)
@@ -771,7 +878,7 @@ def AAI_selections():
         def success():
             URL = URL_menu.get() 
             warningLabel.config(bg="green", text="Selection of " + str(URL) + " is Successful.");
-            file.write(str(URL)+ '\n')
+            #file.write(str(URL)+ '\n')
             # file.close() ASK
         try: #check if the input is translatable to float
             URL=float(URL)
@@ -821,7 +928,7 @@ def AAI_selections():
                 warningLabel.config(bg="green", text="Selection of " + str(APulseAmp) + " is Successful. \n You have just turned off the AAI pace amplitude.")
             else:
                 warningLabel.config(bg="green", text="Selection of " + str(APulseAmp) + " is Successful.")
-            file.write(str(APulseAmp)+ '\n')
+            #file.write(str(APulseAmp)+ '\n')
             # file.close() ASK
         if(str(APulseAmp) == "Off" or str(APulseAmp) == "off" or str(APulseAmp) == "OFF"): #if off
             APulseAmp_menu.delete(0, END) #delete existing value
@@ -878,7 +985,7 @@ def AAI_selections():
         def success():
             APulseWidth = APulseWidth_menu.get()
             warningLabel.config(bg="green", text="Selection of " + str(APulseWidth) + " is Successful.")
-            file.write(str(APulseWidth)+ '\n')
+            #file.write(str(APulseWidth)+ '\n')
             # file.close() ASK
         try: #check if the input is translatable to float
             APulseWidth=float(APulseWidth)
@@ -934,7 +1041,7 @@ def AAI_selections():
         def success():
             ASensitivity = ASensitivity_menu.get()
             warningLabel.config(bg="green", text="Selection of " + str(ASensitivity) + " is Successful.")
-            file.write(str(ASensitivity)+ '\n')
+            #file.write(str(ASensitivity)+ '\n')
             # file.close() ASK
         try: #check if the input is translatable to float
             ASensitivity=float(ASensitivity)
@@ -973,7 +1080,9 @@ def AAI_selections():
                 ASensitivity_menu.delete(0, END)
                 ASensitivity_menu.insert(0, str(ASensitivity_ranges[2]))
                 warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(ASensitivity_ranges[2]) + " for patient safety.")
+        
     button = Button(AAI_screen, text = "Select ASensitivity (mv)", command = get_ASensitivity).pack()
+    
 
     ###Atrial Refractory Period###
     default_ARP = 250
@@ -993,7 +1102,7 @@ def AAI_selections():
         def success():
             ARP = ARP_menu.get()
             warningLabel.config(bg="green", text="Selection of " + str(ARP) + " is Successful.")
-            file.write(str(ARP)+ '\n')
+            #file.write(str(ARP)+ '\n')
             # file.close() ASK
         try: #check if the input is translatable to float
             ARP=float(ARP)
@@ -1049,7 +1158,7 @@ def AAI_selections():
                 warningLabel.config(bg="green", text="Selection of " + str(HRL) + " is Successful. \n You have just turned off Hysterisis pacing.")
             else:
                 warningLabel.config(bg="green", text="Selection of " + str(HRL) + " is Successful.")
-            file.write(str(HRL)+ '\n')
+            #file.write(str(HRL)+ '\n')
             # file.close() ASK
         if(str(HRL) == "Off" or str(HRL) == "off" or str(HRL) == "OFF"): #if off
             HRL_menu.delete(0, END) #delete existing value
@@ -1131,7 +1240,7 @@ def AAI_selections():
                 warningLabel.config(bg="green", text="Selection of " + str(RS) + " is Successful. \n You have just turned off Hysterisis pacing.")
             else:
                 warningLabel.config(bg="green", text="Selection of " + str(RS) + " is Successful.")
-            file.write(str(RS)+ '\n')
+            #file.write(str(RS)+ '\n')
             # file.close() ASK
         if(str(RS) == "Off" or str(RS) == "off" or str(RS) == "OFF"): #if off
             RS_menu.delete(0, END) #delete existing value
@@ -1180,7 +1289,34 @@ def AAI_selections():
                 RS_menu.delete(0, END)
                 RS_menu.insert(0, str(RS_ranges[2]))
                 warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(RS_ranges[2]) + " for patient safety.")
+    def save_sel():
+        if i == 0:
+            #print(name) #work for edit but not initial
+            file = open(name, 'a')
+        elif i == 1:
+            #print(username_info) #works for register but not edit
+            file = open(username_info, 'a')
+        LRL = LRL_menu.get()
+        URL = URL_menu.get()
+        AA = APulseAmp_menu.get()
+        APW = APulseWidth_menu.get()
+        AS = ASensitivity_menu.get()
+        ARP = ARP_menu.get()
+        HRL = HRL_menu.get()
+        RS = RS_menu.get()
+        file.write(LRL + '\n')
+        file.write(URL + '\n')
+        file.write(AA + '\n')
+        file.write(APW + '\n')
+        file.write(AS + '\n')
+        file.write(ARP + '\n')
+        file.write(HRL + '\n')
+        file.write(RS + '\n')
+        file.close()
+        success_param()
+        delete_AAI_screen() 
     button = Button(AAI_screen, text = "Select Rate Smoothing (%):", command = get_RS).pack()
+    button = Button(AAI_screen, text = "Save all selections",bg = 'green', command = save_sel).pack()
 
 def VVI_selections():
     default_LRL = 60
@@ -1217,7 +1353,7 @@ def VVI_selections():
         def success():
             LRL = LRL_menu.get() 
             warningLabel.config(bg="green", text="Selection of " + str(LRL) + " is Successful.");
-            file.write(str(LRL)+ '\n')
+            #file.write(str(LRL)+ '\n')
            # file.close() VSK
         try: #check if the input is translatable to float
             LRL=float(LRL)
@@ -1284,7 +1420,7 @@ def VVI_selections():
         def success():
             URL = URL_menu.get() 
             warningLabel.config(bg="green", text="Selection of " + str(URL) + " is Successful.");
-            file.write(str(URL)+ '\n')
+            #file.write(str(URL)+ '\n')
             # file.close() VSK
         try: #check if the input is translatable to float
             URL=float(URL)
@@ -1334,7 +1470,7 @@ def VVI_selections():
                 warningLabel.config(bg="green", text="Selection of " + str(VPulseAmp) + " is Successful. \n You have just turned off the VVI pace amplitude.")
             else:
                 warningLabel.config(bg="green", text="Selection of " + str(VPulseAmp) + " is Successful.")
-            file.write(str(VPulseAmp)+ '\n')
+            #file.write(str(VPulseAmp)+ '\n')
             # file.close() VSK
         if(str(VPulseAmp) == "Off" or str(VPulseAmp) == "off" or str(VPulseAmp) == "OFF"): #if off
             VPulseAmp_menu.delete(0, END) #delete existing value
@@ -1391,7 +1527,7 @@ def VVI_selections():
         def success():
             VPulseWidth = VPulseWidth_menu.get()
             warningLabel.config(bg="green", text="Selection of " + str(VPulseWidth) + " is Successful.")
-            file.write(str(VPulseWidth)+ '\n')
+            #file.write(str(VPulseWidth)+ '\n')
             # file.close() VSK
         try: #check if the input is translatable to float
             VPulseWidth=float(VPulseWidth)
@@ -1447,7 +1583,7 @@ def VVI_selections():
         def success():
             VSensitivity = VSensitivity_menu.get()
             warningLabel.config(bg="green", text="Selection of " + str(VSensitivity) + " is Successful.")
-            file.write(str(VSensitivity)+ '\n')
+            #file.write(str(VSensitivity)+ '\n')
             # file.close() VSK
         try: #check if the input is translatable to float
             VSensitivity=float(VSensitivity)
@@ -1506,7 +1642,7 @@ def VVI_selections():
         def success():
             VRP = VRP_menu.get()
             warningLabel.config(bg="green", text="Selection of " + str(VRP) + " is Successful.")
-            file.write(str(VRP)+ '\n')
+            #file.write(str(VRP)+ '\n')
             # file.close() VSK
         try: #check if the input is translatable to float
             VRP=float(VRP)
@@ -1562,7 +1698,7 @@ def VVI_selections():
                 warningLabel.config(bg="green", text="Selection of " + str(HRL) + " is Successful. \n You have just turned off Hysterisis pacing.")
             else:
                 warningLabel.config(bg="green", text="Selection of " + str(HRL) + " is Successful.")
-            file.write(str(HRL)+ '\n')
+            #file.write(str(HRL)+ '\n')
             # file.close() VSK
         if(str(HRL) == "Off" or str(HRL) == "off" or str(HRL) == "OFF"): #if off
             HRL_menu.delete(0, END) #delete existing value
@@ -1644,7 +1780,7 @@ def VVI_selections():
                 warningLabel.config(bg="green", text="Selection of " + str(RS) + " is Successful. \n You have just turned off Hysterisis pacing.")
             else:
                 warningLabel.config(bg="green", text="Selection of " + str(RS) + " is Successful.")
-            file.write(str(RS)+ '\n')
+            #file.write(str(RS)+ '\n')
             # file.close() VSK
         if(str(RS) == "Off" or str(RS) == "off" or str(RS) == "OFF"): #if off
             RS_menu.delete(0, END) #delete existing value
@@ -1693,7 +1829,36 @@ def VVI_selections():
                 RS_menu.delete(0, END)
                 RS_menu.insert(0, str(RS_ranges[2]))
                 warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(RS_ranges[2]) + " for patient safety.")
+    def save_sel():
+        if i == 0:
+            #print(name) #work for edit but not initial
+            file = open(name, 'a')
+        elif i == 1:
+            #print(username_info) #works for register but not edit
+            file = open(username_info, 'a')
+        LRL = LRL_menu.get()
+        URL = URL_menu.get()
+        VA = VPulseAmp_menu.get()
+        VPW = VPulseWidth_menu.get()
+        VS = VSensitivity_menu.get()
+        VRP = VRP_menu.get()
+        HRL = HRL_menu.get()
+        RS = RS_menu.get()
+        file.write(LRL + '\n')
+        file.write(URL + '\n')
+        file.write(VA + '\n')
+        file.write(VPW + '\n')
+        file.write(VS + '\n')
+        file.write(VRP + '\n')
+        file.write(HRL + '\n')
+        file.write(RS + '\n')
+        
+        file.close()
+        success_param()
+        delete_VVI_screen()
+     
     button = Button(VVI_screen, text = "Select Rate Smoothing (%):", command = get_RS).pack()
+    button = Button(VVI_screen, text = "Save all selections",bg = 'green', command = save_sel).pack()
 
 
 def login_verify():
@@ -1807,8 +1972,24 @@ def delete_main_screen():
 
 def delete_mode_screen():
     mode_screen.destroy()
+
 def delete_dashboard():
     dash_screen.destroy()
+    
+def delete_AOO_screen():
+    AOO_screen.destroy()
+
+def delete_VOO_screen():
+    VOO_screen.destroy()
+
+def delete_AAI_screen():
+    AAI_screen.destroy()
+
+def delete_VVI_screen():
+    AOO_screen.destroy()
+    
+def delete_success_screen():
+    success_screen.destroy()
  
 # Designing login/register (first) window
  
@@ -1864,20 +2045,19 @@ def dashboard():
     Label(dash_screen, text = "Hello " + name +"!", bg = "yellow", font=("Calibri", 13)).pack()
     userfile = open(name, 'r')
     filelines = userfile.readlines()
-    userfile.close()
-    user_name =filelines[0]
+    user_name = filelines[0]
     user_pass = filelines[1]
     user_mode = filelines[2]
     Label(dash_screen, text = "Your Current Settings", bg = "#C70039", font = ("Calibri", 12)).place(x=0,y=120)
     Label(dash_screen, text = "mode = " + user_mode).place(x=0,y=150)
+
     def edit_selections():
-        userfile = open(name, 'w')
-        userfile.write(user_name)
-        userfile.write(user_pass)
-        userfile.write(user_mode)
-        
-        
-        
+        file = open(name, 'w')
+        file.write(user_name)
+        file.write(user_pass)
+        file.close()
+        select_mode_edit()
+        delete_dashboard()
         
     if user_mode == "AOO"+ '\n':
         user_lrl = filelines[3]
@@ -1939,12 +2119,12 @@ def dashboard():
         Label(dash_screen, text = "HYSTER= " + user_hyster).place(x=0,y=270)
         Label(dash_screen, text = "SMOOTH = " + user_smooth).place(x=0,y=285)
         Button(dash_screen, text = 'edit selections', command = edit_selections).place(x=0,y=300)
-    
+        
         
     
 
 
-##TO DO: 2-make parameters save to file (after parameters are implemented - andrew), 3-add confirm button to parameters to update files 4- (andrew) make all parameters within guidelines and bound by eachother 5- read files to dashboard and allow edits from there
+##TO DO: 2-make parameters save to file (probably same code for both), 3-add confirm button to parameters to update files 4- (andrew) make all parameters within guidelines and bound by eachother 5- read files to dashboard and allow edits from there
     
 #run start
 main_account_screen()
