@@ -123,7 +123,6 @@ def select_mode_register():
     mode_screen = Tk()
     mode_screen.geometry("600x600")
     mode_screen.title("Pacing Mode select")
-    button = Button(mode_screen, text = "Back to Dashboard", command = combine_funcs(dashboard, delete_mode_screen)).pack()
     #embedded function to get selection
     def get_mode():
         selection = tkinter.StringVar(mode_screen)
@@ -1312,6 +1311,7 @@ def AAI_selections():
         APW = APulseWidth_menu.get()
         AS = ASensitivity_menu.get()
         ARP = ARP_menu.get()
+        PVARP = PVARP_menu.get()
         HRL = HRL_menu.get()
         RS = RS_menu.get()
         file.write(LRL + '\n')
@@ -1320,13 +1320,14 @@ def AAI_selections():
         file.write(APW + '\n')
         file.write(AS + '\n')
         file.write(ARP + '\n')
+        file.write(PVARP + '\n')
         file.write(HRL + '\n')
         file.write(RS + '\n')
         file.close()
         success_param()
         delete_AAI_screen() 
     button = Button(AAI_screen, text = "Select Rate Smoothing (%):", command = get_RS).pack()
-    button = Button(AAI_screen, text = "Save all selections",bg = 'green', command = save_sel).pack()
+    
 
     default_PVARP = 250
     PVARP_ranges = [150,500] #range 1 low, range 1 high
@@ -1385,6 +1386,7 @@ def AAI_selections():
                 PVARP_menu.insert(0, str(PVARP_ranges[1]))
                 warningLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(PVARP_ranges[1]) + " for patient safety.") 
     button = Button(AAI_screen, text = "Select PVARP (ms):", command = get_PVARP).pack()
+    button = Button(AAI_screen, text = "Save all selections",bg = 'green', command = save_sel).pack()
 
 
 def VVI_selections():
