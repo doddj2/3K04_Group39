@@ -113,7 +113,19 @@ def register_user():
             select_mode_register()
     else:
         max_users()
-            
+
+def edit():
+    global mode_screen
+    mode_screen = tkinter.Tk()
+    mode_screen.geometry("600x600")
+    mode_screen.title("Pacing Mode Edit")
+    Label(mode_screen, text="Please select a pacing mode", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
+    mode_sel= tkinter.StringVar(mode_screen)
+    mode_sel.set("AOO")
+    ModeOptions = ["AOO","VOO","AAI","VVI"]
+    drop= tkinter.OptionMenu(mode_screen, mode_sel, *ModeOptions) #andrew this is the type of line youre gonna wanna edit,
+    drop.pack()
+
 # allow new user to pick mode
 def select_mode_register():
     global mode_screen
@@ -121,7 +133,6 @@ def select_mode_register():
     mode_screen.geometry("600x600")
     mode_screen.title("Pacing Mode select")
     button = Button(mode_screen, text = "Back to Dashboard", command = combine_funcs(dashboard, delete_mode_screen)).pack()
-    
     #embedded function to get selection
     def get_mode():
         selection = StringVar()
@@ -157,13 +168,14 @@ def select_mode_register():
             delete_mode_screen()
         
  
-    Label(text="Before Starting, please select a pacing mode", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
+    Label(mode_screen, text="Before Starting, please select a pacing mode", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
     mode_sel= StringVar()
     mode_sel.set("AOO")
     ModeOptions = ["AOO","VOO","AAI","VVI"]
     drop= tkinter.OptionMenu(mode_screen, mode_sel, *ModeOptions) #andrew this is the type of line youre gonna wanna edit,
     drop.pack()
     button = Button(mode_screen, text = "Select", command = get_mode).pack()
+
 #when completed, these four functions will add the parameters to the txt file created upon register. I have not done that yet but probably will soon
 def roundToNearest(input, toNearest=5):
     return toNearest * round(input/toNearest)
@@ -411,6 +423,8 @@ def main_account_screen():
  
     main_screen.mainloop()
 #creating dashboard after login (this is where all selections will go)
+
+    
 def dashboard():
     global dash_screen
     dash_screen = Tk()   
@@ -450,17 +464,18 @@ def dashboard():
     Label(dash_screen, text = "Hello " + name +"!", bg = "yellow", font=("Calibri", 13)).pack()
     userfile = open(name, 'r')
     filelines = userfile.readlines()
-    userfile.close()
-    user_name =filelines[0]
+    user_name = filelines[0]
     user_pass = filelines[1]
     user_mode = filelines[2]
     Label(dash_screen, text = "Your Current Settings", bg = "#C70039", font = ("Calibri", 12)).place(x=0,y=120)
     Label(dash_screen, text = "mode = " + user_mode).place(x=0,y=150)
     def edit_selections():
-        userfile = open(name, 'w')
-        userfile.write(user_name)
-        userfile.write(user_pass)
-        userfile.write(user_mode)
+        #userfile = open(name, 'w')
+        #userfile.write(user_name)
+        #userfile.write(user_pass)
+        #userfile.write(user_mode)
+        edit()
+        delete_dashboard()
         
         
         
@@ -525,12 +540,12 @@ def dashboard():
         Label(dash_screen, text = "HYSTER= " + user_hyster).place(x=0,y=270)
         Label(dash_screen, text = "SMOOTH = " + user_smooth).place(x=0,y=285)
         Button(dash_screen, text = 'edit selections', command = edit_selections).place(x=0,y=300)
-    
+        
         
     
 
 
-##TO DO: 2-make parameters save to file (after parameters are implemented - andrew), 3-add confirm button to parameters to update files 4- (andrew) make all parameters within guidelines and bound by eachother 5- read files to dashboard and allow edits from there
+##TO DO: 2-make parameters save to file (probably same code for both), 3-add confirm button to parameters to update files 4- (andrew) make all parameters within guidelines and bound by eachother 5- read files to dashboard and allow edits from there
     
 #run start
 main_account_screen()
