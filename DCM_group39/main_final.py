@@ -92,7 +92,7 @@ def register_user():
     
     for i in files:
         tally = tally + 1
-    if tally <= 110: #REMEBER TO CHANGE BACK TO 11 when completed
+    if tally <= 11:
  
         if password_info != confirm_info:
             password_not_matched()
