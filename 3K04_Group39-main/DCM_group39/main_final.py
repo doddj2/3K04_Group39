@@ -2224,7 +2224,7 @@ def delete_AAI_screen():
     AAI_screen.destroy()
 
 def delete_VVI_screen():
-    AOO_screen.destroy()
+    VVI_screen.destroy()
     
 def delete_success_screen():
     success_screen.destroy()
