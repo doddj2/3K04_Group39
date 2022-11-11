@@ -225,8 +225,11 @@ def success_param():
     Button(success_screen, text = "Back to main screen", command = to_login).pack()
     
 def AOO_selections():
+    #where I am saving 
+    file = open(username_info,'a')
     #create class object 
-    AOO_screen = InputScreen.InputScreenClass("AOO")
+    AOO_screen = InputScreen.InputScreenClass("AOO",file)
+    
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     AOO_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     AOO_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
@@ -234,6 +237,7 @@ def AOO_selections():
     AOO_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"A Pulse Width (ms) ",0.4)
     #AOO_screen.addInputBox([150,500],[10],"A Refractory Period (ms) ",320) #just for testing
     AOO_screen.open()
+    #file.close()
 def VOO_selections(): ##literally the same as AOO except with some varible names swapped
     VOO_screen = InputScreen.InputScreenClass("AOO")
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE

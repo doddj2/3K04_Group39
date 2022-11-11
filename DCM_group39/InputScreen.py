@@ -7,13 +7,35 @@ class InputScreenClass:
     def open(self):
         #open = Toplevel(self.screen)  
         button = Button(self.screen, text = "Save all selections",bg = 'green', command = self.save_sel).pack()
-        button = Button(self.screen, text = "Back", command = combine_funcs(self.backToSelectMode,self.close)).pack()
+        button = Button(self.screen, text = "Back", command = combine_funcs(self.backToSelectMode)).pack()
+        
         self.screen.mainloop()
     def close(self):
-        self.screen.destroy()
-        #selectionsLabel = Label(screen, text= "")
-        #+ str(name) + " Parameter Selections", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
-        #button = Button(VOO_screen, text = "Back", command = combine_funcs(select_mode_register, delete_VOO_screen)).pack()    
+        print("destroyed")
+        #self.screen.destroy()
+    def writeSelfToFile(self,whereToSave):
+
+       # with open("open.txt", "a") as new_file:
+        #    new_file.write("Hello")
+        
+        #file = open(username_info, 'a')
+        heading = self.name
+        #self.whereToSave.open()
+       # file = open("testfile",'a')
+        whereToSave.write(heading + '\n')
+        print(str(whereToSave))
+        i = 0
+        while(TRUE):
+        #for i in range(self.numberOfInputs):
+            toSave = self.InputBoxes[i].box.get()
+            whereToSave.write(str(toSave) + '\n')
+            #self.whereToSave.write(str(toSave) + '\n')
+            print(toSave)
+            i=i+1
+            if i == 2:
+                break
+        #self.whereToSave.close()
+        #self.close()
     def save_sel(self):
         i = 0
         LRL = -1
@@ -31,29 +53,28 @@ class InputScreenClass:
             if( (LRL > -1)): #compare URL to LRL, if URL greater, stop doing stuff
                 if(URL > -1):
                     if(self.edgeCaseCompare("LRL",self.InputBoxes[LRL],self.InputBoxes[URL])):
-                         return
+                        return
                 if(Refractory > -1):
                     if(self.edgeCaseCompare("Refractory",self.InputBoxes[LRL],self.InputBoxes[Refractory])):
                         return
             i = i+1
         self.warningLabel.config(bg="green", text="All valid values!")
-        return
+        self.writeSelfToFile(self.whereToSave)
+    
     def edgeCaseCompare(self, type, comp1, comp2):
         if(type == "LRL"):
            # comp2value = float(comp2.box.get()) #for debugging transparency
            # comp1value = float(comp1.box.get())
             URLGreaterThanLRL = (float(comp2.box.get()) > float(comp1.box.get()))
             if(not(URLGreaterThanLRL)):
-                self.warningLabel.config(bg="yellow", text="LRL cannot be greater than URL")
+                self.warningLabel.config(bg="red", text="LRL must be lower than URL")
                 return TRUE
         if(type == "Refractory"):
             msOfLRL = 60/float(comp1.box.get())*1000 #convert bpm to seconds per beat, convert to milliseconds
             if(msOfLRL < float(comp2.box.get())):
-                self.warningLabel.config(bg="yellow", text="Refractory period cannot be higher than LRL implies.")
+                self.warningLabel.config(bg="red", text="Refractory period cannot be higher than what LRL implies.")
                 return TRUE
         return FALSE
-                
-
     def addInputBox(self,ranges=[0,10],increments=[0,2],name = "default name",defaultDisplay = -69420,offValid=FALSE):
         newBox = InputBox(self.screen,ranges,increments,name,defaultDisplay,offValid)
         self.InputBoxes.append(newBox) #add new box to end of array
@@ -61,11 +82,10 @@ class InputScreenClass:
         self.InputBoxes[self.numberOfInputs].inputLabel.place(x=20, y=50+self.numberOfInputs*18) #place the corresponding label according to how far down the box is
         self.InputBoxes[self.numberOfInputs].default()
         self.numberOfInputs = self.numberOfInputs+1
-
-    def __init__(self,name):
-        #self.ranges = ranges
-        #self.increments = increments #these are for the input box but this is just as practice
+    def __init__(self,name,whereToSave):
         self.name = str(name)
+        self.whereToSave = whereToSave
+
         self.screen = Tk()
         self.screen.title(self.name + " Parameters")
         self.screen.geometry('600x600')
@@ -77,10 +97,17 @@ class InputScreenClass:
         self.warningLabel.config(text = "testing")
         #self.addInputBox()
 
-        
     def backToSelectMode(self):
-        print("back to selection - placeholder code")
-    
+        WarningScreen = Tk()
+        WarningScreen.title("Are you sure you wanna go back? \n Unsaved changes will be lost.")
+        WarningScreen.geometry('400x200')
+        Label(WarningScreen, text=("Are you sure you wanna go back? \n Unsaved changes will be lost."), bg="#58FF33", width="100", height="2", font=("Comic Sans", 13)).pack()
+        Button(WarningScreen, text = "Yes - back to select screen", command = combine_funcs(self.close,WarningScreen.destroy)).pack()
+        Button(WarningScreen, text = "No - back to edit screen", command = WarningScreen.destroy).pack()
+        WarningScreen.mainloop()
+        
+        print("back to selection - closing self")
+        
     
 class InputBox:
     def __init__(self,screen,ranges,increments,name,defaultDisplay, offValid):
@@ -89,11 +116,9 @@ class InputBox:
         self.name = name
         self.defaultDisplay = defaultDisplay
         self.offValid = offValid
-
         self.box = Entry(screen, textvariable=name)
         self.box.pack()
         self.inputLabel = Label(screen, text= name + " input:")
-
         #self identification flags for comparisons
         self.isLRL = ("LRL" in self.name)
         self.isURL = ("URL" in self.name)
@@ -140,14 +165,10 @@ class InputBox:
                 i=i+1
             if(toCheck>self.ranges[len(self.ranges)-1]): #if above highest increment, set to max 
                 self.box.delete(0, END)
-                self.box.insert(0, str(self.ranges[0]))
+                self.box.insert(0, str(self.ranges[len(self.ranges)-1]))
                 tempLRL = self.box.get() 
                 errorLabel.config(bg="yellow", text="Inserted value is above the maximum. \n Rounded to " + str(self.ranges[len(self.ranges)-1]) + " for patient safety.")
                 return FALSE
-
-    #def edgeCaseValueCheck(self,errorLabel):
-     #   if(self.name)
-            
     def success(self,toCheck):
             print("success triggered for " + self.name + " on input value " + str(toCheck))
             if(str(toCheck).lower() =='off'):
@@ -156,14 +177,3 @@ class InputBox:
         self.box.insert(0, str(self.defaultDisplay))
     def default(self):
         self.insertEntry(self.defaultDisplay)
-          #insert default value
-    
-#def main():
- #   print("Hello World!")
-  #  ranges = [10,15]
-   # increments = [1]
-    #test = InputScreenClass("aaaaaaa")
-    #test.open()
-
-#if __name__ == "__main__":
- #   main()
