@@ -14,27 +14,23 @@ class InputScreenClass:
         print("destroyed")
         #self.screen.destroy()
     def writeSelfToFile(self,whereToSave):
-
        # with open("open.txt", "a") as new_file:
         #    new_file.write("Hello")
-        
-        #file = open(username_info, 'a')
-        heading = self.name
+        file = open(whereToSave, 'a')
+       # heading = self.name
         #self.whereToSave.open()
        # file = open("testfile",'a')
-        whereToSave.write(heading + '\n')
+        #whereToSave.write(heading + '\n')
         print(str(whereToSave))
         i = 0
-        while(TRUE):
+        while(i < self.numberOfInputs):
         #for i in range(self.numberOfInputs):
             toSave = self.InputBoxes[i].box.get()
-            whereToSave.write(str(toSave) + '\n')
+            file.write(str(toSave) + '\n')
             #self.whereToSave.write(str(toSave) + '\n')
             print(toSave)
             i=i+1
-            if i == 2:
-                break
-        #self.whereToSave.close()
+        file.close()
         #self.close()
     def save_sel(self):
         i = 0

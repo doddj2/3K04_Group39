@@ -226,7 +226,7 @@ def success_param():
     
 def AOO_selections():
     #where I am saving 
-    file = open(username_info,'a')
+    file = username_info
     #create class object 
     AOO_screen = InputScreen.InputScreenClass("AOO",file)
     
