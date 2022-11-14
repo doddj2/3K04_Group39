@@ -1,0 +1,80 @@
+%implements "chartSource" "C"
+%function ChartConfig(block, system) void
+  %createrecord chartConfiguration { ...
+          executeAtInitialization  0 ...
+  }
+  %return chartConfiguration
+%endfunction
+%function ChartDataMap(block, system) void
+  %createrecord ChartDataElements {\
+    NumChartData   8 \
+    ChartDataDefaults {\
+      RecordType   "ChartData"\
+      Dimensions   []\
+      IsTestPoint  0\
+    }\
+    ChartData {\
+      Name         "is_active_c3_assignment_1"\
+      Description  "StateIsActive"\
+      SFName       "is_active_c3_assignment_1"\
+      Path         "is_active_c3_assignment_1"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+    ChartData {\
+      Name         "is_c3_assignment_1"\
+      Description  "StateActiveChild"\
+      SFName       "is_c3_assignment_1"\
+      Path         "is_c3_assignment_1"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+    ChartData {\
+      Name         "is_VOO"\
+      Description  "StateActiveChild"\
+      SFName       "is_VOO"\
+      Path         "VOO.is_VOO"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+    ChartData {\
+      Name         "is_AOO"\
+      Description  "StateActiveChild"\
+      SFName       "is_AOO"\
+      Path         "AOO.is_AOO"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+    ChartData {\
+      Name         "is_VVI"\
+      Description  "StateActiveChild"\
+      SFName       "is_VVI"\
+      Path         "VVI.is_VVI"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+    ChartData {\
+      Name         "is_AAI"\
+      Description  "StateActiveChild"\
+      SFName       "is_AAI"\
+      Path         "AAI.is_AAI"\
+      SrcLocation  ""\
+      IsTestPoint  1\
+    }\
+    ChartData {\
+      Name         "sfEvent"\
+      Description  "ActiveChartEvent"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  ""\
+    }\
+    ChartData {\
+      Name         "temporalCounter_i1"\
+      Description  "TemporalCounter"\
+      SFName       ""\
+      Path         ""\
+      SrcLocation  ""\
+    }\
+  }
+  %return ChartDataElements
+%endfunction
