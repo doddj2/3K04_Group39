@@ -88,29 +88,49 @@ def register_user():
     password_info = password.get()
     confirm_info = confirm.get()
     tally = 0
+    error = 0
     files = os.listdir()
     
+    invalid_list = ['CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9', ' ', '.','<','>',':','\"','/','\\', '|', '?','*', 'NULL', '']
     for i in files:
         tally = tally + 1
-    if tally <= 11:
- 
+
+    for i in invalid_list:
+            if username_info == i:
+                invalid_filename_error()
+                error = 1
+
+    for i in files:
+            if username_info == i: #typpppeeeeee its the fucking type 
+                overwrite_error()
+                error = 1
+
+    if tally <= 10:
+                
         if password_info != confirm_info:
             password_not_matched()
+
+        if password_info == '' and username_info != '':
+            password_not_present()
+
+
         else:
-            global file
-            file = open(username_info, "w")
-            file.write(username_info + "\n")
-            file.write(password_info + "\n")
-            #file.close()
+            if error == 0:
+                global file
+                file = open(username_info, "w")
+                file.write(username_info + "\n")
+                file.write(password_info + "\n")
+
  
-            username_entry.delete(0, END)
-            password_entry.delete(0, END)
-            confirm_entry.delete(0, END)
- 
-            Label(register_screen, text="Success", fg="green", font=("calibri", 11)).pack()
-            delete_register_screen()
-            delete_main_screen()
-            select_mode_register()
+                username_entry.delete(0, END)
+                password_entry.delete(0, END)
+                confirm_entry.delete(0, END)
+
+                Label(register_screen, text="Success", fg="green", font=("calibri", 11)).pack()
+                delete_register_screen()
+                delete_main_screen()
+                select_mode_register()
+            
     else:
         max_users()
 
@@ -172,7 +192,7 @@ def select_mode_edit():
     mode_screen = Tk()
     mode_screen.geometry("600x600")
     mode_screen.title("Pacing Mode select")
-    button = Button(mode_screen, text = "Back to Dashboard", command = combine_funcs(dashboard, delete_mode_screen)).pack()
+    #button = Button(mode_screen, text = "Back to Dashboard", command = combine_funcs(dashboard, delete_mode_screen)).pack()
     file = open(name, 'a')
     #embedded function to get selection
     def get_mode():
@@ -241,7 +261,7 @@ def AOO_selections():
     Label(AOO_screen, text="AOO Parameter Selections", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
     def delete_AOO_screen():
         AOO_screen.destroy() #warning unsaved changes might be a good idea to implement here.  
-    button = Button(AOO_screen, text = "Back", command = combine_funcs(select_mode_register, delete_AOO_screen)).pack()
+    #button = Button(AOO_screen, text = "Back", command = combine_funcs(select_mode_register, delete_AOO_screen)).pack()
     # add "unsaved changes warning" option on the back button
     ### FROM HERE TO NEXT COMMENT IS CRITICAL LRL ###
     label = Label(AOO_screen, text ="LRL selection (ppm):")
@@ -513,7 +533,7 @@ def VOO_selections(): ##literally the same as AOO except with some varible names
     Label(VOO_screen, text="VOO Parameter Selections", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
     def delete_VOO_screen():
         VOO_screen.destroy() #warning unsaved changes might be a good idea to implement here.  
-    button = Button(VOO_screen, text = "Back", command = combine_funcs(select_mode_register, delete_VOO_screen)).pack()
+    #button = Button(VOO_screen, text = "Back", command = combine_funcs(select_mode_register, delete_VOO_screen)).pack()
     # add "unsaved changes warning" option on the back button
     ### FROM HERE TO NEXT COMMENT IS CRITICAL LRL ###
     label = Label(VOO_screen, text ="LRL selection (ppm):")
@@ -786,7 +806,7 @@ def AAI_selections():
     Label(AAI_screen, text="AAI Parameter Selections", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
     def delete_AAI_screen():
         AAI_screen.destroy() #warning unsaved changes might be a good idea to implement here.  
-    button = Button(AAI_screen, text = "Back", command = combine_funcs(select_mode_register, delete_AAI_screen)).pack()
+    #button = Button(AAI_screen, text = "Back", command = combine_funcs(select_mode_register, delete_AAI_screen)).pack()
     # add "unsaved changes warning" option on the back button
     ### FROM HERE TO NEXT COMMENT IS CRITICAL LRL ###
     label = Label(AAI_screen, text ="LRL selection (ppm):")
@@ -1400,7 +1420,7 @@ def VVI_selections():
     Label(VVI_screen, text="VVI Parameter Selections", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
     def delete_VVI_screen():
         VVI_screen.destroy() #warning unsaved changes might be a good idea to implement here.  
-    button = Button(VVI_screen, text = "Back", command = combine_funcs(select_mode_register, delete_VVI_screen)).pack()
+    #button = Button(VVI_screen, text = "Back", command = combine_funcs(select_mode_register, delete_VVI_screen)).pack()
     # add "unsaved changes warning" option on the back button
     ### FROM HERE TO NEXT COMMENT IS CRITICVL LRL ###
     label = Label(VVI_screen, text ="LRL selection (ppm):")
@@ -1985,6 +2005,23 @@ def max_users():
     max_users_screen.geometry("150x100")
     Label(max_users_screen, text="max # of users reached").pack()
     Button(max_users_screen, text="OK", command=delete_max_users_screen).pack()
+
+#error popup for repeat users
+def overwrite_error():
+    global overwrite_error_screen
+    overwrite_error_screen = Toplevel(register_screen)
+    overwrite_error_screen.title("error")
+    overwrite_error_screen.geometry("150x100")
+    Label(overwrite_error_screen, text="Username is already in use").pack()
+    Button(overwrite_error_screen, text="OK", command=delete_overwrite_error).pack()
+
+def invalid_filename_error():
+    global invalid_fileame_error_screen
+    invalid_fileame_error_screen = Toplevel(register_screen)
+    invalid_fileame_error_screen.title("error")
+    invalid_fileame_error_screen.geometry("150x100")
+    Label(invalid_fileame_error_screen, text="Username is Invalid").pack()
+    Button(invalid_fileame_error_screen, text="OK", command=delete_invalid_fileame_error).pack()
     
  
 # Designing popup for login invalid password
@@ -2005,6 +2042,16 @@ def password_not_matched():
     password_not_matched_screen.geometry("150x100")
     Label(password_not_matched_screen, text="Passwords do not match ").pack()
     Button(password_not_matched_screen, text="OK", command=delete_password_not_matched).pack()
+
+def password_not_present():
+    global password_not_present_screen
+    password_not_present_screen = Toplevel(register_screen)
+    password_not_present_screen.title("error")
+    password_not_present_screen.geometry("150x100")
+    Label(password_not_present_screen, text="A password is required").pack()
+    Button(password_not_present_screen, text="OK", command=delete_password_not_present).pack()
+
+
  
 # Designing popup for user not found
  
@@ -2029,14 +2076,21 @@ def delete_login_success():
     
 def delete_password_not_matched():
     password_not_matched_screen.destroy()
- 
+
+def delete_password_not_present():
+    password_not_present_screen.destroy()
  
 def delete_password_not_recognised():
     password_not_recog_screen.destroy()
- 
- 
+    
 def delete_user_not_found_screen():
-    user_not_found_screen.destroy()
+    user_not_found_screen.destroy() 
+ 
+def delete_overwrite_error():
+    overwrite_error_screen.destroy()
+
+def delete_invalid_fileame_error():
+    invalid_fileame_error_screen.destroy()
 
 def delete_max_users_screen():
     max_users_screen.destroy()
