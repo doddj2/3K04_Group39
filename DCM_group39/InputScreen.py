@@ -9,7 +9,6 @@ class InputScreenClass:
         #open = Toplevel(self.screen)  
         button = Button(self.screen, text = "Save all selections",bg = 'green', command = self.save_sel).pack()
         #button = Button(self.screen, text = "Back", command = combine_funcs(self.backToSelectMode)).pack()
-        
         self.screen.mainloop()
     def close(self):
         print("destroyed")
@@ -25,7 +24,7 @@ class InputScreenClass:
             file.close()
         print ("BEFORE: \n")
         print (data)
-        if(self.name in data):
+        if((self.name+"\n") in data):
             whereToWrite = data.index(str(self.name)+"\n")  
         else:
             data.append(self.name + '\n')
@@ -33,7 +32,7 @@ class InputScreenClass:
         i = 0
         while(i < self.numberOfInputs):
             toSave = self.InputBoxes[i].box.get()
-            if(len(data)<=whereToWrite+i+1):
+            if(len(data)<whereToWrite+i+1):
                 data.append(toSave+ '\n')
             else:
                 data[whereToWrite+i+1]=(toSave+ '\n')
@@ -87,6 +86,14 @@ class InputScreenClass:
                 return TRUE
         return FALSE
     def addInputBox(self,ranges=[0,10],increments=[0,2],name = "default name",defaultDisplay = -69420,offValid=FALSE):
+
+        with open(self.whereToSave, 'r') as file:
+            data = file.readlines()
+            file.close()
+        if((self.name+"\n") in data):
+            dataLocation = data.index(str((self.name+"\n"))) 
+            defaultDisplay = data[dataLocation + self.numberOfInputs+1].strip('\n')
+            #write at end of file, which causes appending
         newBox = InputBox(self.screen,ranges,increments,name,defaultDisplay,offValid)
         self.InputBoxes.append(newBox) #add new box to end of array
         self.InputBoxes[self.numberOfInputs].configLabel(name) #change the corresponding label
