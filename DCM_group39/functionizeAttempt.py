@@ -229,7 +229,6 @@ def AOO_selections():
     file = username_info
     #create class object 
     AOO_screen = InputScreen.InputScreenClass("AOO",file)
-    
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     AOO_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     AOO_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
@@ -262,7 +261,7 @@ def AAI_selections():
     AAI_screen.open()
 
 def VVI_selections():
-    AAI_screen = InputScreen.InputScreenClass("AAI")
+    AAI_screen = InputScreen.InputScreenClass("VVI")
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     AAI_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     AAI_screen.addInputBox([50,175],[5],"URL (ppm) ",120)

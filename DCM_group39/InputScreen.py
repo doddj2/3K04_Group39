@@ -2,36 +2,51 @@ from tkinter import *
 from tkinter import ttk
 from combineFuncs import combine_funcs
 from combineFuncs import roundToNearest
+import io
 #from functionizeAttempt import combine_funcs
 class InputScreenClass:
     def open(self):
         #open = Toplevel(self.screen)  
         button = Button(self.screen, text = "Save all selections",bg = 'green', command = self.save_sel).pack()
-        button = Button(self.screen, text = "Back", command = combine_funcs(self.backToSelectMode)).pack()
+        #button = Button(self.screen, text = "Back", command = combine_funcs(self.backToSelectMode)).pack()
         
         self.screen.mainloop()
     def close(self):
         print("destroyed")
-        #self.screen.destroy()
+        self.screen.destroy()
+        return
+    
+    def lines_that_equal(self,line_to_match, fp):
+        return [line for line in fp if line == line_to_match]
+
     def writeSelfToFile(self,whereToSave):
-       # with open("open.txt", "a") as new_file:
-        #    new_file.write("Hello")
-        file = open(whereToSave, 'a')
-       # heading = self.name
-        #self.whereToSave.open()
-       # file = open("testfile",'a')
-        #whereToSave.write(heading + '\n')
-        print(str(whereToSave))
+        with open(whereToSave, 'r') as file:
+            data = file.readlines()
+            file.close()
+        print ("BEFORE: \n")
+        print (data)
+        if(self.name in data):
+            whereToWrite = data.index(str(self.name)+"\n")  
+        else:
+            data.append(self.name + '\n')
+            whereToWrite = len(data)      #write at end of file, which causes appending
         i = 0
         while(i < self.numberOfInputs):
-        #for i in range(self.numberOfInputs):
             toSave = self.InputBoxes[i].box.get()
-            file.write(str(toSave) + '\n')
-            #self.whereToSave.write(str(toSave) + '\n')
+            if(len(data)<=whereToWrite+i+1):
+                data.append(toSave+ '\n')
+            else:
+                data[whereToWrite+i+1]=(toSave+ '\n')
+            #file.write(str(toSave) + '\n')
             print(toSave)
             i=i+1
+        print ("AFTER: \n")
+        print (data)
+        with open(whereToSave, 'w') as file:
+            file.writelines( data )
         file.close()
-        #self.close()
+        self.confirmationButton()
+
     def save_sel(self):
         i = 0
         LRL = -1
@@ -92,19 +107,14 @@ class InputScreenClass:
         self.warningLabel.pack(side=BOTTOM, padx=0, pady=0, anchor='n')
         self.warningLabel.config(text = "testing")
         #self.addInputBox()
-
-    def backToSelectMode(self):
+    def confirmationButton(self):
         WarningScreen = Tk()
-        WarningScreen.title("Are you sure you wanna go back? \n Unsaved changes will be lost.")
+        WarningScreen.title("Data Saved Successfully")
         WarningScreen.geometry('400x200')
-        Label(WarningScreen, text=("Are you sure you wanna go back? \n Unsaved changes will be lost."), bg="#58FF33", width="100", height="2", font=("Comic Sans", 13)).pack()
-        Button(WarningScreen, text = "Yes - back to select screen", command = combine_funcs(self.close,WarningScreen.destroy)).pack()
-        Button(WarningScreen, text = "No - back to edit screen", command = WarningScreen.destroy).pack()
-        WarningScreen.mainloop()
-        
-        print("back to selection - closing self")
-        
-    
+        Label(WarningScreen, text=("Data Saved Successfully - heading back to main menu"), bg="#58FF33", width="100", height="2", font=("Comic Sans", 13)).pack()
+        Button(WarningScreen, text = "Confirm", command = combine_funcs(self.close,WarningScreen.destroy)).pack()
+        WarningScreen.mainloop() 
+
 class InputBox:
     def __init__(self,screen,ranges,increments,name,defaultDisplay, offValid):
         self.ranges = ranges
