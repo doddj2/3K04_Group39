@@ -11,10 +11,11 @@ from combineFuncs import roundToNearest
 #global constants
 
 #registration
+ 
 def register():
     global register_screen
     register_screen = Toplevel(main_screen)
-    register_screen.title("Register aaaaaa")
+    register_screen.title("Register")
     register_screen.geometry("300x300")
  
     global username
@@ -49,7 +50,10 @@ def register():
     list_of_files = os.listdir()  
     Label(register_screen, text="").pack()
     Button(register_screen, text="Register", width=10, height=1, bg="light green", command = register_user).pack()
+ 
+
 # login 
+ 
 def login():
     global login_screen
     login_screen = Toplevel(main_screen)
@@ -78,6 +82,7 @@ def login():
     Button(login_screen, text="Login", width=10, height=1, command = login_verify).pack()
  
 # click register
+ 
 def register_user():
     global username_info
     username_info = StringVar()
@@ -98,7 +103,7 @@ def register_user():
             file = open(username_info, "w")
             file.write(username_info + "\n")
             file.write(password_info + "\n")
-            #file.close()
+            file.close()
  
             username_entry.delete(0, END)
             password_entry.delete(0, END)
@@ -109,7 +114,9 @@ def register_user():
             delete_main_screen()
             select_mode_register()
     else:
-        max_users()           
+        max_users()
+
+            
 # allow new user to pick mode
 def select_mode_register():
     global i
@@ -124,7 +131,7 @@ def select_mode_register():
         selection = mode_sel.get()
         label = Label(mode_screen, bg="green", text="Selection of " + selection + " is Successful")
         label.pack()
-        button = Button(mode_screen, text = "Confirm", command = add2file).pack()
+        button = Button(mode_screen, text = "Confirm", command = combine_funcs(delete_mode_screen,add2file)).pack()
     #embedded function to add to file and move to parameter selection, still needs the actual file adding, currently only transports you to the next step
     def add2file():
         mode = tkinter.StringVar(mode_screen)
@@ -132,23 +139,23 @@ def select_mode_register():
         username_info = username.get()
         if mode == "AOO":
             #file = open(username_info, "w")
-            file.write(mode + "\n")
-            file.close()
+           # file.write(mode + "\n")
+           # file.close()
             AOO_selections()
             delete_mode_screen()
         elif mode == "VOO":
-            file.write(mode + "\n")
-            file.close()
+            #file.write(mode + "\n")
+            #file.close()
             VOO_selections()
             delete_mode_screen()
         elif mode == "AAI":
-            file.write(mode + "\n")
-            file.close()
+            #file.write(mode + "\n")
+            #file.close()
             AAI_selections()
             delete_mode_screen()
         elif mode == "VVI":
-            file.write(mode + "\n")
-            file.close()
+            #file.write(mode + "\n")
+            #file.close()
             VVI_selections()
             delete_mode_screen()
         
@@ -175,32 +182,31 @@ def select_mode_edit():
         selection = mode_sel.get()
         label = Label(mode_screen, bg="green", text="Selection of " + selection + " is Successful")
         label.pack()
-        button = Button(mode_screen, text = "Confirm", command = add2file).pack()
+        button = Button(mode_screen, text = "Confirm", command = combine_funcs(delete_mode_screen,add2file)).pack()
     #embedded function to add to file and move to parameter selection, still needs the actual file adding, currently only transports you to the next step
     def add2file():
         mode = tkinter.StringVar(mode_screen)
         mode = mode_sel.get()
         if mode == "AOO":
-            file.write(mode + "\n")
-            file.close()
+            #file.write(mode + "\n")
+          #  file.close()
             AOO_selections()
             delete_mode_screen()
         elif mode == "VOO":
-            file.write(mode + "\n")
-            #file.close()
+         #   file.write(mode + "\n")
+        #file.close()
             VOO_selections()
             delete_mode_screen()
         elif mode == "AAI":
-            file.write(mode + "\n")
+           # file.write(mode + "\n")
             #file.close()
             AAI_selections()
             delete_mode_screen()
         elif mode == "VVI":
-            file.write(mode + "\n")
+            #file.write(mode + "\n")
             #file.close()
             VVI_selections()
             delete_mode_screen()
-        
  
     Label(mode_screen, text="Before Starting, please select a pacing mode", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
     mode_sel= tkinter.StringVar(mode_screen)
@@ -210,8 +216,9 @@ def select_mode_edit():
     drop.pack()
     button = Button(mode_screen, text = "Select", command = get_mode).pack()
 #when completed, these four functions will add the parameters to the txt file created upon register. I have not done that yet but probably will soon
-#def roundToNearest(input, toNearest=5):
-#    return toNearest * round(input/toNearest)
+def roundToNearest(input, toNearest=5):
+    return toNearest * round(input/toNearest)
+
 def success_param():
     global success_screen
     success_screen = Tk()
@@ -236,18 +243,21 @@ def AOO_selections():
     AOO_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"A Pulse Width (ms) ",0.4)
     #AOO_screen.addInputBox([150,500],[10],"A Refractory Period (ms) ",320) #just for testing
     AOO_screen.open()
+    main_account_screen()
     #file.close()
 def VOO_selections(): ##literally the same as AOO except with some varible names swapped
-    VOO_screen = InputScreen.InputScreenClass("AOO")
+    file = username_info
+    VOO_screen = InputScreen.InputScreenClass("VOO",file)
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     VOO_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     VOO_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
     VOO_screen.addInputBox([0.5,3.2,3.5,7],[0.1,0.5,0.5],"V Pulse Amplitude (V) ",3.5,TRUE)
     VOO_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"V Pulse Width (ms) ",0.4)
-    VOO_screen.open()
-                        
+    VOO_screen.open()   
+    main_account_screen()           
 def AAI_selections():
-    AAI_screen = InputScreen.InputScreenClass("AAI")
+    file = username_info
+    AAI_screen = InputScreen.InputScreenClass("AAI",file)
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     AAI_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     AAI_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
@@ -255,13 +265,14 @@ def AAI_selections():
     AAI_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"A Pulse Width (ms) ",0.4)
     AAI_screen.addInputBox([0.25,1,10],[0.25,0.5],"A Sensitivity (ms) ",0.75) #swap for VVI
     AAI_screen.addInputBox([150,500],[10],"A Refractory Period (ms) ",250) #swap for VVI
-    AAI_screen.addInputBox([30,50,90,175],[5,1,5],"Hysteresis Rate Limit (ms) ",60,TRUE) #same as LRL
-    AAI_screen.addInputBox([3,21,25],[3,5],"Rate Smoothing (%)",60,TRUE) #edgecase needs testing 
+    AAI_screen.addInputBox([30,50,90,175],[5,1,5],"Hysteresis Rate Limit (ms) ","OFF",TRUE) #same as LRL
+    AAI_screen.addInputBox([3,21,25],[3,5],"Rate Smoothing (%)","OFF",TRUE) #edgecase needs testing 
     AAI_screen.addInputBox([150,500],[10],"PVARP (ms)",250,TRUE) #edgecase needs testing 
     AAI_screen.open()
-
+    main_account_screen()   
 def VVI_selections():
-    AAI_screen = InputScreen.InputScreenClass("VVI")
+    file = username_info
+    AAI_screen = InputScreen.InputScreenClass("VVI",file)
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     AAI_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     AAI_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
@@ -269,9 +280,11 @@ def VVI_selections():
     AAI_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"V Pulse Width (ms) ",0.4)
     AAI_screen.addInputBox([0.25,1,10],[0.25,0.5],"V Sensitivity (ms) ",2.5) #swap for VVI
     AAI_screen.addInputBox([150,500],[10],"V Refractory Period (ms) ",320) #swap for VVI
-    AAI_screen.addInputBox([30,50,90,175],[5,1,5],"Hysteresis Rate Limit (ms) ",60,TRUE) #same as LRL
-    AAI_screen.addInputBox([3,21,25],[3,5],"Rate Smoothing (%)",60,TRUE) #edgecase needs testing 
+    AAI_screen.addInputBox([30,50,90,175],[5,1,5],"Hysteresis Rate Limit (ms) ","OFF",TRUE) #same as LRL
+    AAI_screen.addInputBox([3,21,25],[3,5],"Rate Smoothing (%)","OFF",TRUE) #edgecase needs testing 
     AAI_screen.open()
+    main_account_screen()   
+
 def login_verify():
     username1 = username_verify.get()
     global name
@@ -286,6 +299,8 @@ def login_verify():
         file1 = open(username1, "r")
         verify = file1.read().splitlines()
         if password1 in verify:
+            global username_info 
+            username_info= username1
             login_sucess()
  
         else:
@@ -294,7 +309,8 @@ def login_verify():
     else:
         user_not_found()
  
-# login sucess procedure 
+# login sucess procedure
+ 
 def login_sucess():
     global login_success_screen
     login_success_screen = Toplevel(login_screen)
@@ -346,6 +362,11 @@ def user_not_found():
     Label(user_not_found_screen, text="User Not Found").pack()
     Button(user_not_found_screen, text="OK", command=delete_user_not_found_screen).pack()
 # combining functions for buttons 
+def combine_funcs(*funcs):
+    def combined_func(*arg1, **arg2):
+        for f in funcs:
+            f(*arg1, **arg2)
+    return combined_func
 
 # Deleting stuff
  
@@ -391,7 +412,7 @@ def delete_AAI_screen():
     AAI_screen.destroy()
 
 def delete_VVI_screen():
-    VVI_screen.destroy()
+    AOO_screen.destroy()
     
 def delete_success_screen():
     success_screen.destroy()
@@ -452,80 +473,100 @@ def dashboard():
     filelines = userfile.readlines()
     user_name = filelines[0]
     user_pass = filelines[1]
-    user_mode = filelines[2]
+    try:
+       AOOLocation = filelines.index("AOO\n")
+    except ValueError:
+       AOOLocation = -1
+    try:
+        VOOLocation = filelines.index("VOO\n")
+    except ValueError:
+        VOOLocation = -1
+    try: 
+        AAILocation = filelines.index("AAI\n")
+    except ValueError:
+        AAILocation = -1
+    try:
+        VVILocation = filelines.index("VVI\n")
+    except ValueError:
+        VVILocation = -1
     Label(dash_screen, text = "Your Current Settings", bg = "#C70039", font = ("Calibri", 12)).place(x=0,y=120)
-    Label(dash_screen, text = "mode = " + user_mode).place(x=0,y=150)
-
+    #Label(dash_screen, text = "mode = " + user_mode).place(x=0,y=150)
     def edit_selections():
-        file = open(name, 'w')
-        file.write(user_name)
-        file.write(user_pass)
-        file.close()
+        #file = open(name, 'w')
+        #file.write(user_name)
+        #file.write(user_pass)
+        #file.close()
         select_mode_edit()
         delete_dashboard()
+    xOffsetIncrement = 80
+    xOffset = 0
+    if AOOLocation != -1:
+        user_lrl = filelines[AOOLocation+1]
+        user_url = filelines[AOOLocation+2]
+        user_aa = filelines[AOOLocation+3]
+        user_apw = filelines[AOOLocation+4]
+        Label(dash_screen, text = "AOO:").place(x= 0 + xOffset*xOffsetIncrement,y=150)
+        Label(dash_screen, text = "LRL = " + user_lrl).place(x= 0 + xOffset*xOffsetIncrement,y=165)
+        Label(dash_screen, text = "URL = " + user_url).place(x= 0 + xOffset*xOffsetIncrement,y=180)
+        Label(dash_screen, text = "AA = " + user_aa).place(x= 0 + xOffset*xOffsetIncrement,y=195)
+        Label(dash_screen, text = "APW = " + user_apw).place(x= 0 + xOffset*xOffsetIncrement,y=210)
+        xOffset = xOffset+1
         
-    if user_mode == "AOO"+ '\n':
-        user_lrl = filelines[3]
-        user_url = filelines[4]
-        user_aa = filelines[5]
-        user_apw = filelines[6]
-        Label(dash_screen, text = "LRL = " + user_lrl).place(x=0,y=165)
-        Label(dash_screen, text = "URL = " + user_url).place(x=0,y=180)
-        Label(dash_screen, text = "AA = " + user_aa).place(x=0,y=195)
-        Label(dash_screen, text = "APW = " + user_apw).place(x=0,y=210)
-        Button(dash_screen, text = 'edit selections', command = edit_selections).place(x=0,y=225)
-    elif user_mode == "VOO"+ '\n':
-        user_lrl = filelines[3]
-        user_url = filelines[4]
-        user_va = filelines[5]
-        user_vpw = filelines[6]
-        Label(dash_screen, text = "LRL = " + user_lrl).place(x=0,y=165)
-        Label(dash_screen, text = "URL = " + user_url).place(x=0,y=180)
-        Label(dash_screen, text = "VA = " + user_va).place(x=0,y=195)
-        Label(dash_screen, text = "VPW = " + user_vpw).place(x=0,y=210)
-        Button(dash_screen, text = 'edit selections', command = edit_selections).place(x=0,y=225)
+    if VOOLocation != -1:
+        user_lrl = filelines[VOOLocation+1]
+        user_url = filelines[VOOLocation+2]
+        user_va = filelines[VOOLocation+3]
+        user_vpw = filelines[VOOLocation+4]
+        Label(dash_screen, text = "VOO:").place(x= 0 + xOffset*xOffsetIncrement,y=150)
+        Label(dash_screen, text = "LRL = " + user_lrl).place(x= 0 + xOffset*xOffsetIncrement,y=165)
+        Label(dash_screen, text = "URL = " + user_url).place(x= 0 + xOffset*xOffsetIncrement,y=180)
+        Label(dash_screen, text = "VA = " + user_va).place(x= 0 + xOffset*xOffsetIncrement,y=195)
+        Label(dash_screen, text = "VPW = " + user_vpw).place(x= 0 + xOffset*xOffsetIncrement,y=210)
+        xOffset = xOffset+1
         
-    elif user_mode == "AAI"+ '\n':
-        user_lrl = filelines[3]
-        user_url = filelines[4]
-        user_aa = filelines[5]
-        user_apw = filelines[6]
-        user_as = filelines[7]
-        user_arp = filelines[8]
-        user_pvarp = filelines[9]
-        user_hyster = filelines[10]
-        user_smooth = filelines[11]
-        Label(dash_screen, text = "LRL = " + user_lrl).place(x=0,y=165)
-        Label(dash_screen, text = "URL = " + user_url).place(x=0,y=180)
-        Label(dash_screen, text = "AA = " + user_aa).place(x=0,y=195)
-        Label(dash_screen, text = "APW = " + user_apw).place(x=0,y=210)
-        Label(dash_screen, text = "AS = " + user_as).place(x=0,y=225)
-        Label(dash_screen, text = "ARP = " + user_arp).place(x=0,y=240)
-        Label(dash_screen, text = "PVARP = " + user_pvarp).place(x=0,y=255)
-        Label(dash_screen, text = "HYSTER= " + user_hyster).place(x=0,y=270)
-        Label(dash_screen, text = "SMOOTH = " + user_smooth).place(x=0,y=285)
-        Button(dash_screen, text = 'edit selections', command = edit_selections).place(x=0,y=300)
+    if AAILocation != -1:
+        user_lrl = filelines[AAILocation+1]
+        user_url = filelines[AAILocation+2]
+        user_aa = filelines[AAILocation+3]
+        user_apw = filelines[AAILocation+4]
+        user_as = filelines[AAILocation+5]
+        user_arp = filelines[AAILocation+6]
+        user_pvarp = filelines[AAILocation+7]
+        user_hyster = filelines[AAILocation+8]
+        user_smooth = filelines[AAILocation+9]
+        Label(dash_screen, text = "AAI:").place(x= 0 + xOffset*xOffsetIncrement,y=150)
+        Label(dash_screen, text = "LRL = " + user_lrl).place(x= 0 + xOffset*xOffsetIncrement,y=165)
+        Label(dash_screen, text = "URL = " + user_url).place(x= 0 + xOffset*xOffsetIncrement,y=180)
+        Label(dash_screen, text = "AA = " + user_aa).place(x= 0 + xOffset*xOffsetIncrement,y=195)
+        Label(dash_screen, text = "APW = " + user_apw).place(x= 0 + xOffset*xOffsetIncrement,y=210)
+        Label(dash_screen, text = "AS = " + user_as).place(x= 0 + xOffset*xOffsetIncrement,y=225)
+        Label(dash_screen, text = "ARP = " + user_arp).place(x= 0 + xOffset*xOffsetIncrement,y=240)
+        Label(dash_screen, text = "PVARP = " + user_pvarp).place(x= 0 + xOffset*xOffsetIncrement,y=255)
+        Label(dash_screen, text = "HYSTER= " + user_hyster).place(x= 0 + xOffset*xOffsetIncrement,y=270)
+        Label(dash_screen, text = "SMOOTH = " + user_smooth).place(x= 0 + xOffset*xOffsetIncrement,y=285)
+        xOffset = xOffset+1
         
-    elif user_mode == "VVI"+ '\n':
-        user_lrl = filelines[3]
-        user_url = filelines[4]
-        user_va = filelines[5]
-        user_vpw = filelines[6]
-        user_vs = filelines[7]
-        user_vrp = filelines[8]
-        user_hyster = filelines[9]
-        user_smooth = filelines[10]
-        Label(dash_screen, text = "LRL = " + user_lrl).place(x=0,y=165)
-        Label(dash_screen, text = "URL = " + user_url).place(x=0,y=180)
-        Label(dash_screen, text = "VA = " + user_va).place(x=0,y=195)
-        Label(dash_screen, text = "VPW = " + user_vpw).place(x=0,y=210)
-        Label(dash_screen, text = "VS = " + user_vs).place(x=0,y=225)
-        Label(dash_screen, text = "VRP = " + user_vrp).place(x=0,y=240)
-        Label(dash_screen, text = "HYSTER= " + user_hyster).place(x=0,y=270)
-        Label(dash_screen, text = "SMOOTH = " + user_smooth).place(x=0,y=285)
-        Button(dash_screen, text = 'edit selections', command = edit_selections).place(x=0,y=300)
-        
-        
+    if VVILocation != -1:
+        user_lrl = filelines[VVILocation+1]
+        user_url = filelines[VVILocation+2]
+        user_va = filelines[VVILocation+3]
+        user_vpw = filelines[VVILocation+4]
+        user_vs = filelines[VVILocation+5]
+        user_vrp = filelines[VVILocation+6]
+        user_hyster = filelines[VVILocation+7]
+        user_smooth = filelines[VVILocation+8]
+        Label(dash_screen, text = "VVI:").place(x= 0 + xOffset*xOffsetIncrement,y=150)
+        Label(dash_screen, text = "LRL = " + user_lrl).place(x= 0 + xOffset*xOffsetIncrement,y=165)
+        Label(dash_screen, text = "URL = " + user_url).place(x= 0 + xOffset*xOffsetIncrement,y=180)
+        Label(dash_screen, text = "VA = " + user_va).place(x= 0 + xOffset*xOffsetIncrement,y=195)
+        Label(dash_screen, text = "VPW = " + user_vpw).place(x= 0 + xOffset*xOffsetIncrement,y=210)
+        Label(dash_screen, text = "VS = " + user_vs).place(x= 0 + xOffset*xOffsetIncrement,y=225)
+        Label(dash_screen, text = "VRP = " + user_vrp).place(x= 0 + xOffset*xOffsetIncrement,y=240)
+        Label(dash_screen, text = "HYSTER= " + user_hyster).place(x= 0 + xOffset*xOffsetIncrement,y=270)
+        Label(dash_screen, text = "SMOOTH = " + user_smooth).place(x= 0 + xOffset*xOffsetIncrement,y=285)
+
+        xOffset = xOffset+1
+    Button(dash_screen, text = 'edit selections', command = edit_selections).place(x= 0,y=300)        
     
 
 
