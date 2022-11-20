@@ -239,8 +239,8 @@ def AOO_selections():
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     AOO_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     AOO_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
-    AOO_screen.addInputBox([0.5,3.2,3.5,7],[0.1,0.5,0.5],"A Pulse Amplitude (V) ",3.5,TRUE)
-    AOO_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"A Pulse Width (ms) ",0.4)
+    AOO_screen.addInputBox([0.1,5],[0.1],"A Pulse Amplitude (V) ",5,TRUE)
+    AOO_screen.addInputBox([1,30],[1],"A Pulse Width (ms) ",1)
     #AOO_screen.addInputBox([150,500],[10],"A Refractory Period (ms) ",320) #just for testing
     AOO_screen.open()
     main_account_screen()
@@ -251,8 +251,8 @@ def VOO_selections(): ##literally the same as AOO except with some varible names
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     VOO_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     VOO_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
-    VOO_screen.addInputBox([0.5,3.2,3.5,7],[0.1,0.5,0.5],"V Pulse Amplitude (V) ",3.5,TRUE)
-    VOO_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"V Pulse Width (ms) ",0.4)
+    VOO_screen.addInputBox([0.1,5],[0.1],"V Pulse Amplitude (V) ",5,TRUE)
+    VOO_screen.addInputBox([1,30],[1],"V Pulse Width (ms) ",1)
     VOO_screen.open()   
     main_account_screen()           
 def AAI_selections():
@@ -261,10 +261,10 @@ def AAI_selections():
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     AAI_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     AAI_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
-    AAI_screen.addInputBox([0.5,3.2,3.5,7],[0.1,0.5,0.5],"A Pulse Amplitude (V) ",3.5,TRUE)
-    AAI_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"A Pulse Width (ms) ",0.4)
-    AAI_screen.addInputBox([0.25,1,10],[0.25,0.5],"A Sensitivity (ms) ",0.75) #swap for VVI
-    AAI_screen.addInputBox([150,500],[10],"A Refractory Period (ms) ",250) #swap for VVI
+    AAI_screen.addInputBox([0.1,5],[0.1],"A Pulse Amplitude (V) ",5,TRUE)
+    AAI_screen.addInputBox([1,30],[1],"A Pulse Width (ms) ",1)
+    AAI_screen.addInputBox([0,5],[0.1],"A Sensitivity (ms) ",0) 
+    AAI_screen.addInputBox([150,500],[10],"A Refractory Period (ms) ",250) 
     AAI_screen.addInputBox([30,50,90,175],[5,1,5],"Hysteresis Rate Limit (ms) ","OFF",TRUE) #same as LRL
     AAI_screen.addInputBox([3,21,25],[3,5],"Rate Smoothing (%)","OFF",TRUE) #edgecase needs testing 
     AAI_screen.addInputBox([150,500],[10],"PVARP (ms)",250,TRUE) #edgecase needs testing 
@@ -276,9 +276,9 @@ def VVI_selections():
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     AAI_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     AAI_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
-    AAI_screen.addInputBox([0.5,3.2,3.5,7],[0.1,0.5,0.5],"V Pulse Amplitude (V) ",3.5,TRUE)
-    AAI_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"V Pulse Width (ms) ",0.4)
-    AAI_screen.addInputBox([0.25,1,10],[0.25,0.5],"V Sensitivity (ms) ",2.5) #swap for VVI
+    AAI_screen.addInputBox([0.1,5],[0.1],"V Pulse Amplitude (V) ",5,TRUE)
+    AAI_screen.addInputBox([1,30],[1],"V Pulse Width (ms) ",1)
+    AAI_screen.addInputBox([0,5],[0.1],"V Sensitivity (ms) ",0) 
     AAI_screen.addInputBox([150,500],[10],"V Refractory Period (ms) ",320) #swap for VVI
     AAI_screen.addInputBox([30,50,90,175],[5,1,5],"Hysteresis Rate Limit (ms) ","OFF",TRUE) #same as LRL
     AAI_screen.addInputBox([3,21,25],[3,5],"Rate Smoothing (%)","OFF",TRUE) #edgecase needs testing 
