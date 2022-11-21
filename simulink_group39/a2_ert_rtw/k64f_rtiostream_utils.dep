@@ -1,0 +1,11 @@
+k64f_rtiostream_utils.o: \
+ C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/src/k64f_rtiostream_utils.c \
+ C:/Program\ Files/MATLAB/R2022a/toolbox/coder/rtiostream/src/utils/rtiostream_utils.h \
+ C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/rtwtypes.h \
+ C:/Program\ Files/MATLAB/R2022a/toolbox/coder/rtiostream/src/rtiostream.h
+
+C:/Program\ Files/MATLAB/R2022a/toolbox/coder/rtiostream/src/utils/rtiostream_utils.h:
+
+C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/rtwtypes.h:
+
+C:/Program\ Files/MATLAB/R2022a/toolbox/coder/rtiostream/src/rtiostream.h:

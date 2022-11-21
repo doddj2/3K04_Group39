@@ -1,0 +1,11 @@
+assignment_1_tgtconn.o: \
+ C:/Users/zaree/Desktop/PERSON~1/PERSON~1/3K04_G~1/SIMULI~1/assignment_1_ert_rtw/assignment_1_tgtconn.c \
+ C:/Users/zaree/Desktop/PERSON~1/PERSON~1/3K04_G~1/SIMULI~1/assignment_1_ert_rtw/rtwtypes.h \
+ C:/Program\ Files/MATLAB/R2022a/extern/include/RTIOStreamTgtAppSvc/RTIOStreamTgtAppSvcCIntrf.h \
+ C:/Program\ Files/MATLAB/R2022a/extern/include/RTIOStreamTgtAppSvc/RTIOStreamTgtAppSvc_dll.hpp
+
+C:/Users/zaree/Desktop/PERSON~1/PERSON~1/3K04_G~1/SIMULI~1/assignment_1_ert_rtw/rtwtypes.h:
+
+C:/Program\ Files/MATLAB/R2022a/extern/include/RTIOStreamTgtAppSvc/RTIOStreamTgtAppSvcCIntrf.h:
+
+C:/Program\ Files/MATLAB/R2022a/extern/include/RTIOStreamTgtAppSvc/RTIOStreamTgtAppSvc_dll.hpp:

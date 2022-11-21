@@ -1,0 +1,55 @@
+a2.o: C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/a2.c \
+ C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/a2.h \
+ C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/rtwtypes.h \
+ C:/Program\ Files/MATLAB/R2022a/simulink/include/rtw_extmode.h \
+ C:/Program\ Files/MATLAB/R2022a/simulink/include/sysran_types.h \
+ C:/Program\ Files/MATLAB/R2022a/rtw/c/src/dt_info.h \
+ C:/Program\ Files/MATLAB/R2022a/rtw/c/src/ext_mode/common/ext_work.h \
+ C:/Program\ Files/MATLAB/R2022a/rtw/c/src/ext_mode/common/ext_types.h \
+ C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_digitalIO.h \
+ C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_SVD.h \
+ C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/rtwtypes.h \
+ C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_I2C.h \
+ C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_PWM.h \
+ C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/a2_types.h \
+ C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_SVD.h \
+ C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/a2_private.h \
+ C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/multiword_types.h \
+ C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/a2_dt.h \
+ C:/Program\ Files/MATLAB/R2022a/rtw/c/src/ext_mode/common/ext_types.h
+
+C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/a2.h:
+
+C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/rtwtypes.h:
+
+C:/Program\ Files/MATLAB/R2022a/simulink/include/rtw_extmode.h:
+
+C:/Program\ Files/MATLAB/R2022a/simulink/include/sysran_types.h:
+
+C:/Program\ Files/MATLAB/R2022a/rtw/c/src/dt_info.h:
+
+C:/Program\ Files/MATLAB/R2022a/rtw/c/src/ext_mode/common/ext_work.h:
+
+C:/Program\ Files/MATLAB/R2022a/rtw/c/src/ext_mode/common/ext_types.h:
+
+C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_digitalIO.h:
+
+C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_SVD.h:
+
+C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/rtwtypes.h:
+
+C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_I2C.h:
+
+C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_PWM.h:
+
+C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/a2_types.h:
+
+C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_SVD.h:
+
+C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/a2_private.h:
+
+C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/multiword_types.h:
+
+C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/a2_dt.h:
+
+C:/Program\ Files/MATLAB/R2022a/rtw/c/src/ext_mode/common/ext_types.h:
