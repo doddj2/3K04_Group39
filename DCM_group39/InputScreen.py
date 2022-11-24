@@ -1,6 +1,9 @@
 from tkinter import *
 from tkinter import ttk
+<<<<<<< HEAD
 import tkinter
+=======
+>>>>>>> 87b424c1589ec7e5ed788b4958d26c6317d0b04f
 from combineFuncs import combine_funcs
 from combineFuncs import roundToNearest
 import io
@@ -52,6 +55,7 @@ class InputScreenClass:
         LRL = -1
         URL = -1
         Refractory = -1
+<<<<<<< HEAD
         var = 0
         compare = type(DropBox(self.screen,'default name','default display',['1','2']))
         while(i < self.numberOfInputs):
@@ -78,6 +82,25 @@ class InputScreenClass:
                             return
             i = i+1
             var = 0
+=======
+        while(i < self.numberOfInputs):
+            if(not(self.InputBoxes[i].getOrRound(self.warningLabel))): #if invalid, return and stop checking, don't save
+                return
+            if(self.InputBoxes[i].isLRL):
+                LRL = i
+            if(self.InputBoxes[i].isURL):
+                URL = i
+            if(self.InputBoxes[i].isRefractory):
+                Refractory = i
+            if( (LRL > -1)): #compare URL to LRL, if URL greater, stop doing stuff
+                if(URL > -1):
+                    if(self.edgeCaseCompare("LRL",self.InputBoxes[LRL],self.InputBoxes[URL])):
+                        return
+                if(Refractory > -1):
+                    if(self.edgeCaseCompare("Refractory",self.InputBoxes[LRL],self.InputBoxes[Refractory])):
+                        return
+            i = i+1
+>>>>>>> 87b424c1589ec7e5ed788b4958d26c6317d0b04f
         self.warningLabel.config(bg="green", text="All valid values!")
         self.writeSelfToFile(self.whereToSave)
     
@@ -110,6 +133,7 @@ class InputScreenClass:
         self.InputBoxes[self.numberOfInputs].inputLabel.place(x=20, y=50+self.numberOfInputs*18) #place the corresponding label according to how far down the box is
         self.InputBoxes[self.numberOfInputs].default()
         self.numberOfInputs = self.numberOfInputs+1
+<<<<<<< HEAD
 
     def addDropBox(self,name,defaultDisplay,value_list):
 
@@ -129,6 +153,8 @@ class InputScreenClass:
 
 
 
+=======
+>>>>>>> 87b424c1589ec7e5ed788b4958d26c6317d0b04f
     def __init__(self,name,whereToSave):
         self.name = str(name)
         self.whereToSave = whereToSave
@@ -142,6 +168,10 @@ class InputScreenClass:
         self.warningLabel = Label(self.screen, text="")
         self.warningLabel.pack(side=BOTTOM, padx=0, pady=0, anchor='n')
         self.warningLabel.config(text = "testing")
+<<<<<<< HEAD
+=======
+        #self.addInputBox()
+>>>>>>> 87b424c1589ec7e5ed788b4958d26c6317d0b04f
     def confirmationButton(self):
         WarningScreen = Tk()
         WarningScreen.title("Data Saved Successfully")
@@ -149,6 +179,7 @@ class InputScreenClass:
         Label(WarningScreen, text=("Data Saved Successfully - heading back to main menu"), bg="#58FF33", width="100", height="2", font=("Comic Sans", 13)).pack()
         Button(WarningScreen, text = "Confirm", command = combine_funcs(self.close,WarningScreen.destroy)).pack()
         WarningScreen.mainloop() 
+<<<<<<< HEAD
 class DropBox:
     def __init__(self, screen, name,defaultDisplay, value_list):
         self.value_list = value_list
@@ -161,6 +192,9 @@ class DropBox:
     def configLabel(self, name):
         self.inputLabel.config(text="Selection of " + name + ": ")
         
+=======
+
+>>>>>>> 87b424c1589ec7e5ed788b4958d26c6317d0b04f
 class InputBox:
     def __init__(self,screen,ranges,increments,name,defaultDisplay, offValid):
         self.ranges = ranges

@@ -90,33 +90,53 @@ def register_user():
     password_info = password.get()
     confirm_info = confirm.get()
     tally = 0
+    error = 0
     files = os.listdir()
     
+    invalid_list = ['CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9', ' ', '.','<','>',':','\"','/','\\', '|', '?','*', 'NULL', '', '!']
     for i in files:
         tally = tally + 1
-    if tally <= 11:
- 
+
+    for i in invalid_list:
+            if username_info == i:
+                invalid_filename_error()
+                error = 1
+
+    for i in files:
+            if username_info == i:
+                overwrite_error()
+                error = 1
+
+    if tally <= 100: #this must be changed at very end of project to acommidate all files in folder
+                
         if password_info != confirm_info:
             password_not_matched()
+
+        if password_info == '' and username_info != '':
+            password_not_present()
+
+
         else:
-            global file
-            file = open(username_info, "w")
-            file.write(username_info + "\n")
-            file.write(password_info + "\n")
-            file.close()
+            if error == 0:
+                global file
+                file = open(username_info, "w")
+                file.write(username_info + "\n")
+                file.write(password_info + "\n")
+
  
-            username_entry.delete(0, END)
-            password_entry.delete(0, END)
-            confirm_entry.delete(0, END)
- 
-            Label(register_screen, text="Success", fg="green", font=("calibri", 11)).pack()
-            delete_register_screen()
-            delete_main_screen()
-            select_mode_register()
+                username_entry.delete(0, END)
+                password_entry.delete(0, END)
+                confirm_entry.delete(0, END)
+
+                Label(register_screen, text="Success", fg="green", font=("calibri", 11)).pack()
+                delete_register_screen()
+                delete_main_screen()
+                select_mode_register()
+            
     else:
         max_users()
 
-            
+             
 # allow new user to pick mode
 def select_mode_register():
     global i
@@ -239,13 +259,8 @@ def AOO_selections():
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     AOO_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     AOO_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
-<<<<<<< HEAD
     AOO_screen.addInputBox([0.5,3.2,3.5,7],[0.1,0.5,0.5],"A Pulse Amplitude (V) ",3.5,TRUE)
     AOO_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"A Pulse Width (ms) ",0.4)
-=======
-    AOO_screen.addInputBox([0.1,5],[0.1],"A Pulse Amplitude (V) ",5,TRUE)
-    AOO_screen.addInputBox([1,30],[1],"A Pulse Width (ms) ",1)
->>>>>>> 87b424c1589ec7e5ed788b4958d26c6317d0b04f
     #AOO_screen.addInputBox([150,500],[10],"A Refractory Period (ms) ",320) #just for testing
     AOO_screen.open()
     main_account_screen()
@@ -256,13 +271,8 @@ def VOO_selections(): ##literally the same as AOO except with some varible names
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     VOO_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     VOO_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
-<<<<<<< HEAD
     VOO_screen.addInputBox([0.5,3.2,3.5,7],[0.1,0.5,0.5],"V Pulse Amplitude (V) ",3.5,TRUE)
     VOO_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"V Pulse Width (ms) ",0.4)
-=======
-    VOO_screen.addInputBox([0.1,5],[0.1],"V Pulse Amplitude (V) ",5,TRUE)
-    VOO_screen.addInputBox([1,30],[1],"V Pulse Width (ms) ",1)
->>>>>>> 87b424c1589ec7e5ed788b4958d26c6317d0b04f
     VOO_screen.open()   
     main_account_screen()           
 def AAI_selections():
@@ -271,17 +281,10 @@ def AAI_selections():
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     AAI_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     AAI_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
-<<<<<<< HEAD
     AAI_screen.addInputBox([0.5,3.2,3.5,7],[0.1,0.5,0.5],"A Pulse Amplitude (V) ",3.5,TRUE)
     AAI_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"A Pulse Width (ms) ",0.4)
     AAI_screen.addInputBox([0.25,1,10],[0.25,0.5],"A Sensitivity (ms) ",0.75) #swap for VVI
     AAI_screen.addInputBox([150,500],[10],"A Refractory Period (ms) ",250) #swap for VVI
-=======
-    AAI_screen.addInputBox([0.1,5],[0.1],"A Pulse Amplitude (V) ",5,TRUE)
-    AAI_screen.addInputBox([1,30],[1],"A Pulse Width (ms) ",1)
-    AAI_screen.addInputBox([0,5],[0.1],"A Sensitivity (ms) ",0) 
-    AAI_screen.addInputBox([150,500],[10],"A Refractory Period (ms) ",250) 
->>>>>>> 87b424c1589ec7e5ed788b4958d26c6317d0b04f
     AAI_screen.addInputBox([30,50,90,175],[5,1,5],"Hysteresis Rate Limit (ms) ","OFF",TRUE) #same as LRL
     AAI_screen.addInputBox([3,21,25],[3,5],"Rate Smoothing (%)","OFF",TRUE) #edgecase needs testing 
     AAI_screen.addInputBox([150,500],[10],"PVARP (ms)",250,TRUE) #edgecase needs testing 
@@ -293,15 +296,9 @@ def VVI_selections():
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     AAI_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     AAI_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
-<<<<<<< HEAD
     AAI_screen.addInputBox([0.5,3.2,3.5,7],[0.1,0.5,0.5],"V Pulse Amplitude (V) ",3.5,TRUE)
     AAI_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"V Pulse Width (ms) ",0.4)
     AAI_screen.addInputBox([0.25,1,10],[0.25,0.5],"V Sensitivity (ms) ",2.5) #swap for VVI
-=======
-    AAI_screen.addInputBox([0.1,5],[0.1],"V Pulse Amplitude (V) ",5,TRUE)
-    AAI_screen.addInputBox([1,30],[1],"V Pulse Width (ms) ",1)
-    AAI_screen.addInputBox([0,5],[0.1],"V Sensitivity (ms) ",0) 
->>>>>>> 87b424c1589ec7e5ed788b4958d26c6317d0b04f
     AAI_screen.addInputBox([150,500],[10],"V Refractory Period (ms) ",320) #swap for VVI
     AAI_screen.addInputBox([30,50,90,175],[5,1,5],"Hysteresis Rate Limit (ms) ","OFF",TRUE) #same as LRL
     AAI_screen.addInputBox([3,21,25],[3,5],"Rate Smoothing (%)","OFF",TRUE) #edgecase needs testing 
@@ -354,6 +351,22 @@ def max_users():
     max_users_screen.geometry("150x100")
     Label(max_users_screen, text="max # of users reached").pack()
     Button(max_users_screen, text="OK", command=delete_max_users_screen).pack()
+
+def invalid_filename_error():
+    global invalid_fileame_error_screen
+    invalid_fileame_error_screen = Toplevel(register_screen)
+    invalid_fileame_error_screen.title("error")
+    invalid_fileame_error_screen.geometry("150x100")
+    Label(invalid_fileame_error_screen, text="Username is Invalid").pack()
+    Button(invalid_fileame_error_screen, text="OK", command=delete_invalid_fileame_error).pack()
+
+def overwrite_error():
+    global overwrite_error_screen
+    overwrite_error_screen = Toplevel(register_screen)
+    overwrite_error_screen.title("error")
+    overwrite_error_screen.geometry("150x100")
+    Label(overwrite_error_screen, text="Username is already in use").pack()
+    Button(overwrite_error_screen, text="OK", command=delete_overwrite_error).pack()
     
  
 # Designing popup for login invalid password
@@ -374,6 +387,14 @@ def password_not_matched():
     password_not_matched_screen.geometry("150x100")
     Label(password_not_matched_screen, text="Passwords do not match ").pack()
     Button(password_not_matched_screen, text="OK", command=delete_password_not_matched).pack()
+
+def password_not_present():
+    global password_not_present_screen
+    password_not_present_screen = Toplevel(register_screen)
+    password_not_present_screen.title("error")
+    password_not_present_screen.geometry("150x100")
+    Label(password_not_present_screen, text="A password is required").pack()
+    Button(password_not_present_screen, text="OK", command=delete_password_not_present).pack()
  
 # Designing popup for user not found
  
@@ -398,6 +419,9 @@ def delete_login_success():
     
 def delete_password_not_matched():
     password_not_matched_screen.destroy()
+
+def delete_password_not_present():
+    password_not_present_screen.destroy()
  
  
 def delete_password_not_recognised():
@@ -406,6 +430,12 @@ def delete_password_not_recognised():
  
 def delete_user_not_found_screen():
     user_not_found_screen.destroy()
+
+def delete_overwrite_error():
+    overwrite_error_screen.destroy()
+
+def delete_invalid_fileame_error():
+    invalid_fileame_error_screen.destroy()
 
 def delete_max_users_screen():
     max_users_screen.destroy()
