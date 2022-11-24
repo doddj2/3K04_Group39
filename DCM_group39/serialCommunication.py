@@ -1,55 +1,80 @@
 import serial
 import serial.tools.list_ports
 import struct
+defVal = -1
+#add default values for AA onwards
+#this file is the one you spit data to send 
+def sendToSimulink(FnCode,mode,ppm,url,AA=defVal,APW=defVal,AST=defVal,VA=defVal,VPW=defVal,VST=defVal,sVRP=defVal,sARP=defVal,sPVARP=defVal,sMSR=defVal,reactionTime=defVal,responseFactor=defVal,recoveryTime=defVal,activityThreshold=defVal):
+    # Mac ports, for windows you have to find the ports yourself
+    frdm_port = "COM7" #need to update com with actual testing
+    #inputs that go into Serial Communication 
+    #inputs will be just 'test' values for now
+    #B is for uint 8
+    #H is for uint16
+    #f is for float
+    Start = struct.pack("B",16)
+    SYNC = struct.pack("B",69) #start of data packet
+    Fn_code = struct.pack("B",FnCode) #defines behavior, parameters, echo, egrams or estop
 
-# Mac ports, for windows you have to find the ports yourself
-frdm_port = "COM7" #need to update com with actual testing
+    mode = struct.pack("B", mode)
+    ppm = struct.pack("B", ppm) #LRL equivalent
+    Upper_rate_limit = struct.pack("B", url)
+    Atrial_Amplitude = struct.pack("f", AA)
+    Atrial_Pulse_Width = struct.pack("f", APW) #change datatype?
+    Atrial_Sense_Threshold = struct.pack("H", AST) #is this 'A sensitivity'? 
+    Ventricular_Amplitude = struct.pack("f", VA)
+    Ventricular_Pulse_Width = struct.pack("f", VPW) #change datatype?
+    Ventricule_Sense_Threshold = struct.pack("f", VST) #is this 'V sensitivity'? 
+    VRP = struct.pack("H", sVRP)
+    ARP = struct.pack("H", sARP)
+    PVARP = struct.pack("H", sPVARP) #explain what pvarp is 
+    MSR =  struct.pack("B", sMSR) #what is this? 
+    reaction_time = struct.pack("B", reactionTime) #and below? I don't 
+    response_factor = struct.pack("B", responseFactor) #currently recognize it from anything 
+    recovery_time = struct.pack("B", recoveryTime) #in the DCM. Is that something we need to implement?
+    ActivityThreshold = struct.pack("B", activityThreshold)
 
-Start = struct.pack("B",16)
-SYNC = struct.pack("B",22)
-Fn_set = struct.pack("B",55) #is this neccessary? It was on the example stuff 
-#inputs that go into Serial Communication 
-#inputs will be just 'test' values for now
-#B is for uint 8
-#H is for uint16
-#f is for float
-mode = struct.pack("B", 1)
-ppm = struct.pack("B", 0) #LRL equivalent
-Upper_rate_limit = struct.pack("B", 1)
-Atrial_Amplitude = struct.pack("f", 3.1415926)
-Atrial_Pulse_Width = struct.pack("f", 500)
-Atrial_Sense_Threshold = struct.pack("H", 500) #is this 'A sensitivity'? 
-Ventricular_Amplitude = struct.pack("f", 500)
-Ventricular_Pulse_Width = struct.pack("f", 500)
-Ventricule_Sense_Threshold = struct.pack("f", 500) #is this 'V sensitivity'? 
-VRP = struct.pack("H", 500)
-ARP = struct.pack("H", 500)
-PVARP = struct.pack("H", 500)
-MSR =  struct.pack("H", 500) #what is this? 
-reaction_time = struct.pack("H", 500) #and below? I don't 
-response_factor = struct.pack("H", 500) #currently recognize it from anything 
-recovery_time = struct.pack("H", 500) #in the DCM. Is that something we need to implement?
-ActivityThreshold = struct.pack("H", 500)
+    #broken up like this for the sake of readability and testing
+    Signal_set = Start + Fn_code + mode + ppm + Upper_rate_limit + Atrial_Amplitude + Atrial_Pulse_Width + Atrial_Sense_Threshold 
+    Signal_set = Signal_set + Ventricular_Amplitude + Ventricular_Pulse_Width + Ventricule_Sense_Threshold 
+    Signal_set = Signal_set + VRP + ARP + PVARP + MSR
+    Signal_set = Signal_set + reaction_time + response_factor + recovery_time + ActivityThreshold
 
+    Signal_echo = Start + SYNC + mode + ppm + Upper_rate_limit + Atrial_Amplitude + Atrial_Pulse_Width + Atrial_Sense_Threshold 
+    Signal_echo = Signal_echo + Ventricular_Amplitude + Ventricular_Pulse_Width + Ventricule_Sense_Threshold 
+    Signal_echo = Signal_echo + VRP + ARP + PVARP + MSR
+    Signal_echo = Signal_echo + reaction_time + response_factor + recovery_time + ActivityThreshold
 
-Signal_set = Start + Fn_set + red_en + green_en + blue_en + off_time + switch_time
-Signal_echo = Start + SYNC + red_en + green_en + blue_en + off_time + switch_time
+    with serial.Serial(frdm_port, 115200) as pacemaker:
+        pacemaker.write(Signal_set)
 
-with serial.Serial(frdm_port, 115200) as pacemaker:
-    pacemaker.write(Signal_set)
-
-with serial.Serial(frdm_port, 115200) as pacemaker:
-    pacemaker.write(Signal_echo)
+    with serial.Serial(frdm_port, 115200) as pacemaker:
+        pacemaker.write(Signal_echo)
     data = pacemaker.read(9)
-    red_rev = data[0]
-    green_rev = data[1]
-    blue_rev = data[2]
-    off_rev =  struct.unpack("f", data[3:7])[0]
-    switch_rev =  struct.unpack("H", data[7:9])[0]
-
-print("From the board:")
-print("red_en = ", red_rev)
-print("green_en = ", green_rev)
-print("blue_en = ", blue_rev)
-print("off_time = ",  off_rev)
-print("switch_time = ", switch_rev)
+    mode = data[0]
+    ppm = data[1]
+    Upper_rate_limit = data[2]
+    Atrial_Amplitude = data[3]
+    Atrial_Pulse_Width = data[4]#change datatype?
+    Atrial_Sense_Threshold = data[5] #is this 'A sensitivity'? 
+    Ventricular_Amplitude = data[6]
+    Ventricular_Pulse_Width = data[7] #change datatype?
+    Ventricule_Sense_Threshold = data[8] #is this 'V sensitivity'? 
+    VRP = data[9]
+    ARP = data[10]
+    PVARP = data[11] #explain what pvarp is 
+    MSR =  data[12] #what is this? 
+    reaction_time = data[13] #and below? I don't 
+    response_factor = data[14] #currently recognize it from anything 
+    recovery_time = data[15] #in the DCM. Is that something we need to implement?
+    ActivityThreshold = data[16]
+    # off_rev =  struct.unpack("f", data[3:7])[0]
+    # switch_rev =  struct.unpack("H", data[7:9])[0]
+    print("From the board:") #more values for testing later
+    print("mode = ", mode)
+    print("ppm = ", ppm)
+    print("URL = ", Upper_rate_limit)
+    print("Atrial Amp = ",  Atrial_Amplitude)
+    print("Atrial Pulse Width = ", Atrial_Pulse_Width)
+    #skip to end - if all this data has lined up correctly, activity threshold should be what is input.
+    print("Activity Threshold = ", ActivityThreshold)

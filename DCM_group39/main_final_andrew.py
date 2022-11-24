@@ -8,6 +8,7 @@ import tkinter
 import InputScreen
 from combineFuncs import combine_funcs
 from combineFuncs import roundToNearest
+from serialCommunication import sendToSimulink
 #global constants
 
 #registration
@@ -304,6 +305,47 @@ def VVI_selections():
     AAI_screen.addInputBox([3,21,25],[3,5],"Rate Smoothing (%)","OFF",TRUE) #edgecase needs testing 
     AAI_screen.open()
     main_account_screen()   
+
+def loadAndSend(mode, loadFrom):
+    with open(loadFrom, 'r') as file:
+            data = file.readlines()
+            file.close()
+    #FNCode? 
+    if(mode == "AOO"):
+        dataLocation = data.index(str((mode+"\n"))) 
+        LRL = int(data[dataLocation+1]) #lrl in units of ppm
+        URL = int(data[dataLocation+2])
+        APA = float(data[dataLocation+3])
+        APW = float(data[dataLocation+4])
+        #for whatever reason DCM goes in the order 
+    #AOO, VOO, AAI, VVI while simulink does VOO, AOO,VVI,AAI with modes 0,1,2,3 respectively
+        sendToSimulink(0,1,LRL,URL,APA,APW)  
+        return
+    if(mode == "VOO"):
+        dataLocation = data.index(str((mode+"\n"))) 
+        LRL = int(data[dataLocation+1]) #lrl in units of ppm
+        URL = int(data[dataLocation+2])
+        VPA = float(data[dataLocation+3])
+        VPW = float(data[dataLocation+4])
+        #for whatever reason DCM goes in the order 
+    #AOO, VOO, AAI, VVI while simulink does VOO, AOO,VVI,AAI with modes 0,1,2,3 respectively
+        sendToSimulink(0,1,LRL,URL,None,None,None,VPA,VPW) #ask how to implement or reimplement
+    if(mode == "AAI"):
+        dataLocation = data.index(str((mode+"\n"))) 
+        LRL = data[dataLocation+1] #lrl in units of ppm
+        URL = data[dataLocation+2]
+        APA = data[dataLocation+3]
+        APW = data[dataLocation+4]
+        LRL = data[dataLocation+1] 
+        URL = data[dataLocation+2]
+        APA = data[dataLocation+3]
+        APW = data[dataLocation+4]
+    if(mode == "VVI"):
+        dataLocation = data.index(str((mode+"\n"))) 
+        LRL = data[dataLocation+1] #translate to ppm? 
+        URL = data[dataLocation+2]
+        VPA = data[dataLocation+3]
+        VPW = data[dataLocation+4]
 
 def login_verify():
     username1 = username_verify.get()
@@ -621,9 +663,7 @@ def dashboard():
         xOffset = xOffset+1
     Button(dash_screen, text = 'edit selections', command = edit_selections).place(x= 0,y=300)        
     
-
-
-##TO DO: 2-make parameters save to file (probably same code for both), 3-add confirm button to parameters to update files 4- (andrew) make all parameters within guidelines and bound by eachother 5- read files to dashboard and allow edits from there
     
 #run start
+loadAndSend("VOO","a")
 main_account_screen()
