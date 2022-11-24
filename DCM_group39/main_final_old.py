@@ -1,5 +1,6 @@
 #import modules
 
+import serial
 from math import ceil
 from tkinter import *
 import os
@@ -91,7 +92,7 @@ def register_user():
     error = 0
     files = os.listdir()
     
-    invalid_list = ['CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9', ' ', '.','<','>',':','\"','/','\\', '|', '?','*', 'NULL', '']
+    invalid_list = ['CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9', ' ', '.','<','>',':','\"','/','\\', '|', '?','*', 'NULL', '', '!']
     for i in files:
         tally = tally + 1
 
@@ -101,7 +102,7 @@ def register_user():
                 error = 1
 
     for i in files:
-            if username_info == i: #typpppeeeeee its the fucking type 
+            if username_info == i:
                 overwrite_error()
                 error = 1
 
