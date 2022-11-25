@@ -32,20 +32,14 @@ class InputScreenClass:
             whereToWrite = len(data)      #write at end of file, which causes appending
         i = 0
         while(i < self.numberOfInputs):
-     #       print(type(self.InputBoxes[i]))  
-      #      if False:
-       #         print('no')            
-        #    else: 
-                if(isinstance(self.InputBoxes[i],DropBox)):
-                    DropBox.get()          
-                toSave = self.InputBoxes[i].box.get()              
-                if(len(data)<whereToWrite+i+1):
-                    data.append(toSave+ '\n')
-                else:
-                    data[whereToWrite+i+1]=(toSave+ '\n')
-                #file.write(str(toSave) + '\n')
-                print(toSave)
-                i=i+1
+            toSave = self.InputBoxes[i].get()              
+            if(len(data)<whereToWrite+i+1):
+                data.append(toSave+ '\n')
+            else:
+                data[whereToWrite+i+1]=(toSave+ '\n')
+            #file.write(str(toSave) + '\n')
+            print(toSave)
+            i=i+1
         print ("AFTER: \n")
         print (data)
         with open(whereToSave, 'w') as file:
@@ -58,31 +52,26 @@ class InputScreenClass:
         LRL = -1
         URL = -1
         Refractory = -1
-        var = 0
-        compare = type(DropBox(self.screen,'default name','default display',['1','2']))
         while(i < self.numberOfInputs):
-            if isinstance(self.InputBoxes[i],compare) == True :#gotta fix
-                
-                var = 1
-            if var == 0:
-                
-                if(not(self.InputBoxes[i].getOrRound(self.warningLabel))): #if invalid, return and stop checking, don't save
-                    return
-                if(self.InputBoxes[i].isLRL):
-                    LRL = i
-                if(self.InputBoxes[i].isURL):
-                    URL = i
-                if(self.InputBoxes[i].isRefractory):
-                    Refractory = i
-                if( (LRL > -1 )): #compare URL to LRL, if URL greater, stop doing stuff
-                    if(URL > -1):
-                        if(self.edgeCaseCompare("LRL",self.InputBoxes[LRL],self.InputBoxes[URL])):
-                            return
-                    if(Refractory > -1):
-                        if(self.edgeCaseCompare("Refractory",self.InputBoxes[LRL],self.InputBoxes[Refractory])):
-                            return
+            if(not(self.InputBoxes[i].getOrRound(self.warningLabel))): #if invalid, return and stop checking, don't save
+                return
+            if(self.InputBoxes[i].isLRL):
+                LRL = i
+            if(self.InputBoxes[i].isURL):
+                URL = i
+            if(self.InputBoxes[i].isRefractory):
+                Refractory = i
+            if( (LRL > -1 )): #compare URL to LRL, if URL greater, stop doing stuff
+                if(URL > -1):
+                    if(self.edgeCaseCompare("LRL",self.InputBoxes[LRL],self.InputBoxes[URL])):
+                        return
+                    else:
+                        URL = -1 # set it back to -1 so you don't keep checking
+                if(Refractory > -1):
+                    if(self.edgeCaseCompare("Refractory",self.InputBoxes[LRL],self.InputBoxes[Refractory])):
+                        return
+                    Refractory = -1 # set it back to -1 so you don't keep checking
             i = i+1
-            var = 0
         while(i < self.numberOfInputs):
             if(not(self.InputBoxes[i].getOrRound(self.warningLabel))): #if invalid, return and stop checking, don't save
                 return
@@ -107,7 +96,7 @@ class InputScreenClass:
         if(type == "LRL"):
            # comp2value = float(comp2.box.get()) #for debugging transparency
            # comp1value = float(comp1.box.get())
-            URLGreaterThanLRL = (float(comp2.box.get()) > float(comp1.box.get()))
+            URLGreaterThanLRL = (float(comp2.get()) > float(comp1.get()))
             if(not(URLGreaterThanLRL)):
                 self.warningLabel.config(bg="red", text="LRL must be lower than URL")
                 return TRUE
@@ -171,33 +160,31 @@ class InputScreenClass:
         WarningScreen.mainloop() 
 
 class DropBox:
-    def setValue(self):
-        self.value = self.drop_sel.get()
     def __init__(self, screen, name,defaultDisplay, value_list):
+        self.name = name
         self.value_list = value_list
         self.drop_sel= tkinter.StringVar(screen)
-        self.value = self.drop_sel.get()
+        self.value = self.drop_sel.get() 
         self.drop_sel.set(defaultDisplay)
-        self.box = OptionMenu(screen, self.drop_sel, *value_list,command=self.setValue)
+        self.box = OptionMenu(screen, self.drop_sel, *value_list)
         self.box.pack()
         self.inputLabel = Label(screen, text= name + " input:")
-    
-
-    def getValue(self):
-        return self.value
+        #flags for checks
+        self.isLRL = FALSE
+        self.isURL = FALSE
+        self.isRefractory = FALSE
+    def get(self):
+        return self.drop_sel.get()
     def configLabel(self, name):
         self.inputLabel.config(text="Selection of " + name + ": ")
 
     def getOrRound(self, errorLabel):
         print("getOrRound triggered for " + self.name)
-        toCheck = self.box.get()
-        self.box.delete(0, END)
-        self.box.insert(0, 'off')
+        toCheck = self.get()
+        #self.box.delete(0, END)
+        #self.box.insert(0, 'off')
         self.success(toCheck)
         return TRUE
-    #def get(self):
-       # value = self.box.
-        #return value
     def success(self,toCheck):
         print("success triggered for " + self.name + " on input value " + str(toCheck))
         if(str(toCheck).lower() =='off'):
@@ -219,6 +206,8 @@ class InputBox:
         self.isURL = ("URL" in self.name)
         self.isRefractory = ("Refractory" in self.name)
         #self.inputLabel.pack()
+    def get(self):
+        return self.box.get()
     def configLabel(self, name):
             self.inputLabel.config(text="Selection of " + name + ": ")
     def getOrRound(self,errorLabel): 
