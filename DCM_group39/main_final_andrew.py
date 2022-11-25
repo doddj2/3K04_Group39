@@ -123,6 +123,7 @@ def register_user():
                 file = open(username_info, "w")
                 file.write(username_info + "\n")
                 file.write(password_info + "\n")
+                file.close()
 
  
                 username_entry.delete(0, END)
@@ -319,7 +320,8 @@ def loadAndSend(mode, loadFrom):
         APW = float(data[dataLocation+4])
         #for whatever reason DCM goes in the order 
     #AOO, VOO, AAI, VVI while simulink does VOO, AOO,VVI,AAI with modes 0,1,2,3 respectively
-        sendToSimulink(0,1,LRL,URL,APA,APW)  
+        sendToSimulink(1,LRL,URL,APA,APW,2.3,4,5,2.3,200,200,200,69,120,30,16,5,1)
+                    #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
         return
     if(mode == "VOO"):
         dataLocation = data.index(str((mode+"\n"))) 
@@ -329,17 +331,21 @@ def loadAndSend(mode, loadFrom):
         VPW = float(data[dataLocation+4])
         #for whatever reason DCM goes in the order 
     #AOO, VOO, AAI, VVI while simulink does VOO, AOO,VVI,AAI with modes 0,1,2,3 respectively
-        sendToSimulink(0,1,LRL,URL,None,None,None,VPA,VPW) #ask how to implement or reimplement
+        sendToSimulink(0,LRL,URL,4,5,2.3,VPA,VPW,2.3,200,200,200,69,120,30,16,5,1)  
+
     if(mode == "AAI"):
         dataLocation = data.index(str((mode+"\n"))) 
-        LRL = data[dataLocation+1] #lrl in units of ppm
-        URL = data[dataLocation+2]
-        APA = data[dataLocation+3]
-        APW = data[dataLocation+4]
-        LRL = data[dataLocation+1] 
-        URL = data[dataLocation+2]
-        APA = data[dataLocation+3]
-        APW = data[dataLocation+4]
+        LRL = int(data[dataLocation+1]) #lrl in units of ppm
+        URL = int(data[dataLocation+2])
+        APA = float(data[dataLocation+3])
+        APW = float(data[dataLocation+4])
+        ASense = float(data[dataLocation+5])
+        ARP = float(data[dataLocation+6])
+        HRL = float(data[dataLocation+7]) 
+        RS =  float(data[dataLocation+8]) 
+        PVARP =  float(data[dataLocation+9]) 
+                      #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
+        sendToSimulink(3,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,30,16,5,1)  
     if(mode == "VVI"):
         dataLocation = data.index(str((mode+"\n"))) 
         LRL = data[dataLocation+1] #translate to ppm? 
@@ -665,5 +671,5 @@ def dashboard():
     
     
 #run start
-loadAndSend("VOO","a")
+loadAndSend("AOO","a")
 main_account_screen()

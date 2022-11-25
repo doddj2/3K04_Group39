@@ -4,23 +4,23 @@ import struct
 defVal = -1
 #add default values for AA onwards
 #this file is the one you spit data to send 
-def sendToSimulink(FnCode,mode,ppm,url,AA=defVal,APW=defVal,AST=defVal,VA=defVal,VPW=defVal,VST=defVal,sVRP=defVal,sARP=defVal,sPVARP=defVal,sMSR=defVal,reactionTime=defVal,responseFactor=defVal,recoveryTime=defVal,activityThreshold=defVal):
+def sendToSimulink(mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold):
     # Mac ports, for windows you have to find the ports yourself
-    frdm_port = "COM7" #need to update com with actual testing
+    frdm_port = "COM6" #need to update com with actual testing
     #inputs that go into Serial Communication 
     #inputs will be just 'test' values for now
     #B is for uint 8
     #H is for uint16
     #f is for float
-    Start = struct.pack("B",16)
-    SYNC = struct.pack("B",69) #start of data packet
-    Fn_code = struct.pack("B",FnCode) #defines behavior, parameters, echo, egrams or estop
+    #Start = struct.pack("B",16)
+    #SYNC = struct.pack("B",69) #start of data packet
+    #Fn_code = struct.pack("B",FnCode) #defines behavior, parameters, echo, egrams or estop
 
     mode = struct.pack("B", mode)
     ppm = struct.pack("B", ppm) #LRL equivalent
     Upper_rate_limit = struct.pack("B", url)
     Atrial_Amplitude = struct.pack("f", AA)
-    Atrial_Pulse_Width = struct.pack("f", APW) #change datatype?
+    Atrial_Pulse_Width = struct.pack("B", APW) #change datatype?
     Atrial_Sense_Threshold = struct.pack("H", AST) #is this 'A sensitivity'? 
     Ventricular_Amplitude = struct.pack("f", VA)
     Ventricular_Pulse_Width = struct.pack("f", VPW) #change datatype?
@@ -28,6 +28,7 @@ def sendToSimulink(FnCode,mode,ppm,url,AA=defVal,APW=defVal,AST=defVal,VA=defVal
     VRP = struct.pack("H", sVRP)
     ARP = struct.pack("H", sARP)
     PVARP = struct.pack("H", sPVARP) #explain what pvarp is 
+    RS =  struct.pack("B", sRS) #what is this? 
     MSR =  struct.pack("B", sMSR) #what is this? 
     reaction_time = struct.pack("B", reactionTime) #and below? I don't 
     response_factor = struct.pack("B", responseFactor) #currently recognize it from anything 
@@ -35,14 +36,14 @@ def sendToSimulink(FnCode,mode,ppm,url,AA=defVal,APW=defVal,AST=defVal,VA=defVal
     ActivityThreshold = struct.pack("B", activityThreshold)
 
     #broken up like this for the sake of readability and testing
-    Signal_set = Start + Fn_code + mode + ppm + Upper_rate_limit + Atrial_Amplitude + Atrial_Pulse_Width + Atrial_Sense_Threshold 
+    Signal_set = mode + ppm + Upper_rate_limit + Atrial_Amplitude + Atrial_Pulse_Width + Atrial_Sense_Threshold 
     Signal_set = Signal_set + Ventricular_Amplitude + Ventricular_Pulse_Width + Ventricule_Sense_Threshold 
-    Signal_set = Signal_set + VRP + ARP + PVARP + MSR
+    Signal_set = Signal_set + VRP + ARP + PVARP + RS + MSR
     Signal_set = Signal_set + reaction_time + response_factor + recovery_time + ActivityThreshold
 
-    Signal_echo = Start + SYNC + mode + ppm + Upper_rate_limit + Atrial_Amplitude + Atrial_Pulse_Width + Atrial_Sense_Threshold 
+    Signal_echo = mode + ppm + Upper_rate_limit + Atrial_Amplitude + Atrial_Pulse_Width + Atrial_Sense_Threshold 
     Signal_echo = Signal_echo + Ventricular_Amplitude + Ventricular_Pulse_Width + Ventricule_Sense_Threshold 
-    Signal_echo = Signal_echo + VRP + ARP + PVARP + MSR
+    Signal_echo = Signal_echo + VRP + ARP + PVARP + RS + MSR
     Signal_echo = Signal_echo + reaction_time + response_factor + recovery_time + ActivityThreshold
 
     with serial.Serial(frdm_port, 115200) as pacemaker:
