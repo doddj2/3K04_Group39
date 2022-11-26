@@ -149,9 +149,9 @@ def select_mode_register():
     def get_mode():
         selection = tkinter.StringVar(mode_screen)
         selection = mode_sel.get()
-        label = Label(mode_screen, bg="green", text="Selection of " + selection + " is Successful")
-        label.pack()
-        button = Button(mode_screen, text = "Confirm", command = combine_funcs(delete_mode_screen,add2file)).pack()
+        label = Label(mode_screen, bg="green", text="Selection of " + selection + " is Successful", width = 25)
+        label.place(x=250,y=150)
+        button = Button(mode_screen, text = "Confirm", command = combine_funcs(delete_mode_screen,add2file)).place(x=250,y=170)
     #embedded function to add to file and move to parameter selection, still needs the actual file adding, currently only transports you to the next step
     def add2file():
         mode = tkinter.StringVar(mode_screen)
@@ -220,9 +220,10 @@ def select_mode_edit():
     def get_mode():
         selection = tkinter.StringVar(mode_screen)
         selection = mode_sel.get()
-        label = Label(mode_screen, bg="green", text="Selection of " + selection + " is Successful")
-        label.pack()
-        button = Button(mode_screen, text = "Confirm", command = combine_funcs(delete_mode_screen,add2file)).pack()
+        label = Label(mode_screen, bg="green", text="Selection of " + selection + " is Successful", width = 25)
+        label.place(x=250,y=150)
+        button = Button(mode_screen, text = "Confirm", command = combine_funcs(delete_mode_screen,add2file)).place(x=250,y=170)
+        
     #embedded function to add to file and move to parameter selection, still needs the actual file adding, currently only transports you to the next step
     def add2file():
         mode = tkinter.StringVar(mode_screen)
@@ -630,6 +631,9 @@ def delete_success_screen():
 
 def delete_egram_screen():
     egram_screen.destroy()
+
+def delete_send_success_screen():
+    send_success_screen.destroy()
  
 # Designing login/register (first) window
  
@@ -647,13 +651,35 @@ def main_account_screen():
     main_screen.mainloop()
 #egram screen
 def show_egram():
-    delete_dashboard()
+    delete_send_success_screen()
     global egram_screen
     egram_screen = Tk()   
     egram_screen.geometry("600x600")
     egram_screen.title("Egram Data")
     button = Button(egram_screen, text = "Back to Dashboard", command = combine_funcs(delete_egram_screen, dashboard)).pack()
-    Label(text="Egram Data", bg="#C70039", width="300", height="2", font=("Calibri", 15)).pack()
+    Label(text="Egram Data from past 30s", bg="#C70039", width="300", height="2", font=("Calibri", 15)).pack()
+    #this will be the function where we pull the two pins for egram data
+
+def send_success():
+    
+    global send_success_screen
+    send_success_screen = Tk()   
+    send_success_screen.geometry("300x300")
+    send_success_screen.title("Send Success")
+    delete_dashboard()
+    #Button(send_success_screen, text = "Back to Dashboard", command = combine_funcs(delete_send_success_screen, dashboard)).pack()
+    Label(send_success_screen, text="Data has been sent!", bg="#94ed80", width="300", height="2", font=("Calibri", 15)).pack()
+    Label(send_success_screen, text ="""
+                    Your selected preset mode has been sent to the pacemaker
+                    Please wait until the "Show Egram Data" button appears.
+                    This will happen once the program has ran for at least 30s""").pack()
+    def show_timebutton():
+        timebutton = Button(send_success_screen, text = 'show egram data', command = show_egram)
+        timebutton.pack()
+        
+    send_success_screen.after(5000, show_timebutton)
+   
+    
 
 
 #creating dashboard after login (this is where all selections will go)
@@ -745,8 +771,13 @@ def dashboard():
     xOffset = 0
     ybuffer = 20
     ybuffermode = 10
+    preset_list = []
+    mode_to_send= tkinter.StringVar(dash_screen)
+    
     #dashboard locations for each mode
     if AOOLocation != -1:
+        mode_to_send.set("AOO")
+        preset_list.append('AOO')
         user_lrl = filelines[AOOLocation+1]
         user_url = filelines[AOOLocation+2]
         user_aa = filelines[AOOLocation+3]
@@ -761,6 +792,8 @@ def dashboard():
         
         
     if VOOLocation != -1:
+        preset_list.append('VOO')
+        mode_to_send.set("VOO")
         user_lrl = filelines[VOOLocation+1]
         user_url = filelines[VOOLocation+2]
         user_va = filelines[VOOLocation+3]
@@ -774,6 +807,8 @@ def dashboard():
         xOffset = xOffset+1
         
     if AAILocation != -1:
+        preset_list.append('AAI')
+        mode_to_send.set('AAI')
         user_lrl = filelines[AAILocation+1]
         user_url = filelines[AAILocation+2]
         user_aa = filelines[AAILocation+3]
@@ -797,6 +832,8 @@ def dashboard():
         xOffset = xOffset+1
         
     if VVILocation != -1:
+        preset_list.append('VVI')
+        mode_to_send.set('VVI')
         user_lrl = filelines[VVILocation+1]
         user_url = filelines[VVILocation+2]
         user_va = filelines[VVILocation+3]
@@ -818,6 +855,8 @@ def dashboard():
         xOffset = xOffset+1
 
     if AOORLocation != -1:
+        preset_list.append('AOOR')
+        mode_to_send.set('AOOR')
         user_lrl = filelines[AOORLocation+1]
         user_url = filelines[AOORLocation+2]
         user_msr = filelines[AOORLocation+3]
@@ -841,6 +880,8 @@ def dashboard():
         xOffset = xOffset+1
 
     if VOORLocation != -1:
+        preset_list.append('VOOR')
+        mode_to_send.set('VOOR')
         user_lrl = filelines[VOORLocation+1]
         user_url = filelines[VOORLocation+2]
         user_msr = filelines[VOORLocation+3]
@@ -865,6 +906,8 @@ def dashboard():
 
 
     if AAIRLocation != -1:
+        preset_list.append('AAIR')
+        mode_to_send.set('AAIR')
         user_lrl = filelines[AAIRLocation+1]
         user_url = filelines[AAIRLocation+2]
         user_msr = filelines[AAIRLocation+3]
@@ -898,6 +941,8 @@ def dashboard():
         xOffset = xOffset+1
 
     if VVIRLocation != -1:
+        preset_list.append('VVIR')
+        mode_to_send.set('VVIR')
         user_lrl = filelines[VVIRLocation+1]
         user_url = filelines[VVIRLocation+2]
         user_msr = filelines[VVIRLocation+3]
@@ -930,10 +975,22 @@ def dashboard():
 
 
 
+#sending to pacemaker dropdown
 
+    def send_to_pace():
+        string_mode2send = mode_to_send.get()
+        print(string_mode2send , name)
+        #CURRENTLY TESTING, not going to uncomment line below until everything works
+        #loadAndSend(string_mode2send , name)
+        send_success()
         
-    Button(dash_screen, text = 'edit selections', command = edit_selections).place(x= 0,y=350)
-    Button(dash_screen, text = 'show egram', command = show_egram).place(x=0,y=380)
+        
+    string_mode2send = mode_to_send.get()
+    Button(dash_screen, text = 'edit selections', command = edit_selections, width = 11).place(x= 0,y=348)
+    
+    Label(dash_screen, text = 'Select preset to send to pacemaker', font=("Calibri", 12), bg = '#94ed80').place(x=0, y=375)
+    OptionMenu(dash_screen, mode_to_send, *preset_list).place(x=0, y=405)
+    Button(dash_screen, text = "confirm", command = send_to_pace).place(x=80, y=405) #change to command = loadAndSend(mode_to_send,name) after serial
     
     
 #run start
