@@ -359,13 +359,8 @@ def AOOR_selections():
     AOOR_screen.addInputBox([1,30],[1],"A Pulse Width (ms) ",1)
     
     #DROPDOWN
-    AOOR_screen.addDropBox('Med','Activity Threshold',value_list)
-    '''mode_sel= tkinter.StringVar(mode_screen)
-    mode_sel.set("Med")
-    ModeOptions = ["V-Low","Low","Med-Low","Med","Med-High","High","V-High"]
-    drop= tkinter.OptionMenu(AOOR_screen, mode_sel, *ModeOptions) #andrew this is the type of line youre gonna wanna edit,
-    drop.pack()'''
-    #DROPDOWN END
+    AOOR_screen.addDropBox('Activity Threshold','Med',value_list)
+    
     AOOR_screen.addInputBox([10,50],[10],"Reaction Time (sec)",30)
     AOOR_screen.addInputBox([1,16],[1],"Response Factor ",8)
     AOOR_screen.addInputBox([2,16],[1],"Recovery Time (min)",5)
@@ -376,7 +371,8 @@ def AOOR_selections():
     #Label(AOOR_screen, text = 'working').pack()
 
     main_account_screen()
-def VOOR_selections(): 
+def VOOR_selections():
+    value_list = ["V-Low","Low","Med-Low","Med","Med-High","High","V-High"]
     file = username_info
     VOOR_screen = InputScreen.InputScreenClass("VOOR",file)
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
@@ -385,13 +381,14 @@ def VOOR_selections():
     VOOR_screen.addInputBox([50,175],[5],"Max Sensor Rate (ppm) ",120)
     VOOR_screen.addInputBox([0.1,5],[0.1],"V Pulse Amplitude (V) ",5,TRUE)
     VOOR_screen.addInputBox([1,30],[1],"V Pulse Width (ms) ",1)
-    #VOOR_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"Activity Threshold ",0.4) #IDK HOW TO MAKE IT STRINGS VS INTS
+    VOOR_screen.addDropBox('Activity Threshold','Med',value_list)
     VOOR_screen.addInputBox([10,50],[10],"Reaction Time (sec)",30)
     VOOR_screen.addInputBox([1,16],[1],"Response Factor ",8)
     VOOR_screen.addInputBox([2,16],[1],"Recovery Time (min)",5)
     VOOR_screen.open()   
     main_account_screen()
 def AAIR_selections():
+    value_list = ["V-Low","Low","Med-Low","Med","Med-High","High","V-High"]
     file = username_info
     AAIR_screen = InputScreen.InputScreenClass("AAIR",file)
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
@@ -405,25 +402,27 @@ def AAIR_selections():
     AAIR_screen.addInputBox([30,50,90,175],[5,1,5],"Hysteresis Rate Limit (ms) ","OFF",TRUE) #same as LRL
     AAIR_screen.addInputBox([3,21,25],[3,5],"Rate Smoothing (%)","OFF",TRUE) #edgecase needs testing 
     AAIR_screen.addInputBox([150,500],[10],"PVARP (ms)",250,TRUE) #edgecase needs testing
-    #AAIR_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"Activity Threshold ",0.4) #IDK HOW TO MAKE IT STRINGS VS INTS
+    AAIR_screen.addDropBox('Activity Threshold','Med',value_list)
     AAIR_screen.addInputBox([10,50],[10],"Reaction Time (sec)",30)
     AAIR_screen.addInputBox([1,16],[1],"Response Factor ",8)
     AAIR_screen.addInputBox([2,16],[1],"Recovery Time (min)",5)
     AAIR_screen.open()
     main_account_screen()
 def VVIR_selections():
+    value_list = ["V-Low","Low","Med-Low","Med","Med-High","High","V-High"]
     file = username_info
     VVIR_screen = InputScreen.InputScreenClass("VVIR",file)
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     VVIR_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     VVIR_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
+    VVIR_screen.addInputBox([50,175],[5],"Max Sensor Rate (ppm) ",120)
     VVIR_screen.addInputBox([0.1,5],[0.1],"V Pulse Amplitude (V) ",5,TRUE)
     VVIR_screen.addInputBox([1,30],[1],"V Pulse Width (ms) ",1)
     VVIR_screen.addInputBox([0,5],[0.1],"V Sensitivity (ms) ",2.5) #swap for VVI
     VVIR_screen.addInputBox([150,500],[10],"V Refractory Period (ms) ",320) #swap for VVI
     VVIR_screen.addInputBox([30,50,90,175],[5,1,5],"Hysteresis Rate Limit (ms) ","OFF",TRUE) #same as LRL
     VVIR_screen.addInputBox([3,21,25],[3,5],"Rate Smoothing (%)","OFF",TRUE) #edgecase needs testing
-    #VVIR_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"Activity Threshold ",0.4) #IDK HOW TO MAKE IT STRINGS VS INTS
+    VVIR_screen.addDropBox('Activity Threshold','Med',value_list)
     VVIR_screen.addInputBox([10,50],[10],"Reaction Time (sec)",30)
     VVIR_screen.addInputBox([1,16],[1],"Response Factor ",8)
     VVIR_screen.addInputBox([2,16],[1],"Recovery Time (min)",5)
@@ -628,6 +627,9 @@ def delete_dashboard():
     
 def delete_success_screen():
     success_screen.destroy()
+
+def delete_egram_screen():
+    egram_screen.destroy()
  
 # Designing login/register (first) window
  
@@ -643,6 +645,17 @@ def main_account_screen():
     Button(text="Register", height="2", width="30", command=register).pack()
  
     main_screen.mainloop()
+#egram screen
+def show_egram():
+    delete_dashboard()
+    global egram_screen
+    egram_screen = Tk()   
+    egram_screen.geometry("600x600")
+    egram_screen.title("Egram Data")
+    button = Button(egram_screen, text = "Back to Dashboard", command = combine_funcs(delete_egram_screen, dashboard)).pack()
+    Label(text="Egram Data", bg="#C70039", width="300", height="2", font=("Calibri", 15)).pack()
+
+
 #creating dashboard after login (this is where all selections will go)
 def dashboard():
     global dash_screen
@@ -701,7 +714,23 @@ def dashboard():
         VVILocation = filelines.index("VVI\n")
     except ValueError:
         VVILocation = -1
-    Label(dash_screen, text = "Your Current Settings", bg = "#C70039", font = ("Calibri", 12)).place(x=0,y=120)
+    try:
+       AOORLocation = filelines.index("AOOR\n")
+    except ValueError:
+       AOORLocation = -1
+    try:
+       VOORLocation = filelines.index("VOOR\n")
+    except ValueError:
+       VOORLocation = -1
+    try:
+       AAIRLocation = filelines.index("AAIR\n")
+    except ValueError:
+       AAIRLocation = -1
+    try:
+       VVIRLocation = filelines.index("VVIR\n")
+    except ValueError:
+       VVIRLocation = -1
+    Label(dash_screen, text = "Your Preset Modes", bg = "#C70039", font = ("Calibri", 12)).place(x=0,y=120)
     #Label(dash_screen, text = "mode = " + user_mode).place(x=0,y=150)
     def edit_selections():
         #file = open(name, 'w')
@@ -710,30 +739,38 @@ def dashboard():
         #file.close()
         select_mode_edit()
         delete_dashboard()
+    
+        
     xOffsetIncrement = 80
     xOffset = 0
+    ybuffer = 20
+    ybuffermode = 10
+    #dashboard locations for each mode
     if AOOLocation != -1:
         user_lrl = filelines[AOOLocation+1]
         user_url = filelines[AOOLocation+2]
         user_aa = filelines[AOOLocation+3]
         user_apw = filelines[AOOLocation+4]
-        Label(dash_screen, text = "AOO:").place(x= 0 + xOffset*xOffsetIncrement,y=150)
-        Label(dash_screen, text = "LRL = " + user_lrl).place(x= 0 + xOffset*xOffsetIncrement,y=165)
-        Label(dash_screen, text = "URL = " + user_url).place(x= 0 + xOffset*xOffsetIncrement,y=180)
-        Label(dash_screen, text = "AA = " + user_aa).place(x= 0 + xOffset*xOffsetIncrement,y=195)
-        Label(dash_screen, text = "APW = " + user_apw).place(x= 0 + xOffset*xOffsetIncrement,y=210)
+        Label(dash_screen, text = " ", bg='#db4f66',width=11).place(x= 0 + xOffset*xOffsetIncrement,y=150+ybuffermode)
+        Label(dash_screen, text = "AOO:", bg='#db4f66').place(x= 0 + xOffset*xOffsetIncrement,y=150+ybuffermode)
+        Label(dash_screen, text = "LRL = " + user_lrl).place(x= 0 + xOffset*xOffsetIncrement,y=165+ybuffer)
+        Label(dash_screen, text = "URL = " + user_url).place(x= 0 + xOffset*xOffsetIncrement,y=180+ybuffer)
+        Label(dash_screen, text = "AA = " + user_aa).place(x= 0 + xOffset*xOffsetIncrement,y=195+ybuffer)
+        Label(dash_screen, text = "APW = " + user_apw).place(x= 0 + xOffset*xOffsetIncrement,y=210+ybuffer)
         xOffset = xOffset+1
+        
         
     if VOOLocation != -1:
         user_lrl = filelines[VOOLocation+1]
         user_url = filelines[VOOLocation+2]
         user_va = filelines[VOOLocation+3]
         user_vpw = filelines[VOOLocation+4]
-        Label(dash_screen, text = "VOO:").place(x= 0 + xOffset*xOffsetIncrement,y=150)
-        Label(dash_screen, text = "LRL = " + user_lrl).place(x= 0 + xOffset*xOffsetIncrement,y=165)
-        Label(dash_screen, text = "URL = " + user_url).place(x= 0 + xOffset*xOffsetIncrement,y=180)
-        Label(dash_screen, text = "VA = " + user_va).place(x= 0 + xOffset*xOffsetIncrement,y=195)
-        Label(dash_screen, text = "VPW = " + user_vpw).place(x= 0 + xOffset*xOffsetIncrement,y=210)
+        Label(dash_screen, text = " ", bg='#db4f66',width=11).place(x= 0 + xOffset*xOffsetIncrement,y=150+ybuffermode)
+        Label(dash_screen, text = "VOO:", bg='#db4f66').place(x= 0 + xOffset*xOffsetIncrement,y=150+ybuffermode)
+        Label(dash_screen, text = "LRL = " + user_lrl).place(x= 0 + xOffset*xOffsetIncrement,y=165+ybuffer)
+        Label(dash_screen, text = "URL = " + user_url).place(x= 0 + xOffset*xOffsetIncrement,y=180+ybuffer)
+        Label(dash_screen, text = "VA = " + user_va).place(x= 0 + xOffset*xOffsetIncrement,y=195+ybuffer)
+        Label(dash_screen, text = "VPW = " + user_vpw).place(x= 0 + xOffset*xOffsetIncrement,y=210+ybuffer)
         xOffset = xOffset+1
         
     if AAILocation != -1:
@@ -746,16 +783,17 @@ def dashboard():
         user_pvarp = filelines[AAILocation+7]
         user_hyster = filelines[AAILocation+8]
         user_smooth = filelines[AAILocation+9]
-        Label(dash_screen, text = "AAI:").place(x= 0 + xOffset*xOffsetIncrement,y=150)
-        Label(dash_screen, text = "LRL = " + user_lrl).place(x= 0 + xOffset*xOffsetIncrement,y=165)
-        Label(dash_screen, text = "URL = " + user_url).place(x= 0 + xOffset*xOffsetIncrement,y=180)
-        Label(dash_screen, text = "AA = " + user_aa).place(x= 0 + xOffset*xOffsetIncrement,y=195)
-        Label(dash_screen, text = "APW = " + user_apw).place(x= 0 + xOffset*xOffsetIncrement,y=210)
-        Label(dash_screen, text = "AS = " + user_as).place(x= 0 + xOffset*xOffsetIncrement,y=225)
-        Label(dash_screen, text = "ARP = " + user_arp).place(x= 0 + xOffset*xOffsetIncrement,y=240)
-        Label(dash_screen, text = "PVARP = " + user_pvarp).place(x= 0 + xOffset*xOffsetIncrement,y=255)
-        Label(dash_screen, text = "HYSTER= " + user_hyster).place(x= 0 + xOffset*xOffsetIncrement,y=270)
-        Label(dash_screen, text = "SMOOTH = " + user_smooth).place(x= 0 + xOffset*xOffsetIncrement,y=285)
+        Label(dash_screen, text = " ", bg='#db4f66',width=11).place(x= 0 + xOffset*xOffsetIncrement,y=150+ybuffermode)
+        Label(dash_screen, text = "AAI:", bg='#db4f66').place(x= 0 + xOffset*xOffsetIncrement,y=150+ybuffermode)
+        Label(dash_screen, text = "LRL = " + user_lrl).place(x= 0 + xOffset*xOffsetIncrement,y=165+ybuffer)
+        Label(dash_screen, text = "URL = " + user_url).place(x= 0 + xOffset*xOffsetIncrement,y=180+ybuffer)
+        Label(dash_screen, text = "AA = " + user_aa).place(x= 0 + xOffset*xOffsetIncrement,y=195+ybuffer)
+        Label(dash_screen, text = "APW = " + user_apw).place(x= 0 + xOffset*xOffsetIncrement,y=210+ybuffer)
+        Label(dash_screen, text = "AS = " + user_as).place(x= 0 + xOffset*xOffsetIncrement,y=225+ybuffer)
+        Label(dash_screen, text = "ARP = " + user_arp).place(x= 0 + xOffset*xOffsetIncrement,y=240+ybuffer)
+        Label(dash_screen, text = "PVARP = " + user_pvarp).place(x= 0 + xOffset*xOffsetIncrement,y=255+ybuffer)
+        Label(dash_screen, text = "HYSTER= " + user_hyster).place(x= 0 + xOffset*xOffsetIncrement,y=270+ybuffer)
+        Label(dash_screen, text = "RSM = " + user_smooth).place(x= 0 + xOffset*xOffsetIncrement,y=285+ybuffer)
         xOffset = xOffset+1
         
     if VVILocation != -1:
@@ -767,18 +805,135 @@ def dashboard():
         user_vrp = filelines[VVILocation+6]
         user_hyster = filelines[VVILocation+7]
         user_smooth = filelines[VVILocation+8]
-        Label(dash_screen, text = "VVI:").place(x= 0 + xOffset*xOffsetIncrement,y=150)
-        Label(dash_screen, text = "LRL = " + user_lrl).place(x= 0 + xOffset*xOffsetIncrement,y=165)
-        Label(dash_screen, text = "URL = " + user_url).place(x= 0 + xOffset*xOffsetIncrement,y=180)
-        Label(dash_screen, text = "VA = " + user_va).place(x= 0 + xOffset*xOffsetIncrement,y=195)
-        Label(dash_screen, text = "VPW = " + user_vpw).place(x= 0 + xOffset*xOffsetIncrement,y=210)
-        Label(dash_screen, text = "VS = " + user_vs).place(x= 0 + xOffset*xOffsetIncrement,y=225)
-        Label(dash_screen, text = "VRP = " + user_vrp).place(x= 0 + xOffset*xOffsetIncrement,y=240)
-        Label(dash_screen, text = "HYSTER= " + user_hyster).place(x= 0 + xOffset*xOffsetIncrement,y=270)
-        Label(dash_screen, text = "SMOOTH = " + user_smooth).place(x= 0 + xOffset*xOffsetIncrement,y=285)
-
+        Label(dash_screen, text = " ", bg='#db4f66',width=11).place(x= 0 + xOffset*xOffsetIncrement,y=150+ybuffermode)
+        Label(dash_screen, text = "VVI:", bg='#db4f66').place(x= 0 + xOffset*xOffsetIncrement,y=150+ybuffermode)
+        Label(dash_screen, text = "LRL = " + user_lrl).place(x= 0 + xOffset*xOffsetIncrement,y=165+ybuffer)
+        Label(dash_screen, text = "URL = " + user_url).place(x= 0 + xOffset*xOffsetIncrement,y=180+ybuffer)
+        Label(dash_screen, text = "VA = " + user_va).place(x= 0 + xOffset*xOffsetIncrement,y=195+ybuffer)
+        Label(dash_screen, text = "VPW = " + user_vpw).place(x= 0 + xOffset*xOffsetIncrement,y=210+ybuffer)
+        Label(dash_screen, text = "VS = " + user_vs).place(x= 0 + xOffset*xOffsetIncrement,y=225+ybuffer)
+        Label(dash_screen, text = "VRP = " + user_vrp).place(x= 0 + xOffset*xOffsetIncrement,y=240+ybuffer)
+        Label(dash_screen, text = "HYSTER= " + user_hyster).place(x= 0 + xOffset*xOffsetIncrement,y=255+ybuffer)
+        Label(dash_screen, text = "RSM = " + user_smooth).place(x= 0 + xOffset*xOffsetIncrement,y=270+ybuffer)
         xOffset = xOffset+1
-    Button(dash_screen, text = 'edit selections', command = edit_selections).place(x= 0,y=300)        
+
+    if AOORLocation != -1:
+        user_lrl = filelines[AOORLocation+1]
+        user_url = filelines[AOORLocation+2]
+        user_msr = filelines[AOORLocation+3]
+        user_aa = filelines[AOORLocation+4]
+        user_apw = filelines[AOORLocation+5]
+        user_at = filelines[AOORLocation+6]
+        user_rt = filelines[AOORLocation+7]
+        user_rf = filelines[AOORLocation+8]
+        user_rect = filelines[AOORLocation+9]
+        Label(dash_screen, text = " ", bg='#db4f66',width=11).place(x= 0 + xOffset*xOffsetIncrement,y=150+ybuffermode)
+        Label(dash_screen, text = "AOOR:", bg='#db4f66').place(x= 0 + xOffset*xOffsetIncrement,y=150+ybuffermode)
+        Label(dash_screen, text = "LRL = " + user_lrl).place(x= 0 + xOffset*xOffsetIncrement,y=165+ybuffer)
+        Label(dash_screen, text = "URL = " + user_url).place(x= 0 + xOffset*xOffsetIncrement,y=180+ybuffer)
+        Label(dash_screen, text = "MSR = " + user_msr).place(x= 0 + xOffset*xOffsetIncrement,y=195+ybuffer)
+        Label(dash_screen, text = "AA = " + user_aa).place(x= 0 + xOffset*xOffsetIncrement,y=210+ybuffer)
+        Label(dash_screen, text = "APW = " + user_apw).place(x= 0 + xOffset*xOffsetIncrement,y=225+ybuffer)
+        Label(dash_screen, text = "AT = " + user_at).place(x= 0 + xOffset*xOffsetIncrement,y=240+ybuffer)
+        Label(dash_screen, text = "RT = " + user_rt).place(x= 0 + xOffset*xOffsetIncrement,y=255+ybuffer)
+        Label(dash_screen, text = "RF= " + user_rf).place(x= 0 + xOffset*xOffsetIncrement,y=270+ybuffer)
+        Label(dash_screen, text = "RecT = " + user_rect).place(x= 0 + xOffset*xOffsetIncrement,y=285+ybuffer)
+        xOffset = xOffset+1
+
+    if VOORLocation != -1:
+        user_lrl = filelines[VOORLocation+1]
+        user_url = filelines[VOORLocation+2]
+        user_msr = filelines[VOORLocation+3]
+        user_va = filelines[VOORLocation+4]
+        user_vpw = filelines[VOORLocation+5]
+        user_at = filelines[VOORLocation+6]
+        user_rt = filelines[VOORLocation+7]
+        user_rf = filelines[VOORLocation+8]
+        user_rect = filelines[VOORLocation+9]
+        Label(dash_screen, text = " ", bg='#db4f66',width=11).place(x= 0 + xOffset*xOffsetIncrement,y=150+ybuffermode)
+        Label(dash_screen, text = "VOOR:", bg='#db4f66').place(x= 0 + xOffset*xOffsetIncrement,y=150+ybuffermode)
+        Label(dash_screen, text = "LRL = " + user_lrl).place(x= 0 + xOffset*xOffsetIncrement,y=165+ybuffer)
+        Label(dash_screen, text = "URL = " + user_url).place(x= 0 + xOffset*xOffsetIncrement,y=180+ybuffer)
+        Label(dash_screen, text = "MSR = " + user_msr).place(x= 0 + xOffset*xOffsetIncrement,y=195+ybuffer)
+        Label(dash_screen, text = "VA = " + user_va).place(x= 0 + xOffset*xOffsetIncrement,y=210+ybuffer)
+        Label(dash_screen, text = "VPW = " + user_vpw).place(x= 0 + xOffset*xOffsetIncrement,y=225+ybuffer)
+        Label(dash_screen, text = "AT = " + user_at).place(x= 0 + xOffset*xOffsetIncrement,y=240+ybuffer)
+        Label(dash_screen, text = "RT = " + user_rt).place(x= 0 + xOffset*xOffsetIncrement,y=255+ybuffer)
+        Label(dash_screen, text = "RF= " + user_rf).place(x= 0 + xOffset*xOffsetIncrement,y=270+ybuffer)
+        Label(dash_screen, text = "RecT = " + user_rect).place(x= 0 + xOffset*xOffsetIncrement,y=285+ybuffer)
+        xOffset = xOffset+1
+
+
+    if AAIRLocation != -1:
+        user_lrl = filelines[AAIRLocation+1]
+        user_url = filelines[AAIRLocation+2]
+        user_msr = filelines[AAIRLocation+3]
+        user_aa = filelines[AAIRLocation+4]
+        user_apw = filelines[AAIRLocation+5]
+        user_as = filelines[AAIRLocation+6]
+        user_arp = filelines[AAIRLocation+7]
+        user_hyster = filelines[AAIRLocation+8]
+        user_smooth = filelines[AAIRLocation+9]
+        user_pvarp = filelines[AAIRLocation+10]
+        user_at = filelines[AAIRLocation+11]
+        user_rt = filelines[AAIRLocation+12]
+        user_rf = filelines[AAIRLocation+13]
+        user_rect = filelines[AAIRLocation+14]
+        Label(dash_screen, text = " ", bg='#db4f66',width=11).place(x= 0 + xOffset*xOffsetIncrement,y=150+ybuffermode)
+        Label(dash_screen, text = "AAIR:", bg='#db4f66').place(x= 0 + xOffset*xOffsetIncrement,y=150+ybuffermode)
+        Label(dash_screen, text = "LRL = " + user_lrl).place(x= 0 + xOffset*xOffsetIncrement,y=165+ybuffer)
+        Label(dash_screen, text = "URL = " + user_url).place(x= 0 + xOffset*xOffsetIncrement,y=180+ybuffer)
+        Label(dash_screen, text = "MSR = " + user_msr).place(x= 0 + xOffset*xOffsetIncrement,y=195+ybuffer)
+        Label(dash_screen, text = "AA = " + user_aa).place(x= 0 + xOffset*xOffsetIncrement,y=210+ybuffer)
+        Label(dash_screen, text = "APW = " + user_apw).place(x= 0 + xOffset*xOffsetIncrement,y=225+ybuffer)
+        Label(dash_screen, text = "AS = " + user_as).place(x= 0 + xOffset*xOffsetIncrement,y=225+ybuffer)
+        Label(dash_screen, text = "ARP = " + user_arp).place(x= 0 + xOffset*xOffsetIncrement,y=240+ybuffer)
+        Label(dash_screen, text = "HYSTER = " + user_hyster).place(x= 0 + xOffset*xOffsetIncrement,y=255+ybuffer)
+        Label(dash_screen, text = "RSM = " + user_smooth).place(x= 0 + xOffset*xOffsetIncrement,y=270+ybuffer)
+        Label(dash_screen, text = "PVARP = " + user_pvarp).place(x= 0 + xOffset*xOffsetIncrement,y=285+ybuffer)
+        Label(dash_screen, text = "AT = " + user_at).place(x= 0 + xOffset*xOffsetIncrement,y=300+ybuffer)
+        Label(dash_screen, text = "RT = " + user_rt).place(x= 0 + xOffset*xOffsetIncrement,y=315+ybuffer)
+        Label(dash_screen, text = "RF= " + user_rf).place(x= 0 + xOffset*xOffsetIncrement,y=330+ybuffer)
+        Label(dash_screen, text = "RecT = " + user_rect).place(x= 0 + xOffset*xOffsetIncrement,y=345+ybuffer)
+        xOffset = xOffset+1
+
+    if VVIRLocation != -1:
+        user_lrl = filelines[VVIRLocation+1]
+        user_url = filelines[VVIRLocation+2]
+        user_msr = filelines[VVIRLocation+3]
+        user_va = filelines[VVIRLocation+4]
+        user_vpw = filelines[VVIRLocation+5]
+        user_vs = filelines[VVIRLocation+6]
+        user_vrp = filelines[VVIRLocation+7]
+        user_hyster = filelines[VVIRLocation+8]
+        user_smooth = filelines[VVIRLocation+9]
+        user_at = filelines[VVIRLocation+10]
+        user_rt = filelines[VVIRLocation+11]
+        user_rf = filelines[VVIRLocation+12]
+        user_rect = filelines[VVIRLocation+13]
+        Label(dash_screen, text = " ", bg='#db4f66',width=11).place(x= 0 + xOffset*xOffsetIncrement,y=150+ybuffermode)
+        Label(dash_screen, text = "VVIR:", bg='#db4f66').place(x= 0 + xOffset*xOffsetIncrement,y=150+ybuffermode)
+        Label(dash_screen, text = "LRL = " + user_lrl).place(x= 0 + xOffset*xOffsetIncrement,y=165+ybuffer)
+        Label(dash_screen, text = "URL = " + user_url).place(x= 0 + xOffset*xOffsetIncrement,y=180+ybuffer)
+        Label(dash_screen, text = "MSR = " + user_msr).place(x= 0 + xOffset*xOffsetIncrement,y=195+ybuffer)
+        Label(dash_screen, text = "VA = " + user_va).place(x= 0 + xOffset*xOffsetIncrement,y=210+ybuffer)
+        Label(dash_screen, text = "VPW = " + user_vpw).place(x= 0 + xOffset*xOffsetIncrement,y=225+ybuffer)
+        Label(dash_screen, text = "VS = " + user_vs).place(x= 0 + xOffset*xOffsetIncrement,y=225+ybuffer)
+        Label(dash_screen, text = "VRP = " + user_vrp).place(x= 0 + xOffset*xOffsetIncrement,y=240+ybuffer)
+        Label(dash_screen, text = "HYSTER = " + user_hyster).place(x= 0 + xOffset*xOffsetIncrement,y=255+ybuffer)
+        Label(dash_screen, text = "RSM = " + user_smooth).place(x= 0 + xOffset*xOffsetIncrement,y=270+ybuffer)
+        Label(dash_screen, text = "AT = " + user_at).place(x= 0 + xOffset*xOffsetIncrement,y=285+ybuffer)
+        Label(dash_screen, text = "RT = " + user_rt).place(x= 0 + xOffset*xOffsetIncrement,y=300+ybuffer)
+        Label(dash_screen, text = "RF= " + user_rf).place(x= 0 + xOffset*xOffsetIncrement,y=315+ybuffer)
+        Label(dash_screen, text = "RecT = " + user_rect).place(x= 0 + xOffset*xOffsetIncrement,y=330+ybuffer)
+        xOffset = xOffset+1
+
+
+
+
+        
+    Button(dash_screen, text = 'edit selections', command = edit_selections).place(x= 0,y=350)
+    Button(dash_screen, text = 'show egram', command = show_egram).place(x=0,y=380)
     
     
 #run start
