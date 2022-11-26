@@ -8,6 +8,7 @@ import tkinter
 import InputScreen
 from combineFuncs import combine_funcs
 from combineFuncs import roundToNearest
+from serialCommunication import sendToSimulink
 #global constants
 
 #registration
@@ -122,6 +123,7 @@ def register_user():
                 file = open(username_info, "w")
                 file.write(username_info + "\n")
                 file.write(password_info + "\n")
+                file.close()
 
  
                 username_entry.delete(0, END)
@@ -135,8 +137,6 @@ def register_user():
             
     else:
         max_users()
-
-             
 # allow new user to pick mode
 def select_mode_register():
     global i
@@ -178,12 +178,32 @@ def select_mode_register():
             #file.close()
             VVI_selections()
             delete_mode_screen()
+        elif mode == "AOOR":
+            #file.write(mode + "\n")
+            #file.close()
+            AOOR_selections()
+            delete_mode_screen()
+        elif mode == "VOOR":
+            #file.write(mode + "\n")
+            #file.close()
+            VOOR_selections()
+            delete_mode_screen()
+        elif mode == "AAIR":
+            #file.write(mode + "\n")
+            #file.close()
+            AAIR_selections()
+            delete_mode_screen()
+        elif mode == "VVIR":
+            #file.write(mode + "\n")
+            #file.close()
+            VVIR_selections()
+            delete_mode_screen()
         
  
     Label(mode_screen, text="Before Starting, please select a pacing mode", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
     mode_sel= tkinter.StringVar(mode_screen)
     mode_sel.set("AOO")
-    ModeOptions = ["AOO","VOO","AAI","VVI"]
+    ModeOptions = ["AOO","VOO","AAI","VVI","AOOR","VOOR","AAIR","VVIR"]
     drop= tkinter.OptionMenu(mode_screen, mode_sel, *ModeOptions) #andrew this is the type of line youre gonna wanna edit,
     drop.pack()
     button = Button(mode_screen, text = "Select", command = get_mode).pack()
@@ -227,11 +247,31 @@ def select_mode_edit():
             #file.close()
             VVI_selections()
             delete_mode_screen()
- 
+        elif mode == "AOOR":
+            #file.write(mode + "\n")
+            #file.close()
+            AOOR_selections()
+            delete_mode_screen()
+        elif mode == "VOOR":
+            #file.write(mode + "\n")
+            #file.close()
+            VOOR_selections()
+            delete_mode_screen()
+        elif mode == "AAIR":
+            #file.write(mode + "\n")
+            #file.close()
+            AAIR_selections()
+            delete_mode_screen()
+        elif mode == "VVIR":
+            #file.write(mode + "\n")
+            #file.close()
+            VVIR_selections()
+            delete_mode_screen()
+
     Label(mode_screen, text="Before Starting, please select a pacing mode", bg="#C70039", width="300", height="2", font=("Calibri", 13)).pack()
     mode_sel= tkinter.StringVar(mode_screen)
     mode_sel.set("AOO")
-    ModeOptions = ["AOO","VOO","AAI","VVI"]
+    ModeOptions = ["AOO","VOO","AAI","VVI","AOOR","VOOR","AAIR","VVIR"]
     drop= tkinter.OptionMenu(mode_screen, mode_sel, *ModeOptions) #andrew this is the type of line youre gonna wanna edit,
     drop.pack()
     button = Button(mode_screen, text = "Select", command = get_mode).pack()
@@ -304,6 +344,137 @@ def VVI_selections():
     AAI_screen.addInputBox([3,21,25],[3,5],"Rate Smoothing (%)","OFF",TRUE) #edgecase needs testing 
     AAI_screen.open()
     main_account_screen()   
+
+def AOOR_selections():
+    value_list = ["V-Low","Low","Med-Low","Med","Med-High","High","V-High"]
+    #where I am saving 
+    file = username_info
+    #create class object 
+    AOOR_screen = InputScreen.InputScreenClass("AOOR",file)
+    #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
+    AOOR_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
+    AOOR_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
+    AOOR_screen.addInputBox([50,175],[5],"Max Sensor Rate (ppm) ",120)
+    AOOR_screen.addInputBox([0.1,5],[0.1],"A Pulse Amplitude (V) ",5,TRUE)
+    AOOR_screen.addInputBox([1,30],[1],"A Pulse Width (ms) ",1)
+    
+    #DROPDOWN
+    AOOR_screen.addDropBox('Med','Activity Threshold',value_list)
+    '''mode_sel= tkinter.StringVar(mode_screen)
+    mode_sel.set("Med")
+    ModeOptions = ["V-Low","Low","Med-Low","Med","Med-High","High","V-High"]
+    drop= tkinter.OptionMenu(AOOR_screen, mode_sel, *ModeOptions) #andrew this is the type of line youre gonna wanna edit,
+    drop.pack()'''
+    #DROPDOWN END
+    AOOR_screen.addInputBox([10,50],[10],"Reaction Time (sec)",30)
+    AOOR_screen.addInputBox([1,16],[1],"Response Factor ",8)
+    AOOR_screen.addInputBox([2,16],[1],"Recovery Time (min)",5)
+    
+
+    #AOO_screen.addInputBox([150,500],[10],"A Refractory Period (ms) ",320) #just for testing
+    AOOR_screen.open()
+    #Label(AOOR_screen, text = 'working').pack()
+
+    main_account_screen()
+def VOOR_selections(): 
+    file = username_info
+    VOOR_screen = InputScreen.InputScreenClass("VOOR",file)
+    #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
+    VOOR_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
+    VOOR_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
+    VOOR_screen.addInputBox([50,175],[5],"Max Sensor Rate (ppm) ",120)
+    VOOR_screen.addInputBox([0.1,5],[0.1],"V Pulse Amplitude (V) ",5,TRUE)
+    VOOR_screen.addInputBox([1,30],[1],"V Pulse Width (ms) ",1)
+    #VOOR_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"Activity Threshold ",0.4) #IDK HOW TO MAKE IT STRINGS VS INTS
+    VOOR_screen.addInputBox([10,50],[10],"Reaction Time (sec)",30)
+    VOOR_screen.addInputBox([1,16],[1],"Response Factor ",8)
+    VOOR_screen.addInputBox([2,16],[1],"Recovery Time (min)",5)
+    VOOR_screen.open()   
+    main_account_screen()
+def AAIR_selections():
+    file = username_info
+    AAIR_screen = InputScreen.InputScreenClass("AAIR",file)
+    #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
+    AAIR_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
+    AAIR_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
+    AAIR_screen.addInputBox([50,175],[5],"Max Sensor Rate (ppm) ",120)
+    AAIR_screen.addInputBox([0.1,5],[0.1],"A Pulse Amplitude (V) ",5,TRUE)
+    AAIR_screen.addInputBox([1,30],[1],"A Pulse Width (ms) ",1)
+    AAIR_screen.addInputBox([0,5],[0.1],"A Sensitivity (ms) ",0.75) #swap for VVI
+    AAIR_screen.addInputBox([150,500],[10],"A Refractory Period (ms) ",250) #swap for VVI
+    AAIR_screen.addInputBox([30,50,90,175],[5,1,5],"Hysteresis Rate Limit (ms) ","OFF",TRUE) #same as LRL
+    AAIR_screen.addInputBox([3,21,25],[3,5],"Rate Smoothing (%)","OFF",TRUE) #edgecase needs testing 
+    AAIR_screen.addInputBox([150,500],[10],"PVARP (ms)",250,TRUE) #edgecase needs testing
+    #AAIR_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"Activity Threshold ",0.4) #IDK HOW TO MAKE IT STRINGS VS INTS
+    AAIR_screen.addInputBox([10,50],[10],"Reaction Time (sec)",30)
+    AAIR_screen.addInputBox([1,16],[1],"Response Factor ",8)
+    AAIR_screen.addInputBox([2,16],[1],"Recovery Time (min)",5)
+    AAIR_screen.open()
+    main_account_screen()
+def VVIR_selections():
+    file = username_info
+    VVIR_screen = InputScreen.InputScreenClass("VVIR",file)
+    #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
+    VVIR_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
+    VVIR_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
+    VVIR_screen.addInputBox([0.1,5],[0.1],"V Pulse Amplitude (V) ",5,TRUE)
+    VVIR_screen.addInputBox([1,30],[1],"V Pulse Width (ms) ",1)
+    VVIR_screen.addInputBox([0,5],[0.1],"V Sensitivity (ms) ",2.5) #swap for VVI
+    VVIR_screen.addInputBox([150,500],[10],"V Refractory Period (ms) ",320) #swap for VVI
+    VVIR_screen.addInputBox([30,50,90,175],[5,1,5],"Hysteresis Rate Limit (ms) ","OFF",TRUE) #same as LRL
+    VVIR_screen.addInputBox([3,21,25],[3,5],"Rate Smoothing (%)","OFF",TRUE) #edgecase needs testing
+    #VVIR_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"Activity Threshold ",0.4) #IDK HOW TO MAKE IT STRINGS VS INTS
+    VVIR_screen.addInputBox([10,50],[10],"Reaction Time (sec)",30)
+    VVIR_screen.addInputBox([1,16],[1],"Response Factor ",8)
+    VVIR_screen.addInputBox([2,16],[1],"Recovery Time (min)",5)
+    VVIR_screen.open()
+    main_account_screen()
+
+def loadAndSend(mode, loadFrom):
+    with open(loadFrom, 'r') as file:
+            data = file.readlines()
+            file.close()
+    #FNCode? 
+    if(mode == "AOO"):
+        dataLocation = data.index(str((mode+"\n"))) 
+        LRL = int(data[dataLocation+1]) #lrl in units of ppm
+        URL = int(data[dataLocation+2])
+        APA = float(data[dataLocation+3])
+        APW = float(data[dataLocation+4])
+        #for whatever reason DCM goes in the order 
+    #AOO, VOO, AAI, VVI while simulink does VOO, AOO,VVI,AAI with modes 0,1,2,3 respectively
+        sendToSimulink(1,LRL,URL,APA,APW,2.3,4,5,2.3,200,200,200,69,120,30,16,5,1)
+                    #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
+        return
+    if(mode == "VOO"):
+        dataLocation = data.index(str((mode+"\n"))) 
+        LRL = int(data[dataLocation+1]) #lrl in units of ppm
+        URL = int(data[dataLocation+2])
+        VPA = float(data[dataLocation+3])
+        VPW = float(data[dataLocation+4])
+        #for whatever reason DCM goes in the order 
+    #AOO, VOO, AAI, VVI while simulink does VOO, AOO,VVI,AAI with modes 0,1,2,3 respectively
+        sendToSimulink(0,LRL,URL,4,5,2.3,VPA,VPW,2.3,200,200,200,69,120,30,16,5,1)  
+
+    if(mode == "AAI"):
+        dataLocation = data.index(str((mode+"\n"))) 
+        LRL = int(data[dataLocation+1]) #lrl in units of ppm
+        URL = int(data[dataLocation+2])
+        APA = float(data[dataLocation+3])
+        APW = float(data[dataLocation+4])
+        ASense = float(data[dataLocation+5])
+        ARP = float(data[dataLocation+6])
+        HRL = float(data[dataLocation+7]) 
+        RS =  float(data[dataLocation+8]) 
+        PVARP =  float(data[dataLocation+9]) 
+                      #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
+        sendToSimulink(3,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,30,16,5,1)  
+    if(mode == "VVI"):
+        dataLocation = data.index(str((mode+"\n"))) 
+        LRL = data[dataLocation+1] #translate to ppm? 
+        URL = data[dataLocation+2]
+        VPA = data[dataLocation+3]
+        VPW = data[dataLocation+4]
 
 def login_verify():
     username1 = username_verify.get()
@@ -454,18 +625,6 @@ def delete_mode_screen():
 
 def delete_dashboard():
     dash_screen.destroy()
-    
-def delete_AOO_screen():
-    AOO_screen.destroy()
-
-def delete_VOO_screen():
-    VOO_screen.destroy()
-
-def delete_AAI_screen():
-    AAI_screen.destroy()
-
-def delete_VVI_screen():
-    AOO_screen.destroy()
     
 def delete_success_screen():
     success_screen.destroy()
@@ -621,9 +780,7 @@ def dashboard():
         xOffset = xOffset+1
     Button(dash_screen, text = 'edit selections', command = edit_selections).place(x= 0,y=300)        
     
-
-
-##TO DO: 2-make parameters save to file (probably same code for both), 3-add confirm button to parameters to update files 4- (andrew) make all parameters within guidelines and bound by eachother 5- read files to dashboard and allow edits from there
     
 #run start
+#loadAndSend("AOO","a")
 main_account_screen()
