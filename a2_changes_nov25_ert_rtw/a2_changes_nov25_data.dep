@@ -1,0 +1,32 @@
+a2_changes_nov25_data.o: \
+ C:/Users/XUYUE~1/OneDrive/Desktop/REMOTE~1/3K04_G~1/a2_changes_nov25_ert_rtw/a2_changes_nov25_data.c \
+ C:/Users/XUYUE~1/OneDrive/Desktop/REMOTE~1/3K04_G~1/a2_changes_nov25_ert_rtw/a2_changes_nov25.h \
+ C:/Users/Xu\ Yue/OneDrive/Desktop/remote_resp/3K04_Group39-1/slprj/ert/_sharedutils/rtwtypes.h \
+ C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_AnalogIn.h \
+ C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_SVD.h \
+ C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_SCI.h \
+ C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_digitalIO.h \
+ C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_I2C.h \
+ C:/Users/XUYUE~1/OneDrive/Desktop/REMOTE~1/3K04_G~1/a2_changes_nov25_ert_rtw/a2_changes_nov25_types.h \
+ C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_SVD.h \
+ C:/Users/Xu\ Yue/OneDrive/Desktop/remote_resp/3K04_Group39-1/slprj/ert/_sharedutils/DCM_SEND.h
+
+C:/Users/XUYUE~1/OneDrive/Desktop/REMOTE~1/3K04_G~1/a2_changes_nov25_ert_rtw/a2_changes_nov25.h:
+
+C:/Users/Xu\ Yue/OneDrive/Desktop/remote_resp/3K04_Group39-1/slprj/ert/_sharedutils/rtwtypes.h:
+
+C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_AnalogIn.h:
+
+C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_SVD.h:
+
+C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_SCI.h:
+
+C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_digitalIO.h:
+
+C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_I2C.h:
+
+C:/Users/XUYUE~1/OneDrive/Desktop/REMOTE~1/3K04_G~1/a2_changes_nov25_ert_rtw/a2_changes_nov25_types.h:
+
+C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/MW_SVD.h:
+
+C:/Users/Xu\ Yue/OneDrive/Desktop/remote_resp/3K04_Group39-1/slprj/ert/_sharedutils/DCM_SEND.h:

@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'a2'.
  *
- * Model version                  : 1.52
+ * Model version                  : 3.3
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Mon Nov 21 12:59:53 2022
+ * C/C++ source code generated on : Sat Nov 26 14:52:51 2022
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -24,7 +24,7 @@
 
 /* Model Code Variants */
 
-/* Custom Type definition for MATLABSystem: '<S3>/VENT_CMP_DETECT D1' */
+/* Custom Type definition for MATLABSystem: '<S6>/Serial Transmit' */
 #include "MW_SVD.h"
 #ifndef struct_tag_0QIIqIWUIOhUbf1p9QN9pB
 #define struct_tag_0QIIqIWUIOhUbf1p9QN9pB
@@ -42,6 +42,50 @@ struct tag_0QIIqIWUIOhUbf1p9QN9pB
 typedef struct tag_0QIIqIWUIOhUbf1p9QN9pB b_freedomk64f_Hardware_a2_T;
 
 #endif                                 /* typedef_b_freedomk64f_Hardware_a2_T */
+
+#ifndef struct_tag_GV9UedAE1zOVNNbkXknChB
+#define struct_tag_GV9UedAE1zOVNNbkXknChB
+
+struct tag_GV9UedAE1zOVNNbkXknChB
+{
+  boolean_T matlabCodegenIsDeleted;
+  int32_T isInitialized;
+  boolean_T isSetupComplete;
+  b_freedomk64f_Hardware_a2_T Hw;
+  MW_Handle_Type MW_SCIHANDLE;
+};
+
+#endif                                 /* struct_tag_GV9UedAE1zOVNNbkXknChB */
+
+#ifndef typedef_freedomk64f_SCIWrite_a2_T
+#define typedef_freedomk64f_SCIWrite_a2_T
+
+typedef struct tag_GV9UedAE1zOVNNbkXknChB freedomk64f_SCIWrite_a2_T;
+
+#endif                                 /* typedef_freedomk64f_SCIWrite_a2_T */
+
+/* Custom Type definition for MATLABSystem: '<S14>/FXOS8700 6-Axes Sensor' */
+#include "MW_I2C.h"
+#ifndef struct_tag_RYgVoAXTz61tXGMaBAGv7F
+#define struct_tag_RYgVoAXTz61tXGMaBAGv7F
+
+struct tag_RYgVoAXTz61tXGMaBAGv7F
+{
+  boolean_T matlabCodegenIsDeleted;
+  int32_T isInitialized;
+  boolean_T isSetupComplete;
+  b_freedomk64f_Hardware_a2_T Hw;
+  MW_Handle_Type MW_PWM_HANDLE;
+};
+
+#endif                                 /* struct_tag_RYgVoAXTz61tXGMaBAGv7F */
+
+#ifndef typedef_freedomk64f_PWMOutput_a2_T
+#define typedef_freedomk64f_PWMOutput_a2_T
+
+typedef struct tag_RYgVoAXTz61tXGMaBAGv7F freedomk64f_PWMOutput_a2_T;
+
+#endif                                 /* typedef_freedomk64f_PWMOutput_a2_T */
 
 #ifndef struct_tag_EkIWEs70Gs0LyfeXELZ2TC
 #define struct_tag_EkIWEs70Gs0LyfeXELZ2TC
@@ -64,24 +108,71 @@ typedef struct tag_EkIWEs70Gs0LyfeXELZ2TC freedomk64f_DigitalWrite_a2_T;
 
 #endif                               /* typedef_freedomk64f_DigitalWrite_a2_T */
 
-/* Custom Type definition for MATLABSystem: '<S5>/FXOS8700 6-Axes Sensor' */
-#include "MW_I2C.h"
-#ifndef struct_tag_0QIIqIWUIOhUbf1p9QN9pB
-#define struct_tag_0QIIqIWUIOhUbf1p9QN9pB
+#ifndef struct_tag_s1eQZAg8cMgwN6kxxyzYvC
+#define struct_tag_s1eQZAg8cMgwN6kxxyzYvC
 
-struct tag_0QIIqIWUIOhUbf1p9QN9pB
+struct tag_s1eQZAg8cMgwN6kxxyzYvC
 {
-  int32_T __dummy;
+  boolean_T matlabCodegenIsDeleted;
+  int32_T isInitialized;
+  boolean_T isSetupComplete;
+  b_freedomk64f_Hardware_a2_T Hw;
+  MW_Handle_Type MW_ANALOGIN_HANDLE;
+  real_T SampleTime;
 };
 
-#endif                                 /* struct_tag_0QIIqIWUIOhUbf1p9QN9pB */
+#endif                                 /* struct_tag_s1eQZAg8cMgwN6kxxyzYvC */
 
-#ifndef typedef_c_freedomk64f_Hardware_a2_T
-#define typedef_c_freedomk64f_Hardware_a2_T
+#ifndef typedef_freedomk64f_AnalogInput_a2_T
+#define typedef_freedomk64f_AnalogInput_a2_T
 
-typedef struct tag_0QIIqIWUIOhUbf1p9QN9pB c_freedomk64f_Hardware_a2_T;
+typedef struct tag_s1eQZAg8cMgwN6kxxyzYvC freedomk64f_AnalogInput_a2_T;
 
-#endif                                 /* typedef_c_freedomk64f_Hardware_a2_T */
+#endif                                /* typedef_freedomk64f_AnalogInput_a2_T */
+
+#ifndef struct_tag_214cR1nKZWaoqoq0FTtOUH
+#define struct_tag_214cR1nKZWaoqoq0FTtOUH
+
+struct tag_214cR1nKZWaoqoq0FTtOUH
+{
+  boolean_T matlabCodegenIsDeleted;
+  int32_T isInitialized;
+  boolean_T isSetupComplete;
+  b_freedomk64f_Hardware_a2_T Hw;
+  MW_Handle_Type MW_SCIHANDLE;
+  real_T SampleTime;
+};
+
+#endif                                 /* struct_tag_214cR1nKZWaoqoq0FTtOUH */
+
+#ifndef typedef_freedomk64f_SCIRead_a2_T
+#define typedef_freedomk64f_SCIRead_a2_T
+
+typedef struct tag_214cR1nKZWaoqoq0FTtOUH freedomk64f_SCIRead_a2_T;
+
+#endif                                 /* typedef_freedomk64f_SCIRead_a2_T */
+
+#ifndef struct_tag_q6HQSF2nXq6EjCNj0vbuLD
+#define struct_tag_q6HQSF2nXq6EjCNj0vbuLD
+
+struct tag_q6HQSF2nXq6EjCNj0vbuLD
+{
+  boolean_T matlabCodegenIsDeleted;
+  int32_T isInitialized;
+  boolean_T isSetupComplete;
+  b_freedomk64f_Hardware_a2_T Hw;
+  MW_Handle_Type MW_DIGITALIO_HANDLE;
+  real_T SampleTime;
+};
+
+#endif                                 /* struct_tag_q6HQSF2nXq6EjCNj0vbuLD */
+
+#ifndef typedef_freedomk64f_DigitalRead_a2_T
+#define typedef_freedomk64f_DigitalRead_a2_T
+
+typedef struct tag_q6HQSF2nXq6EjCNj0vbuLD freedomk64f_DigitalRead_a2_T;
+
+#endif                                /* typedef_freedomk64f_DigitalRead_a2_T */
 
 #ifndef struct_tag_O0UAiliRyLLAe38ibfdAhE
 #define struct_tag_O0UAiliRyLLAe38ibfdAhE
@@ -90,7 +181,7 @@ struct tag_O0UAiliRyLLAe38ibfdAhE
 {
   boolean_T matlabCodegenIsDeleted;
   int32_T isInitialized;
-  c_freedomk64f_Hardware_a2_T Hw;
+  b_freedomk64f_Hardware_a2_T Hw;
   uint32_T BusSpeed;
   MW_Handle_Type MW_I2C_HANDLE;
 };
@@ -124,112 +215,6 @@ struct tag_v5Zyp5raUQrCF4f9Ln2EwE
 typedef struct tag_v5Zyp5raUQrCF4f9Ln2EwE freedomk64f_fxos8700_a2_T;
 
 #endif                                 /* typedef_freedomk64f_fxos8700_a2_T */
-
-#ifndef struct_tag_MpLobwgvX1LsLuxnL1ZqZH
-#define struct_tag_MpLobwgvX1LsLuxnL1ZqZH
-
-struct tag_MpLobwgvX1LsLuxnL1ZqZH
-{
-  int32_T isInitialized;
-  boolean_T isSetupComplete;
-  real_T pCumSum;
-  real_T pCumSumRev[3];
-  real_T pCumRevIndex;
-  real_T pModValueRev;
-};
-
-#endif                                 /* struct_tag_MpLobwgvX1LsLuxnL1ZqZH */
-
-#ifndef typedef_g_dsp_internal_SlidingWindowA_T
-#define typedef_g_dsp_internal_SlidingWindowA_T
-
-typedef struct tag_MpLobwgvX1LsLuxnL1ZqZH g_dsp_internal_SlidingWindowA_T;
-
-#endif                             /* typedef_g_dsp_internal_SlidingWindowA_T */
-
-#ifndef struct_tag_RYgVoAXTz61tXGMaBAGv7F
-#define struct_tag_RYgVoAXTz61tXGMaBAGv7F
-
-struct tag_RYgVoAXTz61tXGMaBAGv7F
-{
-  boolean_T matlabCodegenIsDeleted;
-  int32_T isInitialized;
-  boolean_T isSetupComplete;
-  b_freedomk64f_Hardware_a2_T Hw;
-  MW_Handle_Type MW_PWM_HANDLE;
-};
-
-#endif                                 /* struct_tag_RYgVoAXTz61tXGMaBAGv7F */
-
-#ifndef typedef_freedomk64f_PWMOutput_a2_T
-#define typedef_freedomk64f_PWMOutput_a2_T
-
-typedef struct tag_RYgVoAXTz61tXGMaBAGv7F freedomk64f_PWMOutput_a2_T;
-
-#endif                                 /* typedef_freedomk64f_PWMOutput_a2_T */
-
-#ifndef struct_tag_q6HQSF2nXq6EjCNj0vbuLD
-#define struct_tag_q6HQSF2nXq6EjCNj0vbuLD
-
-struct tag_q6HQSF2nXq6EjCNj0vbuLD
-{
-  boolean_T matlabCodegenIsDeleted;
-  int32_T isInitialized;
-  boolean_T isSetupComplete;
-  b_freedomk64f_Hardware_a2_T Hw;
-  MW_Handle_Type MW_DIGITALIO_HANDLE;
-  real_T SampleTime;
-};
-
-#endif                                 /* struct_tag_q6HQSF2nXq6EjCNj0vbuLD */
-
-#ifndef typedef_freedomk64f_DigitalRead_a2_T
-#define typedef_freedomk64f_DigitalRead_a2_T
-
-typedef struct tag_q6HQSF2nXq6EjCNj0vbuLD freedomk64f_DigitalRead_a2_T;
-
-#endif                                /* typedef_freedomk64f_DigitalRead_a2_T */
-
-#ifndef struct_tag_BlgwLpgj2bjudmbmVKWwDE
-#define struct_tag_BlgwLpgj2bjudmbmVKWwDE
-
-struct tag_BlgwLpgj2bjudmbmVKWwDE
-{
-  uint32_T f1[8];
-};
-
-#endif                                 /* struct_tag_BlgwLpgj2bjudmbmVKWwDE */
-
-#ifndef typedef_cell_wrap_a2_T
-#define typedef_cell_wrap_a2_T
-
-typedef struct tag_BlgwLpgj2bjudmbmVKWwDE cell_wrap_a2_T;
-
-#endif                                 /* typedef_cell_wrap_a2_T */
-
-#ifndef struct_tag_JYajviSIAJrpzear7AATyD
-#define struct_tag_JYajviSIAJrpzear7AATyD
-
-struct tag_JYajviSIAJrpzear7AATyD
-{
-  boolean_T matlabCodegenIsDeleted;
-  int32_T isInitialized;
-  boolean_T isSetupComplete;
-  boolean_T TunablePropsChanged;
-  cell_wrap_a2_T inputVarSize;
-  g_dsp_internal_SlidingWindowA_T *pStatistic;
-  int32_T NumChannels;
-  g_dsp_internal_SlidingWindowA_T _pobj0;
-};
-
-#endif                                 /* struct_tag_JYajviSIAJrpzear7AATyD */
-
-#ifndef typedef_dsp_simulink_MovingAverage_a2_T
-#define typedef_dsp_simulink_MovingAverage_a2_T
-
-typedef struct tag_JYajviSIAJrpzear7AATyD dsp_simulink_MovingAverage_a2_T;
-
-#endif                             /* typedef_dsp_simulink_MovingAverage_a2_T */
 
 /* Parameters (default storage) */
 typedef struct P_a2_T_ P_a2_T;

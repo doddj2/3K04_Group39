@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'a2'.
  *
- * Model version                  : 1.52
+ * Model version                  : 3.3
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Mon Nov 21 12:59:53 2022
+ * C/C++ source code generated on : Sat Nov 26 14:52:51 2022
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -21,100 +21,75 @@
 
 /* Block parameters (default storage) */
 P_a2_T a2_P = {
-  /* Expression: -1
-   * Referenced by: '<S5>/FXOS8700 6-Axes Sensor'
-   */
-  -1.0,
-
   /* Expression: 1
-   * Referenced by: '<S6>/Constant'
+   * Referenced by: '<S4>/Constant'
    */
   1.0,
 
   /* Expression: 0
-   * Referenced by: '<S6>/Constant1'
+   * Referenced by: '<S4>/Constant1'
    */
   0.0,
+
+  /* Expression: SampleTime
+   * Referenced by: '<S2>/ATR_SIGNAL'
+   */
+  -1.0,
+
+  /* Expression: -1
+   * Referenced by: '<S2>/Serial Receive1'
+   */
+  -1.0,
+
+  /* Expression: SampleTime
+   * Referenced by: '<S2>/VENT_SIGNAL'
+   */
+  -1.0,
 
   /* Expression: SampleTime
    * Referenced by: '<S3>/ATR_CMP_DETECT D0'
    */
   -1.0,
 
+  /* Expression: -1
+   * Referenced by: '<S14>/FXOS8700 6-Axes Sensor'
+   */
+  -1.0,
+
+  /* Computed Parameter: Out1_Y0
+   * Referenced by: '<S14>/Out1'
+   */
+  0.0,
+
+  /* Expression: 1
+   * Referenced by: '<S14>/Constant'
+   */
+  1.0,
+
+  /* Expression: 1
+   * Referenced by: '<S15>/Constant'
+   */
+  1.0,
+
+  /* Expression: 0
+   * Referenced by: '<S15>/Constant1'
+   */
+  0.0,
+
   /* Expression: SampleTime
    * Referenced by: '<S3>/VENT_CMP_DETECT D1'
    */
   -1.0,
 
-  /* Expression: 1
-   * Referenced by: '<S5>/Constant'
+  /* Expression: 3.3
+   * Referenced by: '<S8>/Constant'
    */
-  1.0,
+  3.3,
 
-  /* Expression: 1.5
-   * Referenced by: '<S1>/Acceleration threshold'
+  /* Expression: 100
+   * Referenced by: '<S8>/Gain'
    */
-  1.5,
-
-  /* Expression: 60
-   * Referenced by: '<S1>/ppm'
-   */
-  60.0,
-
-  /* Expression: 175
-   * Referenced by: '<S1>/maximum sensor-driven rate'
-   */
-  175.0,
-
-  /* Expression: 2000
-   * Referenced by: '<S1>/reaction time'
-   */
-  2000.0,
-
-  /* Expression: 4000
-   * Referenced by: '<S1>/recovery time1'
-   */
-  4000.0,
-
-  /* Expression: 0
-   * Referenced by: '<S3>/Memory'
-   */
-  0.0,
-
-  /* Expression: 60000
-   * Referenced by: '<S11>/1min = 60sec = 60000msec2'
-   */
-  60000.0,
-
-  /* Expression: 130
-   * Referenced by: '<S1>/ARP msec'
-   */
-  130.0,
-
-  /* Expression: 5
-   * Referenced by: '<S1>/Atrial Pluse Width msec'
-   */
-  5.0,
-
-  /* Expression: 0
-   * Referenced by: '<S1>/mode'
-   */
-  0.0,
-
-  /* Expression: 120
-   * Referenced by: '<S1>/VRP msec'
-   */
-  120.0,
-
-  /* Expression: 5
-   * Referenced by: '<S1>/Ventricular Pluse Width msec'
-   */
-  5.0,
-
-  /* Expression: 3.2
-   * Referenced by: '<S1>/Atrial Amplitude(volt)'
-   */
-  3.2,
+  100.0,
 
   /* Expression: 5
    * Referenced by: '<S9>/Constant'
@@ -126,11 +101,6 @@ P_a2_T a2_P = {
    */
   100.0,
 
-  /* Expression: 3.5
-   * Referenced by: '<S1>/Ventricular Amplitude'
-   */
-  3.5,
-
   /* Expression: 5
    * Referenced by: '<S9>/Constant1'
    */
@@ -141,35 +111,35 @@ P_a2_T a2_P = {
    */
   100.0,
 
-  /* Expression: 2
-   * Referenced by: '<S6>/Switch'
+  /* Expression: 60000
+   * Referenced by: '<S11>/1min = 60sec = 60000msec2'
    */
-  2.0,
-
-  /* Expression: 2.3
-   * Referenced by: '<S1>/Atrial threshold(volt)'
-   */
-  2.3,
+  60000.0,
 
   /* Expression: 3.3
-   * Referenced by: '<S1>/Voltage'
+   * Referenced by: '<S8>/Constant1'
    */
   3.3,
 
   /* Expression: 100
-   * Referenced by: '<S8>/Gain'
+   * Referenced by: '<S8>/Gain1'
    */
   100.0,
 
-  /* Expression: 2.3
-   * Referenced by: '<S1>/Ventricle threshold(volt)'
+  /* Computed Parameter: Memory_InitialCondition
+   * Referenced by: '<S3>/Memory'
    */
-  2.3,
+  0U,
 
-  /* Expression: 100
-   * Referenced by: '<S8>/Gain1'
+  /* Computed Parameter: Switch_Threshold
+   * Referenced by: '<S15>/Switch'
    */
-  100.0
+  4U,
+
+  /* Computed Parameter: Switch_Threshold_p
+   * Referenced by: '<S4>/Switch'
+   */
+  2U
 };
 
 /*
