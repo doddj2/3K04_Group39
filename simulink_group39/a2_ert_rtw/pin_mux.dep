@@ -15,7 +15,7 @@ pin_mux.o: \
  C:/Freescale/KSDK_1.2.0/platform/hal/inc/fsl_sim_hal.h \
  c:\freescale\ksdk_1.2.0\platform\hal\src\sim\mk64f12\fsl_sim_hal_mk64f12.h \
  C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/pin_mux.h \
- C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/MW_target_hardware_resources.h \
+ C:/Users/Xu\ Yue/OneDrive/Desktop/remote_resp/3K04_Group39-1/simulink_group39/a2_ert_rtw/MW_target_hardware_resources.h \
  C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/board.h \
  C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/pin_mux.h \
  C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/gpio_pins.h \
@@ -55,7 +55,7 @@ c:\freescale\ksdk_1.2.0\platform\hal\src\sim\mk64f12\fsl_sim_hal_mk64f12.h:
 
 C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/pin_mux.h:
 
-C:/Users/yuexu/OneDrive/Desktop/ek1/a2_ert_rtw/MW_target_hardware_resources.h:
+C:/Users/Xu\ Yue/OneDrive/Desktop/remote_resp/3K04_Group39-1/simulink_group39/a2_ert_rtw/MW_target_hardware_resources.h:
 
 C:/ProgramData/MATLAB/SupportPackages/R2022a/toolbox/target/supportpackages/freedomk64f/include/board.h:
 
