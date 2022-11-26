@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c9e96572-e1cc-402d-947d-20b283a37109" name="Changes" comment="" />
+    <list default="true" id="c9e96572-e1cc-402d-947d-20b283a37109" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2.slx" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2.slx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
