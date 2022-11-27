@@ -2,7 +2,7 @@
 ## Makefile generated for component 'a2'. 
 ## 
 ## Makefile     : a2.mk
-## Generated on : Sat Nov 26 14:52:53 2022
+## Generated on : Sun Nov 27 00:48:48 2022
 ## Final product: $(RELATIVE_PATH_TO_ANCHOR)/a2.elf
 ## Product type : executable
 ## 
@@ -211,7 +211,7 @@ INCLUDES = $(INCLUDES_BUILDINFO)
 ## DEFINES
 ###########################################################################
 
-DEFINES_ = -DMW_SERIAL0_RXBUF_SIZE=68 -DMW_SERIAL0_TXBUF_SIZE=66 -D__MW_TARGET_USE_HARDWARE_RESOURCES_H__
+DEFINES_ = -DMW_SERIAL0_RXBUF_SIZE=74 -DMW_SERIAL0_TXBUF_SIZE=72 -D__MW_TARGET_USE_HARDWARE_RESOURCES_H__
 DEFINES_BUILD_ARGS = -DCLASSIC_INTERFACE=0 -DALLOCATIONFCN=0 -DTERMFCN=1 -DONESTEPFCN=1 -DMAT_FILE=0 -DMULTI_INSTANCE_CODE=0 -DINTEGER_CODE=0 -DMT=0
 DEFINES_CUSTOM = 
 DEFINES_OPTS = -DTID01EQ=0

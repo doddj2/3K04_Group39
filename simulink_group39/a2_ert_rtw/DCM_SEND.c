@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'a2'.
  *
- * Model version                  : 3.3
+ * Model version                  : 3.7
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Sat Nov 26 14:52:51 2022
+ * C/C++ source code generated on : Sun Nov 27 11:54:41 2022
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -117,20 +117,20 @@ void DCM_SEND(void)
   /* S-Function (any2byte): '<S6>/Byte Pack26' */
 
   /* Pack: <S6>/Byte Pack26 */
-  (void) memcpy(&a2_B.BytePack26[0], &a2_B.mode,
-                2);
+  (void) memcpy(&a2_B.BytePack26, &a2_B.mode,
+                1);
 
   /* S-Function (any2byte): '<S6>/Byte Pack 1' */
 
   /* Pack: <S6>/Byte Pack 1 */
-  (void) memcpy(&a2_B.BytePack1[0], &a2_B.lower_rate_limit,
-                2);
+  (void) memcpy(&a2_B.BytePack1, &a2_B.lower_rate_limit,
+                1);
 
   /* S-Function (any2byte): '<S6>/Byte Pack 2' */
 
   /* Pack: <S6>/Byte Pack 2 */
-  (void) memcpy(&a2_B.BytePack2[0], &a2_B.upper_rate_limit,
-                2);
+  (void) memcpy(&a2_B.BytePack2, &a2_B.upper_rate_limit,
+                1);
 
   /* S-Function (any2byte): '<S6>/Byte Pack 3' */
 
@@ -141,8 +141,8 @@ void DCM_SEND(void)
   /* S-Function (any2byte): '<S6>/Byte Pack27' */
 
   /* Pack: <S6>/Byte Pack27 */
-  (void) memcpy(&a2_B.BytePack27[0], &a2_B.av_delay,
-                2);
+  (void) memcpy(&a2_B.BytePack27, &a2_B.av_delay,
+                1);
 
   /* S-Function (any2byte): '<S6>/Byte Pack28' */
 
@@ -153,8 +153,8 @@ void DCM_SEND(void)
   /* S-Function (any2byte): '<S6>/Byte Pack29' */
 
   /* Pack: <S6>/Byte Pack29 */
-  (void) memcpy(&a2_B.BytePack29[0], &a2_B.response_factor,
-                2);
+  (void) memcpy(&a2_B.BytePack29, &a2_B.response_factor,
+                1);
 
   /* S-Function (any2byte): '<S6>/Byte Pack30' */
 
@@ -171,8 +171,8 @@ void DCM_SEND(void)
   /* S-Function (any2byte): '<S6>/Byte Pack32' */
 
   /* Pack: <S6>/Byte Pack32 */
-  (void) memcpy(&a2_B.BytePack32[0], &a2_B.MSR,
-                2);
+  (void) memcpy(&a2_B.BytePack32, &a2_B.MSR,
+                1);
 
   /* S-Function (any2byte): '<S6>/Byte Pack34' */
 
@@ -184,7 +184,7 @@ void DCM_SEND(void)
 
   /* Pack: <S6>/Byte Pack35 */
   (void) memcpy(&a2_B.BytePack35[0], &a2_B.atr_pulse_width,
-                2);
+                8);
 
   /* S-Function (any2byte): '<S6>/Byte Pack36' */
 
@@ -208,7 +208,7 @@ void DCM_SEND(void)
 
   /* Pack: <S6>/Byte Pack40 */
   (void) memcpy(&a2_B.BytePack40[0], &a2_B.vent_pulse_width,
-                2);
+                8);
 
   /* S-Function (any2byte): '<S6>/Byte Pack41' */
 
@@ -223,38 +223,30 @@ void DCM_SEND(void)
                 8);
 
   /* SignalConversion generated from: '<S6>/Serial Transmit' */
-  a2_B.TmpSignalConversionAtSerial[0] = a2_B.BytePack26[0];
-  a2_B.TmpSignalConversionAtSerial[2] = a2_B.BytePack1[0];
-  a2_B.TmpSignalConversionAtSerial[4] = a2_B.BytePack2[0];
-  a2_B.TmpSignalConversionAtSerial[6] = a2_B.BytePack3[0];
-  a2_B.TmpSignalConversionAtSerial[8] = a2_B.BytePack27[0];
-  a2_B.TmpSignalConversionAtSerial[10] = a2_B.BytePack28[0];
-  a2_B.TmpSignalConversionAtSerial[12] = a2_B.BytePack29[0];
-  a2_B.TmpSignalConversionAtSerial[1] = a2_B.BytePack26[1];
-  a2_B.TmpSignalConversionAtSerial[3] = a2_B.BytePack1[1];
-  a2_B.TmpSignalConversionAtSerial[5] = a2_B.BytePack2[1];
-  a2_B.TmpSignalConversionAtSerial[7] = a2_B.BytePack3[1];
-  a2_B.TmpSignalConversionAtSerial[9] = a2_B.BytePack27[1];
-  a2_B.TmpSignalConversionAtSerial[11] = a2_B.BytePack28[1];
-  a2_B.TmpSignalConversionAtSerial[13] = a2_B.BytePack29[1];
-  a2_B.TmpSignalConversionAtSerial[22] = a2_B.BytePack31[0];
-  a2_B.TmpSignalConversionAtSerial[24] = a2_B.BytePack32[0];
-  a2_B.TmpSignalConversionAtSerial[23] = a2_B.BytePack31[1];
-  a2_B.TmpSignalConversionAtSerial[25] = a2_B.BytePack32[1];
-  a2_B.TmpSignalConversionAtSerial[34] = a2_B.BytePack35[0];
+  a2_B.TmpSignalConversionAtSerial[0] = a2_B.BytePack26;
+  a2_B.TmpSignalConversionAtSerial[1] = a2_B.BytePack1;
+  a2_B.TmpSignalConversionAtSerial[2] = a2_B.BytePack2;
+  a2_B.TmpSignalConversionAtSerial[5] = a2_B.BytePack27;
+  a2_B.TmpSignalConversionAtSerial[3] = a2_B.BytePack3[0];
+  a2_B.TmpSignalConversionAtSerial[6] = a2_B.BytePack28[0];
+  a2_B.TmpSignalConversionAtSerial[4] = a2_B.BytePack3[1];
+  a2_B.TmpSignalConversionAtSerial[7] = a2_B.BytePack28[1];
+  a2_B.TmpSignalConversionAtSerial[8] = a2_B.BytePack29;
+  a2_B.TmpSignalConversionAtSerial[17] = a2_B.BytePack31[0];
+  a2_B.TmpSignalConversionAtSerial[18] = a2_B.BytePack31[1];
+  a2_B.TmpSignalConversionAtSerial[19] = a2_B.BytePack32;
   a2_B.TmpSignalConversionAtSerial[36] = a2_B.BytePack36[0];
-  a2_B.TmpSignalConversionAtSerial[35] = a2_B.BytePack35[1];
   a2_B.TmpSignalConversionAtSerial[37] = a2_B.BytePack36[1];
-  a2_B.TmpSignalConversionAtSerial[54] = a2_B.BytePack40[0];
-  a2_B.TmpSignalConversionAtSerial[56] = a2_B.BytePack41[0];
-  a2_B.TmpSignalConversionAtSerial[55] = a2_B.BytePack40[1];
-  a2_B.TmpSignalConversionAtSerial[57] = a2_B.BytePack41[1];
+  a2_B.TmpSignalConversionAtSerial[62] = a2_B.BytePack41[0];
+  a2_B.TmpSignalConversionAtSerial[63] = a2_B.BytePack41[1];
   for (i = 0; i < 8; i++) {
-    a2_B.TmpSignalConversionAtSerial[i + 14] = a2_B.BytePack30[i];
-    a2_B.TmpSignalConversionAtSerial[i + 26] = a2_B.BytePack34[i];
+    a2_B.TmpSignalConversionAtSerial[i + 9] = a2_B.BytePack30[i];
+    a2_B.TmpSignalConversionAtSerial[i + 20] = a2_B.BytePack34[i];
+    a2_B.TmpSignalConversionAtSerial[i + 28] = a2_B.BytePack35[i];
     a2_B.TmpSignalConversionAtSerial[i + 38] = a2_B.BytePack37[i];
     a2_B.TmpSignalConversionAtSerial[i + 46] = a2_B.BytePack39[i];
-    a2_B.TmpSignalConversionAtSerial[i + 58] = a2_B.BytePack42[i];
+    a2_B.TmpSignalConversionAtSerial[i + 54] = a2_B.BytePack40[i];
+    a2_B.TmpSignalConversionAtSerial[i + 64] = a2_B.BytePack42[i];
   }
 
   /* End of SignalConversion generated from: '<S6>/Serial Transmit' */
@@ -263,10 +255,10 @@ void DCM_SEND(void)
   status = 1U;
   while (status != 0) {
     memcpy((void *)&a2_B.TxDataLocChar[0], (void *)
-           &a2_B.TmpSignalConversionAtSerial[0], (uint32_T)((size_t)66 * sizeof
+           &a2_B.TmpSignalConversionAtSerial[0], (uint32_T)((size_t)72 * sizeof
             (uint8_T)));
     status = MW_SCI_Transmit(a2_DW.obj_j1.MW_SCIHANDLE, &a2_B.TxDataLocChar[0],
-      66U);
+      72U);
   }
 
   /* End of MATLABSystem: '<S6>/Serial Transmit' */

@@ -2,7 +2,93 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c9e96572-e1cc-402d-947d-20b283a37109" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2.slx" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2.slx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_final.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/serialCommunication.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2.slxc" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2.slxc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/DCM_SEND.c" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/DCM_SEND.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/DCM_SEND.dep" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/DCM_SEND.dep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/DCM_SEND_private.h" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/DCM_SEND_private.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/MW_AnalogInput.dep" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/MW_AnalogInput.dep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/MW_I2C.dep" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/MW_I2C.dep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/MW_PWM.dep" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/MW_PWM.dep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/MW_SCI.dep" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/MW_SCI.dep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/MW_digitalIO.dep" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/MW_digitalIO.dep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2.c" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2.dep" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2.dep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2.h" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2.map" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2.mk" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2.mk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2_comp.rsp" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2_comp.rsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2_data.c" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2_data.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2_data.dep" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2_data.dep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2_private.h" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2_private.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2_types.h" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/a2_types.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/buildInfo.mat" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/buildInfo.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/cmsis_rtos_init.dep" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/cmsis_rtos_init.dep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/codeInfo.mat" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/codeInfo.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/codedescriptor.dmr" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/codedescriptor.dmr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/ert_main.c" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/ert_main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/ert_main.dep" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/ert_main.dep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/hardware_init.dep" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/hardware_init.dep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/mw_sdk_interface.dep" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/mw_sdk_interface.dep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/mw_semaphore.dep" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/mw_semaphore.dep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/mw_signal.dep" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/mw_signal.dep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/mw_thread.dep" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/mw_thread.dep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/mw_timer.dep" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/mw_timer.dep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/pin_mux.dep" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/pin_mux.dep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/rtmodel.h" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/rtmodel.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/tmwinternal/simulink_cache.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/tmwinternal/simulink_cache.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/tmwinternal/tr" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/a2_ert_rtw/tmwinternal/tr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_jitprj/jitEngineAccessInfo.mat" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/_jitprj/jitEngineAccessInfo.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_jitprj/sS7BCsyv7qxVJZ6xegoB1bD.l" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_jitprj/sS7BCsyv7qxVJZ6xegoB1bD.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_jitprj/sf6DIIvr7VQUUUo4QCgI0CH.l" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_jitprj/sf6DIIvr7VQUUUo4QCgI0CH.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_jitprj/sfXR6SQA9ar7ObUHQOC6MMD.l" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_jitprj/sfXR6SQA9ar7ObUHQOC6MMD.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_sfprj/EMLReport/emlReportAccessInfo.mat" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/_sfprj/EMLReport/emlReportAccessInfo.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_sfprj/EMLReport/sS7BCsyv7qxVJZ6xegoB1bD.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_sfprj/EMLReport/sf6DIIvr7VQUUUo4QCgI0CH.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_sfprj/EMLReport/sfXR6SQA9ar7ObUHQOC6MMD.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_sfprj/a2/_self/rtw/ert/info/binfo.mat" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/_sfprj/a2/_self/rtw/ert/info/binfo.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_sfprj/a2/_self/sfun/info/binfo.mat" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/_sfprj/a2/_self/sfun/info/binfo.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_sfprj/a2/amsi_serial.mat" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/_sfprj/a2/amsi_serial.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_sfprj/precompile/2CXKy4lMjER6jLd3hwNjsH.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_sfprj/precompile/AywHM5b1YNjKQeFa9BAIoH.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_sfprj/precompile/L9vJwdGYYjCZeTStBk8fwH.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_sfprj/precompile/ONNGpOurn23kfflBQlb87E.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/_sfprj/precompile/d7gSaDGOFHMH2nOQOrNeEE.mat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/DCM_SEND.h" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/DCM_SEND.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/buildInfo.mat" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/buildInfo.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/checksummap.mat" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/checksummap.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtGetInf.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtGetInf.dep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtGetInf.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtGetInf.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtGetNaN.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtGetNaN.dep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtGetNaN.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtGetNaN.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rt_nonfinite.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rt_nonfinite.dep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rt_nonfinite.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rt_nonfinite.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rt_roundd_snf.c" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rt_roundd_snf.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rt_roundd_snf.dep" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rt_roundd_snf.dep" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rt_roundd_snf.h" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rt_roundd_snf.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtwshared.lib" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtwshared.lib" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtwshared.mk" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtwshared.mk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtwshared.rsp" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtwshared.rsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtwshared_comp.rsp" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtwshared_comp.rsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtwtypes.h" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtwtypes.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtwtypeschksum.mat" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/rtwtypeschksum.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/shared_file.dmr" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/ert/_sharedutils/shared_file.dmr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/a2/tmwinternal/BlockTraceInfo.mat" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/ert/a2/tmwinternal/BlockTraceInfo.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/a2/tmwinternal/CompileInfo.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/ert/a2/tmwinternal/CompileInfo.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/a2/tmwinternal/binfo.mat" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/ert/a2/tmwinternal/binfo.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../simulink_group39/slprj/ert/a2/tmwinternal/minfo.mat" beforeDir="false" afterPath="$PROJECT_DIR$/../simulink_group39/slprj/ert/a2/tmwinternal/minfo.mat" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

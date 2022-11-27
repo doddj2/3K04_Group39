@@ -2,7 +2,7 @@
 ## Makefile generated for component 'rtwshared'. 
 ## 
 ## Makefile     : rtwshared.mk
-## Generated on : Sat Nov 26 14:52:53 2022
+## Generated on : Sat Nov 26 23:47:11 2022
 ## Final product: ./rtwshared.lib
 ## Product type : static library
 ## 
@@ -213,7 +213,7 @@ INCLUDES = $(INCLUDES_BUILDINFO)
 ## DEFINES
 ###########################################################################
 
-DEFINES_ = -DMW_SERIAL1_RXBUF_SIZE=68 -DMW_SERIAL1_TXBUF_SIZE=66 -D__MW_TARGET_USE_HARDWARE_RESOURCES_H__ -DMW_SERIAL0_TXBUF_SIZE=66 -DMW_SERIAL0_RXBUF_SIZE=68
+DEFINES_ = -DMW_SERIAL0_RXBUF_SIZE=73 -DMW_SERIAL0_TXBUF_SIZE=72 -D__MW_TARGET_USE_HARDWARE_RESOURCES_H__
 DEFINES_BUILD_ARGS = -DINTEGER_CODE=0
 DEFINES_CUSTOM = 
 DEFINES_SKIPFORSIL = -DNRT -DNULL=0 -DEXIT_FAILURE=1 -DEXTMODE_DISABLEPRINTF -DEXTMODE_DISABLETESTING -DEXTMODE_DISABLE_ARGS_PROCESSING=1 -DTARGET_K64F -DTARGET_Freescale -DTOOLCHAIN_GCC_ARM -DTOOLCHAIN_GCC -DTARGET_M4 -DTARGET_CORTEX_M -DTARGET_KPSDK_MCUS -DTARGET_KPSDK_CODE -DTARGET_MCU_K64F -DTARGET_FRDM -D__CORTEX_M4 -DARM_MATH_CM4 -D__FPU_PRESENT=1 -DCPU_MK64FN1M0VMD12 -DFRDM_K64F120M -DFREEDOM -D__STACK_SIZE=0x2000 -D__HEAP_SIZE=0x2000 -DCLOCK_SETUP -D__FPU_USED=1 -DUSE_RTX -DOS_ROBIN=0 -DOS_TIMERS=1 -DOS_TIMERPRIO=6 -DOS_TIMERSTKSZ=200 -DSTACK_SIZE=64 -DOS_CLOCK=120000000 -DOS_TICK=1000 -DMW_BASERATEMULTIPLIER=1 -DOS_TASKCNT=2 -DOS_STKSIZE=1088 -DOS_MAINSTKSIZE=512
@@ -224,7 +224,7 @@ DEFINES = $(DEFINES_) $(DEFINES_BUILD_ARGS) $(DEFINES_CUSTOM) $(DEFINES_SKIPFORS
 ## SOURCE FILES
 ###########################################################################
 
-SRCS = $(START_DIR)/slprj/ert/_sharedutils/rtGetInf.c $(START_DIR)/slprj/ert/_sharedutils/rtGetNaN.c $(START_DIR)/slprj/ert/_sharedutils/rt_nonfinite.c $(START_DIR)/slprj/ert/_sharedutils/rt_roundd_snf.c
+SRCS = $(START_DIR)/slprj/ert/_sharedutils/rt_roundd_snf.c
 
 ALL_SRCS = $(SRCS)
 
@@ -232,7 +232,7 @@ ALL_SRCS = $(SRCS)
 ## OBJECTS
 ###########################################################################
 
-OBJS = rtGetInf.o rtGetNaN.o rt_nonfinite.o rt_roundd_snf.o
+OBJS = rt_roundd_snf.o
 
 ALL_OBJS = $(OBJS)
 
@@ -474,18 +474,6 @@ $(PRODUCT) : $(OBJS) $(PREBUILT_OBJS)
 
 %.o : $(START_DIR)/%.cxx
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
-
-
-rtGetInf.o : $(START_DIR)/slprj/ert/_sharedutils/rtGetInf.c
-	$(CC) $(CFLAGS) -o "$@" "$<"
-
-
-rtGetNaN.o : $(START_DIR)/slprj/ert/_sharedutils/rtGetNaN.c
-	$(CC) $(CFLAGS) -o "$@" "$<"
-
-
-rt_nonfinite.o : $(START_DIR)/slprj/ert/_sharedutils/rt_nonfinite.c
-	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
 rt_roundd_snf.o : $(START_DIR)/slprj/ert/_sharedutils/rt_roundd_snf.c
