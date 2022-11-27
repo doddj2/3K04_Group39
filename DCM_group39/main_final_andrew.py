@@ -443,7 +443,7 @@ def loadAndSend(mode, loadFrom):
         APW = float(data[dataLocation+4])
         #for whatever reason DCM goes in the order 
     #AOO, VOO, AAI, VVI while simulink does VOO, AOO,VVI,AAI with modes 0,1,2,3 respectively
-        sendToSimulink(1,LRL,URL,APA,APW,2.3,4,5,2.3,200,200,200,69,120,30,16,5,1)
+        sendToSimulink(1,LRL,URL,APA,APW,2.3,4,5,2.3,200,200,200,69,120,30,16,5,1,0)
                     #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
         return
     if(mode == "VOO"):
@@ -454,7 +454,7 @@ def loadAndSend(mode, loadFrom):
         VPW = float(data[dataLocation+4])
         #for whatever reason DCM goes in the order 
     #AOO, VOO, AAI, VVI while simulink does VOO, AOO,VVI,AAI with modes 0,1,2,3 respectively
-        sendToSimulink(0,LRL,URL,4,5,2.3,VPA,VPW,2.3,200,200,200,69,120,30,16,5,1)  
+        sendToSimulink(0,LRL,URL,4,5,2.3,VPA,VPW,2.3,200,200,200,69,120,30,16,5,1,0)  
 
     if(mode == "AAI"):
         dataLocation = data.index(str((mode+"\n"))) 
@@ -468,13 +468,151 @@ def loadAndSend(mode, loadFrom):
         RS =  float(data[dataLocation+8]) 
         PVARP =  float(data[dataLocation+9]) 
                       #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
-        sendToSimulink(3,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,30,16,5,1)  
+        sendToSimulink(2,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,30,16,5,1,HRL)  
     if(mode == "VVI"):
         dataLocation = data.index(str((mode+"\n"))) 
-        LRL = data[dataLocation+1] #translate to ppm? 
-        URL = data[dataLocation+2]
-        VPA = data[dataLocation+3]
-        VPW = data[dataLocation+4]
+        LRL = int(data[dataLocation+1]) #translate to ppm? 
+        URL = int(data[dataLocation+2])
+        VPA = float(data[dataLocation+3])
+        VPW = float(data[dataLocation+4])
+        Vsense = float(data[dataLocation+5])
+        VRP = float([dataLocations+6])
+        HRL = float([dataLocations+7])
+        RS = float(data[dataLocations + 8])
+        sendToSimulink(3,LRL,URL,4,5,2.3,VPA,VPW,Vsense,VRP,200,200,RS,30,16,5,1,HRL)
+
+    if(mode== "AOOR"):
+        dataLocation = data.index(str((mode+"\n"))) 
+        LRL = int(data[dataLocation+1]) #lrl in units of ppm
+        URL = int(data[dataLocation+2])
+        MSR = int(data[dataLocation+3])
+        APA = float(data[dataLocation+4])
+        APW = float(data[dataLocation+5])
+        AT = data[dataLocation+6]
+
+        if AT == "V-Low":
+            AT = float(0.85)
+        if AT == "Low":
+            AT = float(1.71)
+        if AT == "Med-Low":
+            AT = float(2.55)
+        if AT == "Med":
+            AT = float(3.40)
+        if AT == "Med-High":
+            AT = float(4.26)
+        if AT == "High":
+            AT = float(5.1)
+        if AT == "V-High":
+            AT = float(5.96)
+        RT = int(data[dataLocation+7])
+        RF = int(data[dataLocation+8])
+        Rect = int(data[dataLocation+9])
+        
+            
+                      #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold, HRL
+        sendToSimulink(4,LRL,URL,APA,APW,2.3,4,5,2.3,200,200,200,69,MSR,RT,RF,Rect,AT,0)
+    if(mode == "VOOR"):
+        dataLocation = data.index(str((mode+"\n"))) 
+        LRL = int(data[dataLocation+1]) #lrl in units of ppm
+        URL = int(data[dataLocation+2])
+        MSR = int(data[dataLocation+3])
+        VPA = float(data[dataLocation+4])
+        VPW = float(data[dataLocation+5])
+        AT = data[dataLocation+6]
+
+        if AT == "V-Low":
+            AT = float(0.85)
+        if AT == "Low":
+            AT = float(1.71)
+        if AT == "Med-Low":
+            AT = float(2.55)
+        if AT == "Med":
+            AT = float(3.40)
+        if AT == "Med-High":
+            AT = float(4.26)
+        if AT == "High":
+            AT = float(5.1)
+        if AT == "V-High":
+            AT = float(5.96)
+
+        RT = int(data[dataLocation+7])
+        RF = int(data[dataLocation+8])
+        Rect = int(data[dataLocation+9])
+        
+        #for whatever reason DCM goes in the order 
+                    #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold, HRL
+        sendToSimulink(5,LRL,URL,4,5,2.3,VPA,VPW,2.3,200,200,200,69,MSR,RT,RF,Rect,AT,0)
+
+    if(mode == "AAIR"):
+        dataLocation = data.index(str((mode+"\n"))) 
+        LRL = int(data[dataLocation+1]) #lrl in units of ppm
+        URL = int(data[dataLocation+2])
+        MSR = int(data[dataLocation+3])
+        APA = float(data[dataLocation+4])
+        APW = float(data[dataLocation+5])
+        ASense = float(data[dataLocation+6])
+        ARP = float(data[dataLocation+7])
+        HRL = float(data[dataLocation+8]) 
+        RS =  float(data[dataLocation+9]) 
+        PVARP =  float(data[dataLocation+10])
+
+        AT = data[dataLocation+11]
+
+        if AT == "V-Low":
+            AT = float(0.85)
+        if AT == "Low":
+            AT = float(1.71)
+        if AT == "Med-Low":
+            AT = float(2.55)
+        if AT == "Med":
+            AT = float(3.40)
+        if AT == "Med-High":
+            AT = float(4.26)
+        if AT == "High":
+            AT = float(5.1)
+        if AT == "V-High":
+            AT = float(5.96)
+
+        RT = int(data[dataLocation+12])
+        RF = int(data[dataLocation+13])
+        Rect = int(data[dataLocation+14])
+        
+                      #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
+        sendToSimulink(6,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,MSR,RT,RF,Rect,AT,HRL)
+
+    if(mode == "VVIR"):
+        dataLocation = data.index(str((mode+"\n"))) 
+        LRL = int(data[dataLocation+1]) #translate to ppm? 
+        URL = int(data[dataLocation+2])
+        MSR = int(data[dataLocation+3])
+        VPA = float(data[dataLocation+4])
+        VPW = float(data[dataLocation+5])
+        Vsense = float(data[dataLocation+6])
+        VRP = float([dataLocations+7])
+        HRL = float([dataLocations+8])
+        RS = float(data[dataLocations + 9])
+        AT = data[dataLocation+10]
+
+        if AT == "V-Low":
+            AT = float(0.85)
+        if AT == "Low":
+            AT = float(1.71)
+        if AT == "Med-Low":
+            AT = float(2.55)
+        if AT == "Med":
+            AT = float(3.40)
+        if AT == "Med-High":
+            AT = float(4.26)
+        if AT == "High":
+            AT = float(5.1)
+        if AT == "V-High":
+            AT = float(5.96)
+
+        RT = int(data[dataLocation+11])
+        RF = int(data[dataLocation+12])
+        Rect = int(data[dataLocation+13])
+                   #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
+        sendToSimulink(7,LRL,URL,4,5,2.3,VPA,VPW,Vsense,VRP,200,200,MSR,RT,RF,Rect,AT,HRL)
 
 def login_verify():
     username1 = username_verify.get()
@@ -815,9 +953,9 @@ def dashboard():
         user_apw = filelines[AAILocation+4]
         user_as = filelines[AAILocation+5]
         user_arp = filelines[AAILocation+6]
-        user_pvarp = filelines[AAILocation+7]
-        user_hyster = filelines[AAILocation+8]
-        user_smooth = filelines[AAILocation+9]
+        user_pvarp = filelines[AAILocation+9]
+        user_hyster = filelines[AAILocation+7]
+        user_smooth = filelines[AAILocation+8]
         Label(dash_screen, text = " ", bg='#db4f66',width=11).place(x= 0 + xOffset*xOffsetIncrement,y=150+ybuffermode)
         Label(dash_screen, text = "AAI:", bg='#db4f66').place(x= 0 + xOffset*xOffsetIncrement,y=150+ybuffermode)
         Label(dash_screen, text = "LRL = " + user_lrl).place(x= 0 + xOffset*xOffsetIncrement,y=165+ybuffer)
@@ -826,9 +964,9 @@ def dashboard():
         Label(dash_screen, text = "APW = " + user_apw).place(x= 0 + xOffset*xOffsetIncrement,y=210+ybuffer)
         Label(dash_screen, text = "AS = " + user_as).place(x= 0 + xOffset*xOffsetIncrement,y=225+ybuffer)
         Label(dash_screen, text = "ARP = " + user_arp).place(x= 0 + xOffset*xOffsetIncrement,y=240+ybuffer)
-        Label(dash_screen, text = "PVARP = " + user_pvarp).place(x= 0 + xOffset*xOffsetIncrement,y=255+ybuffer)
+        Label(dash_screen, text = "RSM = " + user_smooth).place(x= 0 + xOffset*xOffsetIncrement,y=255+ybuffer)
         Label(dash_screen, text = "HYSTER= " + user_hyster).place(x= 0 + xOffset*xOffsetIncrement,y=270+ybuffer)
-        Label(dash_screen, text = "RSM = " + user_smooth).place(x= 0 + xOffset*xOffsetIncrement,y=285+ybuffer)
+        Label(dash_screen, text = "PVARP = " + user_pvarp).place(x= 0 + xOffset*xOffsetIncrement,y=285+ybuffer)
         xOffset = xOffset+1
         
     if VVILocation != -1:
