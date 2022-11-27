@@ -12,7 +12,7 @@ SYNC = b'\x22'
 Fn_set = b'\x55'
 
 #manual input
-mode = struct.pack("B", 1) #0-VOO 1-AOO 2-VVI 3-AAI 4-VOOR 5-AOOR 6-VVIR 7-AAIR
+mode = struct.pack("B", 0) #0-VOO 1-AOO 2-VVI 3-AAI
 lrl = struct.pack("B", 60)
 url = struct.pack("B", 120)
 PVARP = struct.pack("H", 100)
@@ -25,11 +25,11 @@ recovery_time = struct.pack("H", 21)
 MSR = struct.pack("B", 120)
 atr_amp = struct.pack("d", 3.6)
 atr_pulse_width = struct.pack("d", 5)
-ARP = struct.pack("H", 400)
+ARP = struct.pack("H", 150)
 atr_threshold = struct.pack("d", 3.0)
 vent_amp = struct.pack("d", 4.1)
 vent_pulse_width = struct.pack("d", 5.3)
-VRP = struct.pack("H", 400)
+VRP = struct.pack("H", 150)
 vent_threshold = struct.pack("d", 2.3)
 
 #broken up like this for the sake of readability and testing
