@@ -12,7 +12,7 @@ SYNC = b'\x22'
 Fn_set = b'\x55'
 
 #manual input
-mode = struct.pack("B", 2) #0-VOO 1-AOO 2-VVI 3-AAI 4-VOOR 5-AOOR 6-VVIR 7-AAIR
+mode = struct.pack("B", 1) #0-VOO 1-AOO 2-VVI 3-AAI 4-VOOR 5-AOOR 6-VVIR 7-AAIR
 lrl = struct.pack("B", 60)
 url = struct.pack("B", 120)
 PVARP = struct.pack("H", 100)
