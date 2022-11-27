@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'a2'.
  *
- * Model version                  : 3.3
+ * Model version                  : 3.7
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Sat Nov 26 14:52:51 2022
+ * C/C++ source code generated on : Sun Nov 27 11:54:41 2022
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -71,10 +71,10 @@ RT_MODEL_a2_T *const a2_M = &a2_M_;
 /* Forward declaration for local functions */
 static int16_T a2_bitshift_anonFcn1(int16_T a1, real_T k1);
 static void a2_enter_atomic_Charging_nltu(const real_T *Gain1);
-static void a2_VVIR(const uint16_T *time_response, const boolean_T
+static void a2_VVIR(const uint16_T *DataTypeConversion, const boolean_T
                     *VENT_CMP_DETECTD1, const real_T *Gain1);
 static void a2_enter_atomic_Charging(const real_T *Gain);
-static void a2_AAIR(const uint16_T *time_response, const boolean_T
+static void a2_AAIR(const uint16_T *DataTypeConversion, const boolean_T
                     *ATR_CMP_DETECTD0, const real_T *Gain);
 static void a2_Start(const real_T *Gain1, const real_T *Gain);
 static void a2_VVI(const real_T *Divide2, const boolean_T *VENT_CMP_DETECTD1,
@@ -116,26 +116,32 @@ static void a2_enter_atomic_Charging_nltu(const real_T *Gain1)
 }
 
 /* Function for Chart: '<S3>/4 Modes' */
-static void a2_VVIR(const uint16_T *time_response, const boolean_T
+static void a2_VVIR(const uint16_T *DataTypeConversion, const boolean_T
                     *VENT_CMP_DETECTD1, const real_T *Gain1)
 {
-  int32_T q0;
+  real_T tmp_0;
   uint32_T qY;
-  uint32_T qY_0;
+  uint16_T tmp;
   switch (a2_DW.is_VVIR) {
    case a2_IN_Alert_Period:
     if (*VENT_CMP_DETECTD1) {
       a2_DW.is_VVIR = a2_IN_VRP_Period;
       a2_DW.temporalCounter_i1 = 0U;
     } else {
-      q0 = (int32_T)rt_roundd_snf(0.5 * (real_T)*time_response);
-      qY_0 = (uint32_T)q0 - /*MW:OvSatOk*/ a2_B.vent_pulse_width_h;
-      if (qY_0 > (uint32_T)q0) {
-        qY_0 = 0U;
+      tmp_0 = rt_roundd_snf(rt_roundd_snf(0.5 * (real_T)*DataTypeConversion) -
+                            a2_B.vent_pulse_width_h);
+      if (tmp_0 < 65536.0) {
+        if (tmp_0 >= 0.0) {
+          tmp = (uint16_T)tmp_0;
+        } else {
+          tmp = 0U;
+        }
+      } else {
+        tmp = MAX_uint16_T;
       }
 
-      qY = qY_0 - /*MW:OvSatOk*/ a2_B.VRP_j;
-      if (qY > qY_0) {
+      qY = (uint32_T)tmp - /*MW:OvSatOk*/ a2_B.VRP_j;
+      if (qY > tmp) {
         qY = 0U;
       }
 
@@ -177,7 +183,7 @@ static void a2_VVIR(const uint16_T *time_response, const boolean_T
     a2_B.Z_ATR_CTRL = a2_LOW;
     a2_B.Z_VENT_CTRL = a2_LOW;
     a2_B.VENT_GND_CTRL = a2_LOW;
-    if (a2_DW.temporalCounter_i1 >= a2_B.vent_pulse_width_h) {
+    if (a2_DW.temporalCounter_i1 >= (uint32_T)ceil(a2_B.vent_pulse_width_h)) {
       a2_DW.is_VVIR = a2_IN_Charging_j;
       a2_DW.temporalCounter_i1 = 0U;
       a2_enter_atomic_Charging_nltu(Gain1);
@@ -209,12 +215,12 @@ static void a2_enter_atomic_Charging(const real_T *Gain)
 }
 
 /* Function for Chart: '<S3>/4 Modes' */
-static void a2_AAIR(const uint16_T *time_response, const boolean_T
+static void a2_AAIR(const uint16_T *DataTypeConversion, const boolean_T
                     *ATR_CMP_DETECTD0, const real_T *Gain)
 {
-  int32_T q0;
+  real_T tmp_0;
   uint32_T qY;
-  uint32_T qY_0;
+  uint16_T tmp;
   switch (a2_DW.is_AAIR) {
    case a2_IN_ARP_Period:
     if (a2_DW.temporalCounter_i1 >= a2_B.ARP_c) {
@@ -228,14 +234,20 @@ static void a2_AAIR(const uint16_T *time_response, const boolean_T
       a2_DW.is_AAIR = a2_IN_ARP_Period;
       a2_DW.temporalCounter_i1 = 0U;
     } else {
-      q0 = (int32_T)rt_roundd_snf(0.5 * (real_T)*time_response);
-      qY_0 = (uint32_T)q0 - /*MW:OvSatOk*/ a2_B.atr_pulse_width_f;
-      if (qY_0 > (uint32_T)q0) {
-        qY_0 = 0U;
+      tmp_0 = rt_roundd_snf(rt_roundd_snf(0.5 * (real_T)*DataTypeConversion) -
+                            a2_B.atr_pulse_width_f);
+      if (tmp_0 < 65536.0) {
+        if (tmp_0 >= 0.0) {
+          tmp = (uint16_T)tmp_0;
+        } else {
+          tmp = 0U;
+        }
+      } else {
+        tmp = MAX_uint16_T;
       }
 
-      qY = qY_0 - /*MW:OvSatOk*/ a2_B.ARP_c;
-      if (qY > qY_0) {
+      qY = (uint32_T)tmp - /*MW:OvSatOk*/ a2_B.ARP_c;
+      if (qY > tmp) {
         qY = 0U;
       }
 
@@ -278,7 +290,7 @@ static void a2_AAIR(const uint16_T *time_response, const boolean_T
     a2_B.Z_ATR_CTRL = a2_LOW;
     a2_B.Z_VENT_CTRL = a2_LOW;
     a2_B.VENT_GND_CTRL = a2_LOW;
-    if (a2_DW.temporalCounter_i1 >= a2_B.atr_pulse_width_f) {
+    if (a2_DW.temporalCounter_i1 >= (uint32_T)ceil(a2_B.atr_pulse_width_f)) {
       a2_DW.is_AAIR = a2_IN_Charging_jb;
       a2_DW.temporalCounter_i1 = 0U;
       a2_enter_atomic_Charging(Gain);
@@ -291,6 +303,13 @@ static void a2_AAIR(const uint16_T *time_response, const boolean_T
 static void a2_Start(const real_T *Gain1, const real_T *Gain)
 {
   switch (a2_B.mode_f) {
+   case 6:
+    a2_DW.is_c4_a2 = a2_IN_VVIR;
+    a2_DW.is_VVIR = a2_IN_Charging_j;
+    a2_DW.temporalCounter_i1 = 0U;
+    a2_enter_atomic_Charging_nltu(Gain1);
+    break;
+
    case 4:
     a2_DW.is_c4_a2 = a2_IN_VOOR;
     a2_DW.is_VOOR = a2_IN_Charging;
@@ -322,13 +341,6 @@ static void a2_Start(const real_T *Gain1, const real_T *Gain)
    case 2:
     a2_DW.is_c4_a2 = a2_IN_VVI;
     a2_DW.is_VVI = a2_IN_Charging1;
-    a2_DW.temporalCounter_i1 = 0U;
-    a2_enter_atomic_Charging_nltu(Gain1);
-    break;
-
-   case 6:
-    a2_DW.is_c4_a2 = a2_IN_VVIR;
-    a2_DW.is_VVIR = a2_IN_Charging_j;
     a2_DW.temporalCounter_i1 = 0U;
     a2_enter_atomic_Charging_nltu(Gain1);
     break;
@@ -410,7 +422,7 @@ static void a2_VVI(const real_T *Divide2, const boolean_T *VENT_CMP_DETECTD1,
     a2_B.Z_ATR_CTRL = a2_LOW;
     a2_B.Z_VENT_CTRL = a2_LOW;
     a2_B.VENT_GND_CTRL = a2_LOW;
-    if (a2_DW.temporalCounter_i1 >= a2_B.vent_pulse_width_h) {
+    if (a2_DW.temporalCounter_i1 >= (uint32_T)ceil(a2_B.vent_pulse_width_h)) {
       a2_DW.is_VVI = a2_IN_Charging1;
       a2_DW.temporalCounter_i1 = 0U;
       a2_enter_atomic_Charging_nltu(Gain1);
@@ -490,15 +502,15 @@ static void a2_SystemCore_setup_j(freedomk64f_SCIRead_a2_T *obj)
 /* Model step function */
 void a2_step(void)
 {
-  real_T tmp_0;
-  int32_T q0;
+  real_T tmp_1;
+  int32_T tmp_0;
   uint32_T qY;
   int16_T b_RegisterValue[3];
-  uint16_T b_x;
-  uint16_T pos_slope;
+  uint16_T DataTypeConversion;
   uint8_T output_raw[6];
   uint8_T b_x_0[2];
   uint8_T y[2];
+  uint8_T b_x;
   uint8_T status;
   boolean_T VENT_CMP_DETECTD1;
   boolean_T rtb_RelationalOperator;
@@ -509,9 +521,9 @@ void a2_step(void)
     a2_DW.obj_b.SampleTime = a2_P.SerialReceive1_SampleTime;
   }
 
-  status = MW_SCI_Receive(a2_DW.obj_b.MW_SCIHANDLE, &a2_B.RxDataLocChar[0], 68U);
+  status = MW_SCI_Receive(a2_DW.obj_b.MW_SCIHANDLE, &a2_B.RxDataLocChar[0], 74U);
   memcpy((void *)&a2_B.RxData[0], (void *)&a2_B.RxDataLocChar[0], (uint32_T)
-         ((size_t)68 * sizeof(uint8_T)));
+         ((size_t)74 * sizeof(uint8_T)));
 
   /* Chart: '<S2>/From DCM' incorporates:
    *  MATLABSystem: '<S2>/Serial Receive1'
@@ -519,23 +531,23 @@ void a2_step(void)
   if (a2_DW.is_active_c2_a2 == 0U) {
     a2_DW.is_active_c2_a2 = 1U;
     a2_DW.is_c2_a2 = a2_IN_Default;
-    a2_B.mode_f = 6U;
+    a2_B.mode_f = 0U;
     a2_B.lower_rate_limit_p = 60U;
     a2_B.upper_rate_limit_m = 120U;
-    a2_B.PVARP_a = 250U;
+    a2_B.PVARP_a = 200U;
     a2_B.av_delay_f = 150U;
     a2_B.reaction_time_i = 10U;
     a2_B.response_factor_n = 16U;
-    a2_B.activity_threshold_o = 0.2;
+    a2_B.activity_threshold_o = 2.3;
     a2_B.recovery_time_e = 20U;
     a2_B.MSR_g = 180U;
     a2_B.atr_amp_p = 3.5;
-    a2_B.atr_pulse_width_f = 10U;
-    a2_B.ARP_c = 200U;
+    a2_B.atr_pulse_width_f = 10.0;
+    a2_B.ARP_c = 175U;
     a2_B.atr_threshold_e = 1.8;
     a2_B.vent_amp_e = 3.5;
-    a2_B.vent_pulse_width_h = 10U;
-    a2_B.VRP_j = 200U;
+    a2_B.vent_pulse_width_h = 10.0;
+    a2_B.VRP_j = 176U;
     a2_B.vent_threshold_o = 2.2;
   } else {
     switch (a2_DW.is_c2_a2) {
@@ -556,37 +568,26 @@ void a2_step(void)
       if (status == 0) {
         if (a2_B.RxData[0] == 22) {
           switch (a2_B.RxData[1]) {
-           case 34:
-            a2_DW.is_c2_a2 = a2_IN_ECHO_PARAM;
-            DCM_SEND();
-            break;
-
            case 85:
             a2_DW.is_c2_a2 = a2_IN_SET_PARAM;
-            memcpy((void *)&a2_B.mode_f, (void *)&a2_B.RxData[2], (uint32_T)
+            a2_B.mode_f = a2_B.RxData[2];
+            a2_B.lower_rate_limit_p = a2_B.RxData[3];
+            a2_B.upper_rate_limit_m = a2_B.RxData[4];
+            memcpy((void *)&a2_B.PVARP_a, (void *)&a2_B.RxData[5], (uint32_T)
                    ((size_t)1 * sizeof(uint16_T)));
-            memcpy((void *)&a2_B.lower_rate_limit_p, (void *)&a2_B.RxData[4],
+            a2_B.av_delay_f = a2_B.RxData[7];
+            memcpy((void *)&a2_B.reaction_time_i, (void *)&a2_B.RxData[8],
                    (uint32_T)((size_t)1 * sizeof(uint16_T)));
-            memcpy((void *)&a2_B.upper_rate_limit_m, (void *)&a2_B.RxData[6],
-                   (uint32_T)((size_t)1 * sizeof(uint16_T)));
-            memcpy((void *)&a2_B.PVARP_a, (void *)&a2_B.RxData[8], (uint32_T)
-                   ((size_t)1 * sizeof(uint16_T)));
-            memcpy((void *)&a2_B.av_delay_f, (void *)&a2_B.RxData[10], (uint32_T)
-                   ((size_t)1 * sizeof(uint16_T)));
-            memcpy((void *)&a2_B.reaction_time_i, (void *)&a2_B.RxData[12],
-                   (uint32_T)((size_t)1 * sizeof(uint16_T)));
-            memcpy((void *)&a2_B.response_factor_n, (void *)&a2_B.RxData[14],
-                   (uint32_T)((size_t)1 * sizeof(uint16_T)));
-            memcpy((void *)&a2_B.activity_threshold_o, (void *)&a2_B.RxData[16],
+            a2_B.response_factor_n = a2_B.RxData[10];
+            memcpy((void *)&a2_B.activity_threshold_o, (void *)&a2_B.RxData[11],
                    (uint32_T)((size_t)1 * sizeof(real_T)));
-            memcpy((void *)&a2_B.recovery_time_e, (void *)&a2_B.RxData[24],
+            memcpy((void *)&a2_B.recovery_time_e, (void *)&a2_B.RxData[19],
                    (uint32_T)((size_t)1 * sizeof(uint16_T)));
-            memcpy((void *)&a2_B.MSR_g, (void *)&a2_B.RxData[26], (uint32_T)
-                   ((size_t)1 * sizeof(uint16_T)));
-            memcpy((void *)&a2_B.atr_amp_p, (void *)&a2_B.RxData[28], (uint32_T)
+            a2_B.MSR_g = a2_B.RxData[21];
+            memcpy((void *)&a2_B.atr_amp_p, (void *)&a2_B.RxData[22], (uint32_T)
                    ((size_t)1 * sizeof(real_T)));
-            memcpy((void *)&a2_B.atr_pulse_width_f, (void *)&a2_B.RxData[36],
-                   (uint32_T)((size_t)1 * sizeof(uint16_T)));
+            memcpy((void *)&a2_B.atr_pulse_width_f, (void *)&a2_B.RxData[30],
+                   (uint32_T)((size_t)1 * sizeof(real_T)));
             memcpy((void *)&a2_B.ARP_c, (void *)&a2_B.RxData[38], (uint32_T)
                    ((size_t)1 * sizeof(uint16_T)));
             memcpy((void *)&a2_B.atr_threshold_e, (void *)&a2_B.RxData[40],
@@ -594,11 +595,16 @@ void a2_step(void)
             memcpy((void *)&a2_B.vent_amp_e, (void *)&a2_B.RxData[48], (uint32_T)
                    ((size_t)1 * sizeof(real_T)));
             memcpy((void *)&a2_B.vent_pulse_width_h, (void *)&a2_B.RxData[56],
-                   (uint32_T)((size_t)1 * sizeof(uint16_T)));
-            memcpy((void *)&a2_B.VRP_j, (void *)&a2_B.RxData[58], (uint32_T)
-                   ((size_t)1 * sizeof(uint16_T)));
-            memcpy((void *)&a2_B.vent_threshold_o, (void *)&a2_B.RxData[60],
                    (uint32_T)((size_t)1 * sizeof(real_T)));
+            memcpy((void *)&a2_B.VRP_j, (void *)&a2_B.RxData[64], (uint32_T)
+                   ((size_t)1 * sizeof(uint16_T)));
+            memcpy((void *)&a2_B.vent_threshold_o, (void *)&a2_B.RxData[66],
+                   (uint32_T)((size_t)1 * sizeof(real_T)));
+            break;
+
+           case 34:
+            a2_DW.is_c2_a2 = a2_IN_ECHO_PARAM;
+            DCM_SEND();
             break;
 
            default:
@@ -661,9 +667,9 @@ void a2_step(void)
    *  Constant: '<S15>/Constant1'
    */
   if (a2_B.mode_f >= a2_P.Switch_Threshold) {
-    tmp_0 = a2_P.Constant_Value_n;
+    tmp_1 = a2_P.Constant_Value_n;
   } else {
-    tmp_0 = a2_P.Constant1_Value_b;
+    tmp_1 = a2_P.Constant1_Value_b;
   }
 
   /* End of Switch: '<S15>/Switch' */
@@ -671,7 +677,7 @@ void a2_step(void)
   /* Outputs for Enabled SubSystem: '<S12>/calculate acceleration(3D)' incorporates:
    *  EnablePort: '<S14>/Enable'
    */
-  if (tmp_0 > 0.0) {
+  if (tmp_1 > 0.0) {
     /* MATLABSystem: '<S14>/FXOS8700 6-Axes Sensor' */
     if (a2_DW.obj.SampleTime != a2_P.FXOS87006AxesSensor_SampleTime) {
       a2_DW.obj.SampleTime = a2_P.FXOS87006AxesSensor_SampleTime;
@@ -730,6 +736,7 @@ void a2_step(void)
   rtb_RelationalOperator = (a2_B.Add >= a2_B.activity_threshold_o);
 
   /* MATLAB Function: '<S3>/MATLAB Function' incorporates:
+   *  DataTypeConversion: '<S3>/Data Type Conversion1'
    *  Memory: '<S3>/Memory'
    */
   qY = (uint32_T)a2_B.MSR_g - /*MW:OvSatOk*/ a2_B.lower_rate_limit_p;
@@ -737,19 +744,19 @@ void a2_step(void)
     qY = 0U;
   }
 
-  if (a2_B.reaction_time_i == 0) {
-    if ((uint16_T)qY == 0) {
-      pos_slope = 0U;
+  if ((uint8_T)a2_B.reaction_time_i == 0) {
+    if ((uint8_T)qY == 0) {
+      status = 0U;
     } else {
-      pos_slope = MAX_uint16_T;
+      status = MAX_uint8_T;
     }
   } else {
-    pos_slope = (uint16_T)((uint32_T)(uint16_T)qY / a2_B.reaction_time_i);
-    b_x = (uint16_T)((uint32_T)(uint16_T)qY - (uint16_T)((uint32_T)pos_slope *
-      a2_B.reaction_time_i));
-    if ((b_x > 0) && (b_x >= (int32_T)((uint32_T)a2_B.reaction_time_i >> 1) +
-                      (a2_B.reaction_time_i & 1))) {
-      pos_slope++;
+    status = (uint8_T)((uint32_T)(uint8_T)qY / (uint8_T)a2_B.reaction_time_i);
+    b_x = (uint8_T)((uint32_T)(uint8_T)qY - (uint8_T)((uint32_T)status *
+      (uint8_T)a2_B.reaction_time_i));
+    if ((b_x > 0) && (b_x >= (int32_T)((uint32_T)(uint8_T)a2_B.reaction_time_i >>
+          1) + ((uint8_T)a2_B.reaction_time_i & 1))) {
+      status++;
     }
   }
 
@@ -758,18 +765,23 @@ void a2_step(void)
   }
 
   if (rtb_RelationalOperator) {
-    qY = (uint32_T)a2_DW.Memory_PreviousInput + pos_slope;
-    if (qY > 65535U) {
-      qY = 65535U;
+    tmp_0 = (int32_T)((uint32_T)a2_DW.Memory_PreviousInput + status);
+    if ((uint32_T)tmp_0 > 255U) {
+      tmp_0 = 255;
     }
 
-    a2_DW.Memory_PreviousInput = (uint16_T)qY;
-    if ((uint16_T)qY > a2_B.MSR_g) {
+    a2_DW.Memory_PreviousInput = (uint8_T)tmp_0;
+    if ((uint8_T)tmp_0 > a2_B.MSR_g) {
       a2_DW.Memory_PreviousInput = a2_B.MSR_g;
     }
   } else if (a2_DW.Memory_PreviousInput < a2_B.lower_rate_limit_p) {
     a2_DW.Memory_PreviousInput = a2_B.lower_rate_limit_p;
   }
+
+  /* DataTypeConversion: '<S3>/Data Type Conversion' incorporates:
+   *  MATLAB Function: '<S3>/MATLAB Function'
+   */
+  DataTypeConversion = a2_DW.Memory_PreviousInput;
 
   /* Chart: '<S3>/4 Modes' incorporates:
    *  MATLAB Function: '<S3>/MATLAB Function'
@@ -798,18 +810,18 @@ void a2_step(void)
           a2_DW.is_AAI = a2_IN_ARP_Period;
           a2_DW.temporalCounter_i1 = 0U;
         } else {
-          tmp_0 = rt_roundd_snf(a2_B.Divide2 - (real_T)a2_B.ARP_c);
-          if (tmp_0 < 65536.0) {
-            if (tmp_0 >= 0.0) {
-              pos_slope = (uint16_T)tmp_0;
+          tmp_1 = rt_roundd_snf(a2_B.Divide2 - (real_T)a2_B.ARP_c);
+          if (tmp_1 < 65536.0) {
+            if (tmp_1 >= 0.0) {
+              DataTypeConversion = (uint16_T)tmp_1;
             } else {
-              pos_slope = 0U;
+              DataTypeConversion = 0U;
             }
           } else {
-            pos_slope = MAX_uint16_T;
+            DataTypeConversion = MAX_uint16_T;
           }
 
-          if (a2_DW.temporalCounter_i1 >= pos_slope) {
+          if (a2_DW.temporalCounter_i1 >= DataTypeConversion) {
             a2_DW.is_AAI = a2_IN_Pacing_ob;
             a2_DW.temporalCounter_i1 = 0U;
             a2_B.PACE_CHARGE_CTRL = a2_LOW;
@@ -848,7 +860,8 @@ void a2_step(void)
         a2_B.Z_ATR_CTRL = a2_LOW;
         a2_B.Z_VENT_CTRL = a2_LOW;
         a2_B.VENT_GND_CTRL = a2_LOW;
-        if (a2_DW.temporalCounter_i1 >= a2_B.atr_pulse_width_f) {
+        if (a2_DW.temporalCounter_i1 >= (uint32_T)ceil(a2_B.atr_pulse_width_f))
+        {
           a2_DW.is_AAI = a2_IN_Charging_jb;
           a2_DW.temporalCounter_i1 = 0U;
           a2_enter_atomic_Charging(&a2_B.Gain);
@@ -858,10 +871,7 @@ void a2_step(void)
       break;
 
      case a2_IN_AAIR:
-      /* Update for Memory: '<S3>/Memory' incorporates:
-       *  MATLABSystem: '<S3>/ATR_CMP_DETECT D0'
-       */
-      a2_AAIR(&a2_DW.Memory_PreviousInput, &tmp, &a2_B.Gain);
+      a2_AAIR(&DataTypeConversion, &tmp, &a2_B.Gain);
       break;
 
      case a2_IN_AOO:
@@ -872,18 +882,8 @@ void a2_step(void)
         a2_B.Z_VENT_CTRL = a2_LOW;
         a2_B.ATR_GND_CTRL = a2_HIGH;
         a2_B.VENT_GND_CTRL = a2_LOW;
-        tmp_0 = rt_roundd_snf(a2_B.Divide2 - (real_T)a2_B.atr_pulse_width_f);
-        if (tmp_0 < 65536.0) {
-          if (tmp_0 >= 0.0) {
-            pos_slope = (uint16_T)tmp_0;
-          } else {
-            pos_slope = 0U;
-          }
-        } else {
-          pos_slope = MAX_uint16_T;
-        }
-
-        if (a2_DW.temporalCounter_i1 >= pos_slope) {
+        if (a2_DW.temporalCounter_i1 >= (uint32_T)ceil(a2_B.Divide2 -
+             a2_B.atr_pulse_width_f)) {
           a2_DW.is_AOO = a2_IN_Pacing;
           a2_DW.temporalCounter_i1 = 0U;
           a2_B.PACE_CHARGE_CTRL = a2_LOW;
@@ -902,7 +902,8 @@ void a2_step(void)
         a2_B.Z_ATR_CTRL = a2_LOW;
         a2_B.Z_VENT_CTRL = a2_LOW;
         a2_B.VENT_GND_CTRL = a2_LOW;
-        if (a2_DW.temporalCounter_i1 >= a2_B.atr_pulse_width_f) {
+        if (a2_DW.temporalCounter_i1 >= (uint32_T)ceil(a2_B.atr_pulse_width_f))
+        {
           a2_DW.is_AOO = a2_IN_Charging;
           a2_DW.temporalCounter_i1 = 0U;
           a2_enter_atomic_Charging(&a2_B.Gain);
@@ -918,13 +919,19 @@ void a2_step(void)
         a2_B.Z_VENT_CTRL = a2_LOW;
         a2_B.ATR_GND_CTRL = a2_HIGH;
         a2_B.VENT_GND_CTRL = a2_LOW;
-        q0 = (int32_T)rt_roundd_snf(0.5 * (real_T)a2_DW.Memory_PreviousInput);
-        qY = (uint32_T)q0 - /*MW:OvSatOk*/ a2_B.atr_pulse_width_f;
-        if (qY > (uint32_T)q0) {
-          qY = 0U;
+        tmp_1 = rt_roundd_snf(rt_roundd_snf(0.5 * (real_T)
+          a2_DW.Memory_PreviousInput) - a2_B.atr_pulse_width_f);
+        if (tmp_1 < 65536.0) {
+          if (tmp_1 >= 0.0) {
+            DataTypeConversion = (uint16_T)tmp_1;
+          } else {
+            DataTypeConversion = 0U;
+          }
+        } else {
+          DataTypeConversion = MAX_uint16_T;
         }
 
-        if (a2_DW.temporalCounter_i1 >= qY) {
+        if (a2_DW.temporalCounter_i1 >= DataTypeConversion) {
           a2_DW.is_AOOR = a2_IN_Pacing;
           a2_DW.temporalCounter_i1 = 0U;
           a2_B.PACE_CHARGE_CTRL = a2_LOW;
@@ -943,7 +950,8 @@ void a2_step(void)
         a2_B.Z_ATR_CTRL = a2_LOW;
         a2_B.Z_VENT_CTRL = a2_LOW;
         a2_B.VENT_GND_CTRL = a2_LOW;
-        if (a2_DW.temporalCounter_i1 >= a2_B.atr_pulse_width_f) {
+        if (a2_DW.temporalCounter_i1 >= (uint32_T)ceil(a2_B.atr_pulse_width_f))
+        {
           a2_DW.is_AOOR = a2_IN_Charging;
           a2_DW.temporalCounter_i1 = 0U;
           a2_enter_atomic_Charging(&a2_B.Gain);
@@ -963,18 +971,8 @@ void a2_step(void)
         a2_B.Z_VENT_CTRL = a2_LOW;
         a2_B.ATR_GND_CTRL = a2_LOW;
         a2_B.VENT_GND_CTRL = a2_HIGH;
-        tmp_0 = rt_roundd_snf(a2_B.Divide2 - (real_T)a2_B.vent_pulse_width_h);
-        if (tmp_0 < 65536.0) {
-          if (tmp_0 >= 0.0) {
-            pos_slope = (uint16_T)tmp_0;
-          } else {
-            pos_slope = 0U;
-          }
-        } else {
-          pos_slope = MAX_uint16_T;
-        }
-
-        if (a2_DW.temporalCounter_i1 >= pos_slope) {
+        if (a2_DW.temporalCounter_i1 >= (uint32_T)ceil(a2_B.Divide2 -
+             a2_B.vent_pulse_width_h)) {
           a2_DW.is_VOO = a2_IN_Pacing;
           a2_DW.temporalCounter_i1 = 0U;
           a2_B.PACE_CHARGE_CTRL = a2_LOW;
@@ -993,7 +991,8 @@ void a2_step(void)
         a2_B.Z_ATR_CTRL = a2_LOW;
         a2_B.Z_VENT_CTRL = a2_LOW;
         a2_B.VENT_GND_CTRL = a2_LOW;
-        if (a2_DW.temporalCounter_i1 >= a2_B.vent_pulse_width_h) {
+        if (a2_DW.temporalCounter_i1 >= (uint32_T)ceil(a2_B.vent_pulse_width_h))
+        {
           a2_DW.is_VOO = a2_IN_Charging;
           a2_DW.temporalCounter_i1 = 0U;
           a2_enter_atomic_Charging_nltu(&a2_B.Gain1);
@@ -1013,13 +1012,19 @@ void a2_step(void)
           a2_DW.is_VOOR = a2_IN_NO_ACTIVE_CHILD;
           a2_DW.is_c4_a2 = a2_IN_Start;
         } else {
-          q0 = (int32_T)rt_roundd_snf(0.5 * (real_T)a2_DW.Memory_PreviousInput);
-          qY = (uint32_T)q0 - /*MW:OvSatOk*/ a2_B.vent_pulse_width_h;
-          if (qY > (uint32_T)q0) {
-            qY = 0U;
+          tmp_1 = rt_roundd_snf(rt_roundd_snf(0.5 * (real_T)
+            a2_DW.Memory_PreviousInput) - a2_B.vent_pulse_width_h);
+          if (tmp_1 < 65536.0) {
+            if (tmp_1 >= 0.0) {
+              DataTypeConversion = (uint16_T)tmp_1;
+            } else {
+              DataTypeConversion = 0U;
+            }
+          } else {
+            DataTypeConversion = MAX_uint16_T;
           }
 
-          if (a2_DW.temporalCounter_i1 >= qY) {
+          if (a2_DW.temporalCounter_i1 >= DataTypeConversion) {
             a2_DW.is_VOOR = a2_IN_Pacing;
             a2_DW.temporalCounter_i1 = 0U;
             a2_B.PACE_CHARGE_CTRL = a2_LOW;
@@ -1036,7 +1041,8 @@ void a2_step(void)
         a2_B.Z_ATR_CTRL = a2_LOW;
         a2_B.Z_VENT_CTRL = a2_LOW;
         a2_B.VENT_GND_CTRL = a2_LOW;
-        if (a2_DW.temporalCounter_i1 >= a2_B.vent_pulse_width_h) {
+        if (a2_DW.temporalCounter_i1 >= (uint32_T)ceil(a2_B.vent_pulse_width_h))
+        {
           a2_DW.is_VOOR = a2_IN_Charging;
           a2_DW.temporalCounter_i1 = 0U;
           a2_enter_atomic_Charging_nltu(&a2_B.Gain1);
@@ -1049,9 +1055,8 @@ void a2_step(void)
       break;
 
      default:
-      /* Update for Memory: '<S3>/Memory' */
       /* case IN_VVIR: */
-      a2_VVIR(&a2_DW.Memory_PreviousInput, &VENT_CMP_DETECTD1, &a2_B.Gain1);
+      a2_VVIR(&DataTypeConversion, &VENT_CMP_DETECTD1, &a2_B.Gain1);
       break;
     }
   }
@@ -1069,15 +1074,15 @@ void a2_step(void)
    *  Constant: '<S4>/Constant1'
    */
   if (a2_B.mode_f >= a2_P.Switch_Threshold_p) {
-    tmp_0 = a2_P.Constant_Value;
+    tmp_1 = a2_P.Constant_Value;
   } else {
-    tmp_0 = a2_P.Constant1_Value;
+    tmp_1 = a2_P.Constant1_Value;
   }
 
   /* End of Switch: '<S4>/Switch' */
 
   /* MATLABSystem: '<S1>/FRONTEND_CTRL D13' */
-  MW_digitalIO_write(a2_DW.obj_oh.MW_DIGITALIO_HANDLE, tmp_0 != 0.0);
+  MW_digitalIO_write(a2_DW.obj_oh.MW_DIGITALIO_HANDLE, tmp_1 != 0.0);
 
   /* MATLABSystem: '<S1>/PACING_REF_PWM D5' */
   MW_PWM_SetDutyCycle(a2_DW.obj_bg.MW_PWM_HANDLE, a2_B.PACING_REF_PWM);
@@ -1114,7 +1119,7 @@ void a2_step(void)
   }
 
   MW_AnalogIn_Start(a2_DW.obj_d.MW_ANALOGIN_HANDLE);
-  MW_AnalogInSingle_ReadResult(a2_DW.obj_d.MW_ANALOGIN_HANDLE, &tmp_0, 7);
+  MW_AnalogInSingle_ReadResult(a2_DW.obj_d.MW_ANALOGIN_HANDLE, &tmp_1, 7);
 
   /* End of MATLABSystem: '<S2>/ATR_SIGNAL' */
 
@@ -1124,7 +1129,7 @@ void a2_step(void)
   }
 
   MW_AnalogIn_Start(a2_DW.obj_o.MW_ANALOGIN_HANDLE);
-  MW_AnalogInSingle_ReadResult(a2_DW.obj_o.MW_ANALOGIN_HANDLE, &tmp_0, 7);
+  MW_AnalogInSingle_ReadResult(a2_DW.obj_o.MW_ANALOGIN_HANDLE, &tmp_1, 7);
 
   /* End of MATLABSystem: '<S2>/VENT_SIGNAL' */
 

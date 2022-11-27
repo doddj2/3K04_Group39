@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'a2'.
  *
- * Model version                  : 3.3
+ * Model version                  : 3.7
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Sat Nov 26 14:52:51 2022
+ * C/C++ source code generated on : Sun Nov 27 11:54:41 2022
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex
@@ -44,10 +44,10 @@
 
 /* Block signals (default storage) */
 typedef struct {
-  uint8_T RxData[68];
-  uint8_T RxDataLocChar[68];
-  uint8_T TxDataLocChar[66];
-  uint8_T TmpSignalConversionAtSerial[66];
+  uint8_T RxData[74];
+  uint8_T RxDataLocChar[74];
+  uint8_T TxDataLocChar[72];
+  uint8_T TmpSignalConversionAtSerial[72];
   MW_AnalogIn_TriggerSource_Type trigger_val;
   uint32_T TxPinLoc;
   uint32_T SCIModuleLoc;
@@ -59,62 +59,62 @@ typedef struct {
   real_T PACING_REF_PWM;               /* '<S3>/4 Modes' */
   real_T activity_threshold;
   real_T atr_amp;
+  real_T atr_pulse_width;
   real_T atr_threshold;
   real_T vent_amp;
+  real_T vent_pulse_width;
   real_T vent_threshold;
   real_T activity_threshold_o;         /* '<S2>/From DCM' */
   real_T atr_amp_p;                    /* '<S2>/From DCM' */
+  real_T atr_pulse_width_f;            /* '<S2>/From DCM' */
   real_T atr_threshold_e;              /* '<S2>/From DCM' */
   real_T vent_amp_e;                   /* '<S2>/From DCM' */
+  real_T vent_pulse_width_h;           /* '<S2>/From DCM' */
   real_T vent_threshold_o;             /* '<S2>/From DCM' */
   real_T Divide2;
   real_T Gain1;
   real_T Gain;
-  uint16_T lower_rate_limit;
-  uint16_T upper_rate_limit;
   uint16_T PVARP;
-  uint16_T mode;
-  uint16_T av_delay;
   uint16_T reaction_time;
-  uint16_T response_factor;
   uint16_T recovery_time;
-  uint16_T MSR;
-  uint16_T atr_pulse_width;
   uint16_T ARP;
-  uint16_T vent_pulse_width;
   uint16_T VRP;
-  uint16_T lower_rate_limit_p;         /* '<S2>/From DCM' */
-  uint16_T upper_rate_limit_m;         /* '<S2>/From DCM' */
   uint16_T PVARP_a;                    /* '<S2>/From DCM' */
-  uint16_T mode_f;                     /* '<S2>/From DCM' */
-  uint16_T av_delay_f;                 /* '<S2>/From DCM' */
   uint16_T reaction_time_i;            /* '<S2>/From DCM' */
-  uint16_T response_factor_n;          /* '<S2>/From DCM' */
   uint16_T recovery_time_e;            /* '<S2>/From DCM' */
-  uint16_T MSR_g;                      /* '<S2>/From DCM' */
-  uint16_T atr_pulse_width_f;          /* '<S2>/From DCM' */
   uint16_T ARP_c;                      /* '<S2>/From DCM' */
-  uint16_T vent_pulse_width_h;         /* '<S2>/From DCM' */
   uint16_T VRP_j;                      /* '<S2>/From DCM' */
-  uint8_T BytePack26[2];               /* '<S6>/Byte Pack26' */
-  uint8_T BytePack1[2];                /* '<S6>/Byte Pack 1' */
-  uint8_T BytePack2[2];                /* '<S6>/Byte Pack 2' */
   uint8_T BytePack3[2];                /* '<S6>/Byte Pack 3' */
-  uint8_T BytePack27[2];               /* '<S6>/Byte Pack27' */
-  uint8_T BytePack28[2];               /* '<S6>/Byte Pack28' */
-  uint8_T BytePack29[2];               /* '<S6>/Byte Pack29' */
-  uint8_T BytePack30[8];               /* '<S6>/Byte Pack30' */
-  uint8_T BytePack31[2];               /* '<S6>/Byte Pack31' */
-  uint8_T BytePack32[2];               /* '<S6>/Byte Pack32' */
-  uint8_T BytePack34[8];               /* '<S6>/Byte Pack34' */
-  uint8_T BytePack35[2];               /* '<S6>/Byte Pack35' */
-  uint8_T BytePack36[2];               /* '<S6>/Byte Pack36' */
   uint8_T BytePack37[8];               /* '<S6>/Byte Pack37' */
   uint8_T BytePack39[8];               /* '<S6>/Byte Pack39' */
-  uint8_T BytePack40[2];               /* '<S6>/Byte Pack40' */
+  uint8_T BytePack40[8];               /* '<S6>/Byte Pack40' */
   uint8_T BytePack41[2];               /* '<S6>/Byte Pack41' */
   uint8_T BytePack42[8];               /* '<S6>/Byte Pack42' */
   uint8_T b_SwappedDataBytes[2];
+  uint8_T lower_rate_limit;
+  uint8_T upper_rate_limit;
+  uint8_T mode;
+  uint8_T av_delay;
+  uint8_T response_factor;
+  uint8_T MSR;
+  uint8_T BytePack26;                  /* '<S6>/Byte Pack26' */
+  uint8_T BytePack1;                   /* '<S6>/Byte Pack 1' */
+  uint8_T BytePack2;                   /* '<S6>/Byte Pack 2' */
+  uint8_T BytePack27;                  /* '<S6>/Byte Pack27' */
+  uint8_T BytePack28[2];               /* '<S6>/Byte Pack28' */
+  uint8_T BytePack29;                  /* '<S6>/Byte Pack29' */
+  uint8_T BytePack30[8];               /* '<S6>/Byte Pack30' */
+  uint8_T BytePack31[2];               /* '<S6>/Byte Pack31' */
+  uint8_T BytePack32;                  /* '<S6>/Byte Pack32' */
+  uint8_T BytePack34[8];               /* '<S6>/Byte Pack34' */
+  uint8_T BytePack35[8];               /* '<S6>/Byte Pack35' */
+  uint8_T BytePack36[2];               /* '<S6>/Byte Pack36' */
+  uint8_T lower_rate_limit_p;          /* '<S2>/From DCM' */
+  uint8_T upper_rate_limit_m;          /* '<S2>/From DCM' */
+  uint8_T mode_f;                      /* '<S2>/From DCM' */
+  uint8_T av_delay_f;                  /* '<S2>/From DCM' */
+  uint8_T response_factor_n;           /* '<S2>/From DCM' */
+  uint8_T MSR_g;                       /* '<S2>/From DCM' */
   uint8_T b_RegisterValue;
   uint8_T status;
   boolean_T Z_VENT_CTRL;               /* '<S3>/4 Modes' */
@@ -151,7 +151,7 @@ typedef struct {
   freedomk64f_DigitalWrite_a2_T obj_go;/* '<S1>/ATR_GND_CTRL D11' */
   freedomk64f_SCIWrite_a2_T obj_j1;    /* '<S6>/Serial Transmit' */
   uint32_T temporalCounter_i1;         /* '<S3>/4 Modes' */
-  uint16_T Memory_PreviousInput;       /* '<S3>/Memory' */
+  uint8_T Memory_PreviousInput;        /* '<S3>/Memory' */
   uint8_T is_active_c4_a2;             /* '<S3>/4 Modes' */
   uint8_T is_c4_a2;                    /* '<S3>/4 Modes' */
   uint8_T is_VOOR;                     /* '<S3>/4 Modes' */
@@ -231,14 +231,13 @@ struct P_a2_T_ {
   real_T Gain1_Gain_l;                 /* Expression: 100
                                         * Referenced by: '<S8>/Gain1'
                                         */
-  uint16_T Memory_InitialCondition;
-                                  /* Computed Parameter: Memory_InitialCondition
+  uint8_T Memory_InitialCondition;/* Computed Parameter: Memory_InitialCondition
                                    * Referenced by: '<S3>/Memory'
                                    */
-  uint16_T Switch_Threshold;           /* Computed Parameter: Switch_Threshold
+  uint8_T Switch_Threshold;            /* Computed Parameter: Switch_Threshold
                                         * Referenced by: '<S15>/Switch'
                                         */
-  uint16_T Switch_Threshold_p;         /* Computed Parameter: Switch_Threshold_p
+  uint8_T Switch_Threshold_p;          /* Computed Parameter: Switch_Threshold_p
                                         * Referenced by: '<S4>/Switch'
                                         */
 };
@@ -273,7 +272,7 @@ extern RT_MODEL_a2_T *const a2_M;
  * Block '<S3>/acc_detect(0//1)' : Unused code path elimination
  * Block '<S3>/accel_active' : Unused code path elimination
  * Block '<S3>/sensor-response rate' : Unused code path elimination
- * Block '<S3>/Data Type Conversion' : Eliminate redundant data type conversion
+ * Block '<S3>/Data Type Conversion3' : Eliminate redundant data type conversion
  */
 
 /*-

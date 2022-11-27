@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'a2'.
  *
- * Model version                  : 3.3
+ * Model version                  : 3.7
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Sat Nov 26 14:52:51 2022
+ * C/C++ source code generated on : Sun Nov 27 11:54:41 2022
  *
  * Target selection: ert.tlc
  * Embedded hardware selection: ARM Compatible->ARM Cortex

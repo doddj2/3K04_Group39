@@ -7,9 +7,9 @@
  *
  * Code generated for Simulink model 'a2'.
  *
- * Model version                  : 3.1
+ * Model version                  : 3.6
  * Simulink Coder version         : 9.7 (R2022a) 13-Nov-2021
- * C/C++ source code generated on : Sat Nov 26 14:34:36 2022
+ * C/C++ source code generated on : Sat Nov 26 23:33:28 2022
  */
 
 #include "rtwtypes.h"
