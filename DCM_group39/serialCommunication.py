@@ -1,8 +1,8 @@
 import serial
 import serial.tools.list_ports
 import struct
-global frdm_port 
-frdm_port = "COM3"
+
+
 #add default values for AA onwards
 #this file is the one you spit data to send
 
@@ -10,20 +10,20 @@ def check_connect():
 
     pingval = 1
     ping = struct.pack("B",pingval) 
-    
+    frdm_port = "COM6"
     with serial.Serial(frdm_port, 115200) as pacemaker:
         pacemaker.write(ping)
-    connection=0
-    response = pacemaker.read(0)
-    if response == 1:
-        connection = 1 #on
-    else:
-        connection = 0 #off 
+        connection=0
+        response = pacemaker.read(0)
+        if response == 1:
+            connection = 1 #on
+        else:
+            connection = 0 #off 
     return connection
         
 def sendToSimulink(mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold,HRL):
     # Mac ports, for windows you have to find the ports yourself
-    
+    frdm_port = "COM6"
     #inputs that go into Serial Communication 
     #inputs will be just 'test' values for now
     #B is for uint 8
