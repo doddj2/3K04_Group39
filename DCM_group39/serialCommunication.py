@@ -44,8 +44,27 @@ def sendToSimulink(mode,lrl,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,
     atr_thresholdi = struct.pack("d", AST)
     vent_ampi = struct.pack("d", VA)
     vent_pulse_widthi = struct.pack("d", VPW)
-    VRP = struct.packi("H", sVRP)
+    VRPi = struct.pack("H", sVRP)
     vent_thresholdi = struct.pack("d", VST)
+    
+
+    #broken up like this for the sake of readability and testing
+    Signal_set = modei + lrli + urli + atr_ampi + atr_pulse_widthi + atr_thresholdi 
+    Signal_set = Signal_set + vent_ampi + vent_pulse_widthi + vent_thresholdi 
+    Signal_set = Signal_set + VRPi + ARPi + PVARPi + RSi + MSRi
+    Signal_set = Signal_set + reaction_timei + response_factori + recovery_timei + activity_thresholdi
+
+    Signal_echo = modei + lrli + urli + atr_ampi + atr_pulse_widthi + atr_thresholdi 
+    Signal_echo = Signal_echo + vent_ampi + vent_pulse_widthi + vent_thresholdi 
+    Signal_echo = Signal_echo + VRPi + ARPi + PVARPi + RSi + MSRi
+    Signal_echo = Signal_echo + reaction_timei + response_factori + recovery_timei + activity_thresholdi
+
+    with serial.Serial(frdm_port, 115200) as pacemaker:
+        pacemaker.write(Signal_set)
+
+    with serial.Serial(frdm_port, 115200) as pacemaker:
+        pacemaker.write(Signal_echo)
+
     """mode = struct.pack("B", mode)
     lrl = struct.pack("B", lrl) #LRL equivalent
     Upper_rate_limit = struct.pack("B", url)
@@ -64,25 +83,6 @@ def sendToSimulink(mode,lrl,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,
     response_factor = struct.pack("B", responseFactor) #currently recognize it from anything 
     recovery_time = struct.pack("B", recoveryTime) #in the DCM. Is that something we need to implement?
     ActivityThreshold = struct.pack("B", activityThreshold)"""
-
-    #broken up like this for the sake of readability and testing
-    Signal_set = mode + lrl + Upper_rate_limit + Atrial_Amplitude + Atrial_Pulse_Width + Atrial_Sense_Threshold 
-    Signal_set = Signal_set + Ventricular_Amplitude + Ventricular_Pulse_Width + Ventricule_Sense_Threshold 
-    Signal_set = Signal_set + VRP + ARP + PVARP + RS + MSR
-    Signal_set = Signal_set + reaction_time + response_factor + recovery_time + ActivityThreshold
-
-    Signal_echo = mode + lrl + Upper_rate_limit + Atrial_Amplitude + Atrial_Pulse_Width + Atrial_Sense_Threshold 
-    Signal_echo = Signal_echo + Ventricular_Amplitude + Ventricular_Pulse_Width + Ventricule_Sense_Threshold 
-    Signal_echo = Signal_echo + VRP + ARP + PVARP + RS + MSR
-    Signal_echo = Signal_echo + reaction_time + response_factor + recovery_time + ActivityThreshold
-
-    with serial.Serial(frdm_port, 115200) as pacemaker:
-        pacemaker.write(Signal_set)
-
-    with serial.Serial(frdm_port, 115200) as pacemaker:
-        pacemaker.write(Signal_echo)
-
-
     mode_echo = struct.unpack('B',data[0:1])[0]
     lrl_echo = struct.unpack('B',data[1:2])[0]
     url_echo = struct.unpack('B',data[2:3])[0]
