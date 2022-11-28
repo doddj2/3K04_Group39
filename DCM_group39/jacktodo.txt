@@ -1,0 +1,13 @@
+dashboard highlight on desried mode - DONE
+create "send to pacemaker" button using loadandsend(mode,username) #as strings - DONE
+
+dashboard show all presets - DONE
+
+dashboard button to bring to egram screen - DONE
+
+create egram graps with serial data
+
+create pacemaker status buttons
+
+change parameter selection spacing to account for dropdown - ABANDON
+remove duplicate button creation when changing mode - DONE
