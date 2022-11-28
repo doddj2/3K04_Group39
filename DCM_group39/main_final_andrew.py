@@ -9,7 +9,13 @@ import InputScreen
 from combineFuncs import combine_funcs
 from combineFuncs import roundToNearest
 from serialCommunication import sendToSimulink
+<<<<<<< HEAD
+import serial
+import serial.tools.list_ports
+import struct
+=======
 from serialCommunication import check_connect
+>>>>>>> c0b1eea961ce6d2297be8bca372d08e7053c30f1
 #global constants
 
 #registration
@@ -442,13 +448,14 @@ def loadAndSend(mode, loadFrom):
         URL = int(data[dataLocation+2])
         APA = float(data[dataLocation+3])
         APW = float(data[dataLocation+4])
+        print(LRL,URL,APA,APW)
         #for whatever reason DCM goes in the order 
     #AOO, VOO, AAI, VVI while simulink does VOO, AOO,VVI,AAI with modes 0,1,2,3 respectively
-        tf = sendToSimulink(1,LRL,URL,APA,APW,2.3,4,5,2.3,200,200,200,69,120,30,16,5,1,0)
-        if tf == False:
-            nomatcherror() ## make popup error saying they dont match
+        sendToSimulink(1,60,120,3.6,5,2.3,4,5,2.3,200,200,200,69,120,30,16,5,1,0)
+        #if tf == False:
+            #nomatcherror() ## make popup error saying they dont match
                     #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
-        return
+        #return
     if(mode == "VOO"):
         dataLocation = data.index(str((mode+"\n"))) 
         LRL = int(data[dataLocation+1]) #lrl in units of ppm
@@ -473,7 +480,7 @@ def loadAndSend(mode, loadFrom):
         RS =  float(data[dataLocation+8]) 
         PVARP =  float(data[dataLocation+9]) 
                       #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
-        tf = sendToSimulink(2,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,30,16,5,1,HRL)
+        tf = sendToSimulink(2,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,30,16,5,1,0)
         if tf == False:
             nomatcherror() ## make popup error saying they dont match
     if(mode == "VVI"):
@@ -483,10 +490,10 @@ def loadAndSend(mode, loadFrom):
         VPA = float(data[dataLocation+3])
         VPW = float(data[dataLocation+4])
         Vsense = float(data[dataLocation+5])
-        VRP = float([dataLocations+6])
-        HRL = float([dataLocations+7])
-        RS = float(data[dataLocations + 8])
-        tf = sendToSimulink(3,LRL,URL,4,5,2.3,VPA,VPW,Vsense,VRP,200,200,RS,30,16,5,1,HRL)
+        VRP = float(data[dataLocation+6])
+        #HRL = float([dataLocations+7])
+        RS = float(data[dataLocation + 8])
+        tf = sendToSimulink(3,LRL,URL,4,5,2.3,VPA,VPW,Vsense,VRP,200,200,RS,30,16,5,1,0)
         if tf == False:
             nomatcherror() ## make popup error saying they dont match
 
@@ -565,7 +572,7 @@ def loadAndSend(mode, loadFrom):
         APW = float(data[dataLocation+5])
         ASense = float(data[dataLocation+6])
         ARP = float(data[dataLocation+7])
-        HRL = float(data[dataLocation+8]) 
+        #HRL = float(data[dataLocation+8])
         RS =  float(data[dataLocation+9]) 
         PVARP =  float(data[dataLocation+10])
 
@@ -591,7 +598,7 @@ def loadAndSend(mode, loadFrom):
         Rect = int(data[dataLocation+14])
         
                       #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
-        tf = sendToSimulink(6,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,MSR,RT,RF,Rect,AT,HRL)
+        tf = sendToSimulink(6,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,MSR,RT,RF,Rect,AT,0)
         if tf == False:
             nomatcherror() ## make popup error saying they dont match
 
@@ -603,9 +610,9 @@ def loadAndSend(mode, loadFrom):
         VPA = float(data[dataLocation+4])
         VPW = float(data[dataLocation+5])
         Vsense = float(data[dataLocation+6])
-        VRP = float([dataLocations+7])
-        HRL = float([dataLocations+8])
-        RS = float(data[dataLocations + 9])
+        VRP = float(data[dataLocation+7])
+        #HRL = float([dataLocations+8])
+        RS = float(data[dataLocation + 9])
         AT = data[dataLocation+10]
 
         if AT == "V-Low":
@@ -627,7 +634,7 @@ def loadAndSend(mode, loadFrom):
         RF = int(data[dataLocation+12])
         Rect = int(data[dataLocation+13])
                    #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
-        tf = sendToSimulink(7,LRL,URL,4,5,2.3,VPA,VPW,Vsense,VRP,200,200,MSR,RT,RF,Rect,AT,HRL)
+        tf = sendToSimulink(7,LRL,URL,4,5,2.3,VPA,VPW,Vsense,VRP,200,200,MSR,RT,RF,Rect,AT,0)
         if tf == False:
             nomatcherror() ## make popup error saying they dont match
 
@@ -854,8 +861,8 @@ def send_success():
 def nomatcherror():
     global nomatcherror_screen
     nomatcherror_screen = Toplevel(dash_screen)
-    nomatcherror_error_screen.title("error")
-    nomatcherror_error_screen.geometry("150x100")
+    nomatcherror_screen.title("error")
+    nomatcherror_screen.geometry("150x100")
     Label(nomatcherror_screen, text="Sent and Received do not match").pack()
     Button(nomatcherror_screen, text="OK", command=delete_invalid_filename_error).pack()
 
@@ -1185,3 +1192,4 @@ Label(text="FOR TESTING PURPOSES ONLY",bg = "orange",font=("calibri", 14)).place
 #run start
 #loadAndSend("AOO","a")
 main_account_screen()
+#loadAndSend(mode, loadFrom)
