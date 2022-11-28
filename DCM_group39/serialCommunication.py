@@ -15,8 +15,10 @@ def check_connect():
     response = pacemaker.read(0)
     if response == 1:
         connection = 1 #on
+        return connection
     else:
-        connection = 0 #off 
+        connection = 0 #off
+        return connection
         
 def sendToSimulink(mode,lrl,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold,HRL):
     
@@ -105,7 +107,9 @@ def sendToSimulink(mode,lrl,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,
     VENT_signal = struct.unpack("d", data[80:88])[0]
 
     if mode_echo == mode and lrl_echo == lrl and url_echo == url and PVARP_echo == sPVARP and RS_echo == sRS and reaction_time_echo == reactionTime and response_factor_echo == responseFactor and activity_threshold_echo == activityThreshold and recovery_time_echo == recoveryTime and MSR_echo == sMSR and atr_amp_echo == AA and atr_pulse_width_echo == APW and ARP_echo == sARP and atr_threshold_echo == AST and vent_amp_echo == VA and vent_pulse_width_echo == VPW and VRP_echo == sVRP and vent_threshold_echo == VST:
-        return true
+        return True
+    else:
+        return False
     """
     data = pacemaker.read(9)
     modep = data[0]
