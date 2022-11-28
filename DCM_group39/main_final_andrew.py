@@ -805,20 +805,28 @@ def send_success():
     send_success_screen.geometry("300x300")
     send_success_screen.title("Send Success")
     delete_dashboard()
-    #Button(send_success_screen, text = "Back to Dashboard", command = combine_funcs(delete_send_success_screen, dashboard)).pack()
-    Label(send_success_screen, text="Data has been sent!", bg="#94ed80", width="300", height="2", font=("Calibri", 15)).pack()
-    Label(send_success_screen, text ="""
-                    Your selected preset mode has been sent to the pacemaker
-                    Please wait until the "Show Egram Data" button appears.
-                    This will happen once the program has ran for at least 30s""").pack()
+
     def show_timebutton():
         timebutton = Button(send_success_screen, text = 'show egram data', command = show_egram)
         timebutton.pack()
         
-    send_success_screen.after(5000, show_timebutton)
-   
-    
+    #Button(send_success_screen, text = "Back to Dashboard", command = combine_funcs(delete_send_success_screen, dashboard)).pack()
+    Label(send_success_screen, text="Data has been sent!", bg="#94ed80", width="300", height="2", font=("Calibri", 15)).pack()
+    if string_mode2send == 'AOO' or string_mode2send == 'VOO' or string_mode2send == 'AAI' or string_mode2send == 'VVI':
+        Label(send_success_screen, text ="""
+                    Your selected preset mode has been sent to the pacemaker. You may now look at heartview to see the reults
+                    If you would like to see Egram data, Please wait until the "Show Egram Data" button appears.
+                    
+                                This will happen once the program has ran for at least 30s""").pack
+        send_success_screen.after(5000, show_timebutton) #change to 30s after testing complete
 
+    else:
+        Label(send_success_screen, text ="""
+                    Your selected preset mode has been sent to the pacemaker
+                    Unfortunatley, the reactive modes have not been implemented
+                    You are unable to view Egram data for this mode""").pack()
+        
+        
 
 #creating dashboard after login (this is where all selections will go)
 def dashboard():
@@ -1116,8 +1124,10 @@ def dashboard():
 #sending to pacemaker dropdown
 
     def send_to_pace():
+        global string_mode2send
         string_mode2send = mode_to_send.get()
         print(string_mode2send , name)
+
         #CURRENTLY TESTING, not going to uncomment line below until everything works
         #loadAndSend(string_mode2send , name)
         send_success()
@@ -1127,6 +1137,7 @@ def dashboard():
     Button(dash_screen, text = 'edit selections', command = edit_selections, width = 11).place(x= 0,y=348)
     
     Label(dash_screen, text = 'Select preset to send to pacemaker', font=("Calibri", 12), bg = '#94ed80').place(x=0, y=375)
+    #Label(dash_screen, text = 'due to changing requirements, Egram data not availavle for reactive modes',bg = 'orange').place(x=150,y=407)
     OptionMenu(dash_screen, mode_to_send, *preset_list).place(x=0, y=405)
     Button(dash_screen, text = "confirm", command = send_to_pace).place(x=80, y=405) #change to command = loadAndSend(mode_to_send,name) after serial
     
