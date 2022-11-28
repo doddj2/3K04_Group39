@@ -817,7 +817,7 @@ def send_success():
                     Your selected preset mode has been sent to the pacemaker. You may now look at heartview to see the reults
                     If you would like to see Egram data, Please wait until the "Show Egram Data" button appears.
                     
-                                This will happen once the program has ran for at least 30s""").pack
+                                This will happen once the program has ran for at least 30s""").pack()
         send_success_screen.after(5000, show_timebutton) #change to 30s after testing complete
 
     else:
@@ -1130,7 +1130,10 @@ def dashboard():
 
         #CURRENTLY TESTING, not going to uncomment line below until everything works
         #loadAndSend(string_mode2send , name)
-        send_success()
+        if modep == string_mode2send:
+            print('mode sent successfully')
+        else:
+            send_success()
         
         
     string_mode2send = mode_to_send.get()
