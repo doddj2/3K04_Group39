@@ -1,72 +1,40 @@
 import serial
 import serial.tools.list_ports
 import struct
-defVal = -1
+
+
 #add default values for AA onwards
 #this file is the one you spit data to send
 
 def check_connect():
+
     pingval = 1
     ping = struct.pack("B",pingval) 
-    
+    frdm_port = "COM6"
     with serial.Serial(frdm_port, 115200) as pacemaker:
         pacemaker.write(ping)
-
-    response = pacemaker.read(0)
-    if response == 1:
-        connection = 1 #on
-        return connection
-    else:
-        connection = 0 #off
-        return connection
+        connection=0
+        response = pacemaker.read(0)
+        if response == 1:
+            connection = 1 #on
+        else:
+            connection = 0 #off 
+    return connection
         
-def sendToSimulink(mode,lrl,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold,HRL):
-    
-    ### PLEASE CHANGE THIS VALUE TO WHATEVER PORT IS ON YOUR COMPUTER ###
-    frdm_port = "COM5"
-    ### thank you ###
-
-
-    modei = struct.pack("B", mode) #0-VOO 1-AOO 2-VVI 3-AAI 4-VOOR 5-AOOR 6-VVIR 7-AAIR
-    lrli = struct.pack("B", lrl)
-    urli = struct.pack("B", url)
-    PVARPi = struct.pack("H", sPVARP)
-    RSi = struct.pack("B", sRS)
-    reaction_timei = struct.pack("H", reactionTime)
-    response_factori = struct.pack("B", responseFactor)
-    activity_thresholdi = struct.pack("d", activityThreshold)
-    #response factor, adctivity threshold
-    recovery_timei = struct.pack("H", recoveryTime)
-    MSRi = struct.pack("B", sMSR)
-    atr_ampi = struct.pack("d", AA)
-    atr_pulse_widthi = struct.pack("d", APW)
-    ARPi = struct.pack("H", sARP)
-    atr_thresholdi = struct.pack("d", AST)
-    vent_ampi = struct.pack("d", VA)
-    vent_pulse_widthi = struct.pack("d", VPW)
-    VRPi = struct.pack("H", sVRP)
-    vent_thresholdi = struct.pack("d", VST)
-    
-
-    #broken up like this for the sake of readability and testing
-    Signal_set = modei + lrli + urli + atr_ampi + atr_pulse_widthi + atr_thresholdi 
-    Signal_set = Signal_set + vent_ampi + vent_pulse_widthi + vent_thresholdi 
-    Signal_set = Signal_set + VRPi + ARPi + PVARPi + RSi + MSRi
-    Signal_set = Signal_set + reaction_timei + response_factori + recovery_timei + activity_thresholdi
-
-    Signal_echo = modei + lrli + urli + atr_ampi + atr_pulse_widthi + atr_thresholdi 
-    Signal_echo = Signal_echo + vent_ampi + vent_pulse_widthi + vent_thresholdi 
-    Signal_echo = Signal_echo + VRPi + ARPi + PVARPi + RSi + MSRi
-    Signal_echo = Signal_echo + reaction_timei + response_factori + recovery_timei + activity_thresholdi
-
-    with serial.Serial(frdm_port, 115200) as pacemaker:
-        pacemaker.write(Signal_set)
-
-    with serial.Serial(frdm_port, 115200) as pacemaker:
-        pacemaker.write(Signal_echo)
-
-    """mode = struct.pack("B", mode)
-    lrl = struct.pack("B", lrl) #LRL equivalent
+def sendToSimulink(mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold,HRL):
+    # Mac ports, for windows you have to find the ports yourself
+    frdm_port = "COM6"
+    #inputs that go into Serial Communication 
+    #inputs will be just 'test' values for now
+    #B is for uint 8
+    #H is for uint16
+    #f is for float
+    #Start = struct.pack("B",16)
+    #SYNC = struct.pack("B",69) #start of data packet
+    #Fn_code = struct.pack("B",FnCode) #defines behavior, parameters, echo, egrams or estop
+     #need to update com with actual testing
+    mode = struct.pack("B", mode)
+    ppm = struct.pack("B", ppm) #LRL equivalent
     Upper_rate_limit = struct.pack("B", url)
     Atrial_Amplitude = struct.pack("f", AA)
     Atrial_Pulse_Width = struct.pack("B", APW) #change datatype?

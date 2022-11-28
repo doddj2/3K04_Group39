@@ -9,6 +9,7 @@ import InputScreen
 from combineFuncs import combine_funcs
 from combineFuncs import roundToNearest
 from serialCommunication import sendToSimulink
+from serialCommunication import check_connect
 #global constants
 
 #registration
@@ -864,9 +865,18 @@ def dashboard():
     dash_screen = Tk()   
     dash_screen.geometry("600x600")
     dash_screen.title("Dashboard")
+    global verification
+    verification = check_connect()
+    #verification.geometry("600x600")
+    #verification.title("Dashboard")
     Label(text="Welcome to the Dashboard", bg="#C70039", width="300", height="2", font=("Calibri", 15)).pack() #adding which user it is would be nice
     button = Button(dash_screen, text = "Back to Login", command = combine_funcs(delete_dashboard, main_account_screen)).place(x=0,y=2)
-    #Label(text="FOR TESTING PURPOSES ONLY",bg = "orange",font=("calibri", 14)).place(x=0, y=500)
+
+Label(text="FOR TESTING PURPOSES ONLY",bg = "orange",font=("calibri", 14)).place(x=0, y=500)
+    Label(text="Connection status", bg="grey",font=("Helvetica",20))
+    connectionButton=Button(verification,text="Check connection")
+    connectionButton.place(x=.0,y=2)
+
     #need to find a way to port username to dashboard, likley need to redo the way things save in register
     #username_info = username.get()
     #Label(text="Welcome, signed in as" + username_info ,font=("calibri", 16)).pack()
