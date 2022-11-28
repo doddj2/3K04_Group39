@@ -1,22 +1,25 @@
 import serial
 import serial.tools.list_ports
 import struct
-defVal = -1
+global frdm_port 
+frdm_port = "COM3"
 #add default values for AA onwards
 #this file is the one you spit data to send
 
 def check_connect():
+
     pingval = 1
     ping = struct.pack("B",pingval) 
     
     with serial.Serial(frdm_port, 115200) as pacemaker:
         pacemaker.write(ping)
-
+    connection=0
     response = pacemaker.read(0)
     if response == 1:
-        conntection = 1 #on
+        connection = 1 #on
     else:
         connection = 0 #off 
+    return connection
         
 def sendToSimulink(mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold,HRL):
     # Mac ports, for windows you have to find the ports yourself
@@ -29,7 +32,7 @@ def sendToSimulink(mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,
     #Start = struct.pack("B",16)
     #SYNC = struct.pack("B",69) #start of data packet
     #Fn_code = struct.pack("B",FnCode) #defines behavior, parameters, echo, egrams or estop
-    frdm_port = "COM6" #need to update com with actual testing
+     #need to update com with actual testing
     mode = struct.pack("B", mode)
     ppm = struct.pack("B", ppm) #LRL equivalent
     Upper_rate_limit = struct.pack("B", url)
