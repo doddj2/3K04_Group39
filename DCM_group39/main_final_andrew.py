@@ -301,8 +301,8 @@ def AOO_selections():
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     AOO_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     AOO_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
-    AOO_screen.addInputBox([0.1,5],[0.1],"A Pulse Amplitude (V) ",5,TRUE)
-    AOO_screen.addInputBox([1,30],[1],"A Pulse Width (ms) ",1)
+    AOO_screen.addInputBox([0.5,3.2,3.5,7],[0.1,0.5,0.5],"A Pulse Amplitude (V) ",3.5,TRUE)
+    AOO_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"A Pulse Width (ms) ",0.4)
     #AOO_screen.addInputBox([150,500],[10],"A Refractory Period (ms) ",320) #just for testing
     AOO_screen.open()
     main_account_screen()
@@ -313,8 +313,8 @@ def VOO_selections(): ##literally the same as AOO except with some varible names
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     VOO_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     VOO_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
-    VOO_screen.addInputBox([0.1,5],[0.1],"V Pulse Amplitude (V) ",5,TRUE)
-    VOO_screen.addInputBox([1,30],[1],"V Pulse Width (ms) ",1)
+    VOO_screen.addInputBox([0.5,3.2,3.5,7],[0.1,0.5,0.5],"V Pulse Amplitude (V) ",3.5,TRUE)
+    VOO_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"V Pulse Width (ms) ",0.4)
     VOO_screen.open()   
     main_account_screen()           
 def AAI_selections():
@@ -323,9 +323,9 @@ def AAI_selections():
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     AAI_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     AAI_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
-    AAI_screen.addInputBox([0.1,5],[0.1],"A Pulse Amplitude (V) ",5,TRUE)
-    AAI_screen.addInputBox([1,30],[1],"A Pulse Width (ms) ",0.4)
-    AAI_screen.addInputBox([0,5],[0.1],"A Sensitivity (V) ",0.1) #swap for VVI
+    AAI_screen.addInputBox([0.5,3.2,3.5,7],[0.1,0.5,0.5],"A Pulse Amplitude (V) ",3.5,TRUE)
+    AAI_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"A Pulse Width (ms) ",0.4)
+    AAI_screen.addInputBox([0.25,1,10],[0.25,0.5],"A Sensitivity (ms) ",0.75) #swap for VVI
     AAI_screen.addInputBox([150,500],[10],"A Refractory Period (ms) ",250) #swap for VVI
     AAI_screen.addInputBox([30,50,90,175],[5,1,5],"Hysteresis Rate Limit (ms) ","OFF",TRUE) #same as LRL
     AAI_screen.addInputBox([3,21,25],[3,5],"Rate Smoothing (%)","OFF",TRUE) #edgecase needs testing 
@@ -338,9 +338,9 @@ def VVI_selections():
     #ranges for inputs, increments for those ranges, label, default value, whether or not "Off" is a valid input for 0 = FALSE
     AAI_screen.addInputBox([30,50,90,175],[5,1,5],"LRL (ppm) ",60) 
     AAI_screen.addInputBox([50,175],[5],"URL (ppm) ",120)
-    AAI_screen.addInputBox([0.1,5],[0.1],"V Pulse Amplitude (V) ",5,TRUE)
-    AAI_screen.addInputBox([1,30],[1],"V Pulse Width (ms) ",0.4)
-    AAI_screen.addInputBox([0,5],[0.1],"V Sensitivity (V) ",0.1) #swap for VVI
+    AAI_screen.addInputBox([0.5,3.2,3.5,7],[0.1,0.5,0.5],"V Pulse Amplitude (V) ",3.5,TRUE)
+    AAI_screen.addInputBox([0.05,0.1,1.9],[0.05,0.1],"V Pulse Width (ms) ",0.4)
+    AAI_screen.addInputBox([0.25,1,10],[0.25,0.5],"V Sensitivity (ms) ",2.5) #swap for VVI
     AAI_screen.addInputBox([150,500],[10],"V Refractory Period (ms) ",320) #swap for VVI
     AAI_screen.addInputBox([30,50,90,175],[5,1,5],"Hysteresis Rate Limit (ms) ","OFF",TRUE) #same as LRL
     AAI_screen.addInputBox([3,21,25],[3,5],"Rate Smoothing (%)","OFF",TRUE) #edgecase needs testing 
@@ -399,7 +399,7 @@ def AAIR_selections():
     AAIR_screen.addInputBox([50,175],[5],"Max Sensor Rate (ppm) ",120)
     AAIR_screen.addInputBox([0.1,5],[0.1],"A Pulse Amplitude (V) ",5,TRUE)
     AAIR_screen.addInputBox([1,30],[1],"A Pulse Width (ms) ",1)
-    AAIR_screen.addInputBox([0,5],[0.1],"A Sensitivity (V) ",0.75) #swap for VVI
+    AAIR_screen.addInputBox([0,5],[0.1],"A Sensitivity (ms) ",0.75) #swap for VVI
     AAIR_screen.addInputBox([150,500],[10],"A Refractory Period (ms) ",250) #swap for VVI
     AAIR_screen.addInputBox([30,50,90,175],[5,1,5],"Hysteresis Rate Limit (ms) ","OFF",TRUE) #same as LRL
     AAIR_screen.addInputBox([3,21,25],[3,5],"Rate Smoothing (%)","OFF",TRUE) #edgecase needs testing 
@@ -420,7 +420,7 @@ def VVIR_selections():
     VVIR_screen.addInputBox([50,175],[5],"Max Sensor Rate (ppm) ",120)
     VVIR_screen.addInputBox([0.1,5],[0.1],"V Pulse Amplitude (V) ",5,TRUE)
     VVIR_screen.addInputBox([1,30],[1],"V Pulse Width (ms) ",1)
-    VVIR_screen.addInputBox([0,5],[0.1],"V Sensitivity (V) ",2.5) #swap for VVI
+    VVIR_screen.addInputBox([0,5],[0.1],"V Sensitivity (ms) ",2.5) #swap for VVI
     VVIR_screen.addInputBox([150,500],[10],"V Refractory Period (ms) ",320) #swap for VVI
     VVIR_screen.addInputBox([30,50,90,175],[5,1,5],"Hysteresis Rate Limit (ms) ","OFF",TRUE) #same as LRL
     VVIR_screen.addInputBox([3,21,25],[3,5],"Rate Smoothing (%)","OFF",TRUE) #edgecase needs testing
@@ -430,7 +430,7 @@ def VVIR_selections():
     VVIR_screen.addInputBox([2,16],[1],"Recovery Time (min)",5)
     VVIR_screen.open()
     main_account_screen()
-
+    
 def loadAndSend(mode, loadFrom):
     with open(loadFrom, 'r') as file:
             data = file.readlines()
@@ -444,7 +444,9 @@ def loadAndSend(mode, loadFrom):
         APW = float(data[dataLocation+4])
         #for whatever reason DCM goes in the order 
     #AOO, VOO, AAI, VVI while simulink does VOO, AOO,VVI,AAI with modes 0,1,2,3 respectively
-        sendToSimulink(1,LRL,URL,APA,APW,2.3,4,5,2.3,200,200,200,69,120,30,16,5,1,0)
+        tf = sendToSimulink(1,LRL,URL,APA,APW,2.3,4,5,2.3,200,200,200,69,120,30,16,5,1,0)
+        if tf == False:
+            nomatcherror() ## make popup error saying they dont match
                     #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
         return
     if(mode == "VOO"):
@@ -455,7 +457,9 @@ def loadAndSend(mode, loadFrom):
         VPW = float(data[dataLocation+4])
         #for whatever reason DCM goes in the order 
     #AOO, VOO, AAI, VVI while simulink does VOO, AOO,VVI,AAI with modes 0,1,2,3 respectively
-        sendToSimulink(0,LRL,URL,4,5,2.3,VPA,VPW,2.3,200,200,200,69,120,30,16,5,1,0)  
+        tf = sendToSimulink(0,LRL,URL,4,5,2.3,VPA,VPW,2.3,200,200,200,69,120,30,16,5,1,0)
+        if tf == False:
+            nomatcherror() ## make popup error saying they dont match
 
     if(mode == "AAI"):
         dataLocation = data.index(str((mode+"\n"))) 
@@ -469,7 +473,9 @@ def loadAndSend(mode, loadFrom):
         RS =  float(data[dataLocation+8]) 
         PVARP =  float(data[dataLocation+9]) 
                       #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
-        sendToSimulink(2,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,30,16,5,1,HRL)  
+        tf = sendToSimulink(2,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,30,16,5,1,HRL)
+        if tf == False:
+            nomatcherror() ## make popup error saying they dont match
     if(mode == "VVI"):
         dataLocation = data.index(str((mode+"\n"))) 
         LRL = int(data[dataLocation+1]) #translate to ppm? 
@@ -480,7 +486,9 @@ def loadAndSend(mode, loadFrom):
         VRP = float([dataLocations+6])
         HRL = float([dataLocations+7])
         RS = float(data[dataLocations + 8])
-        sendToSimulink(3,LRL,URL,4,5,2.3,VPA,VPW,Vsense,VRP,200,200,RS,30,16,5,1,HRL)
+        tf = sendToSimulink(3,LRL,URL,4,5,2.3,VPA,VPW,Vsense,VRP,200,200,RS,30,16,5,1,HRL)
+        if tf == False:
+            nomatcherror() ## make popup error saying they dont match
 
     if(mode== "AOOR"):
         dataLocation = data.index(str((mode+"\n"))) 
@@ -511,7 +519,9 @@ def loadAndSend(mode, loadFrom):
         
             
                       #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold, HRL
-        sendToSimulink(4,LRL,URL,APA,APW,2.3,4,5,2.3,200,200,200,69,MSR,RT,RF,Rect,AT,0)
+        tf = sendToSimulink(4,LRL,URL,APA,APW,2.3,4,5,2.3,200,200,200,69,MSR,RT,RF,Rect,AT,0)
+        if tf == False:
+            nomatcherror() ## make popup error saying they dont match
     if(mode == "VOOR"):
         dataLocation = data.index(str((mode+"\n"))) 
         LRL = int(data[dataLocation+1]) #lrl in units of ppm
@@ -542,7 +552,9 @@ def loadAndSend(mode, loadFrom):
         
         #for whatever reason DCM goes in the order 
                     #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold, HRL
-        sendToSimulink(5,LRL,URL,4,5,2.3,VPA,VPW,2.3,200,200,200,69,MSR,RT,RF,Rect,AT,0)
+        tf = sendToSimulink(5,LRL,URL,4,5,2.3,VPA,VPW,2.3,200,200,200,69,MSR,RT,RF,Rect,AT,0)
+        if tf == False:
+            nomatcherror() ## make popup error saying they dont match
 
     if(mode == "AAIR"):
         dataLocation = data.index(str((mode+"\n"))) 
@@ -579,7 +591,9 @@ def loadAndSend(mode, loadFrom):
         Rect = int(data[dataLocation+14])
         
                       #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
-        sendToSimulink(6,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,MSR,RT,RF,Rect,AT,HRL)
+        tf = sendToSimulink(6,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,MSR,RT,RF,Rect,AT,HRL)
+        if tf == False:
+            nomatcherror() ## make popup error saying they dont match
 
     if(mode == "VVIR"):
         dataLocation = data.index(str((mode+"\n"))) 
@@ -613,7 +627,9 @@ def loadAndSend(mode, loadFrom):
         RF = int(data[dataLocation+12])
         Rect = int(data[dataLocation+13])
                    #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
-        sendToSimulink(7,LRL,URL,4,5,2.3,VPA,VPW,Vsense,VRP,200,200,MSR,RT,RF,Rect,AT,HRL)
+        tf = sendToSimulink(7,LRL,URL,4,5,2.3,VPA,VPW,Vsense,VRP,200,200,MSR,RT,RF,Rect,AT,HRL)
+        if tf == False:
+            nomatcherror() ## make popup error saying they dont match
 
 def login_verify():
     username1 = username_verify.get()
@@ -668,7 +684,8 @@ def invalid_filename_error():
     invalid_fileame_error_screen.title("error")
     invalid_fileame_error_screen.geometry("150x100")
     Label(invalid_fileame_error_screen, text="Username is Invalid").pack()
-    Button(invalid_fileame_error_screen, text="OK", command=delete_invalid_fileame_error).pack()
+    Button(invalid_fileame_error_screen, text="OK", command=delete_invalid_filename_error).pack()
+
 
 def overwrite_error():
     global overwrite_error_screen
@@ -744,8 +761,11 @@ def delete_user_not_found_screen():
 def delete_overwrite_error():
     overwrite_error_screen.destroy()
 
-def delete_invalid_fileame_error():
+def delete_invalid_filename_error():
     invalid_fileame_error_screen.destroy()
+
+def delete_nomatcherror_screen():
+    nomatcherror_screen.destroy()
 
 def delete_max_users_screen():
     max_users_screen.destroy()
@@ -818,7 +838,7 @@ def send_success():
                     Your selected preset mode has been sent to the pacemaker. You may now look at heartview to see the reults
                     If you would like to see Egram data, Please wait until the "Show Egram Data" button appears.
                     
-                                This will happen once the program has ran for at least 30s""").pack
+                                This will happen once the program has ran for at least 30s""").pack()
         send_success_screen.after(5000, show_timebutton) #change to 30s after testing complete
 
     else:
@@ -830,6 +850,16 @@ def send_success():
         
 
 #creating dashboard after login (this is where all selections will go)
+
+def nomatcherror():
+    global nomatcherror_screen
+    nomatcherror_screen = Toplevel(dash_screen)
+    nomatcherror_error_screen.title("error")
+    nomatcherror_error_screen.geometry("150x100")
+    Label(nomatcherror_screen, text="Sent and Received do not match").pack()
+    Button(nomatcherror_screen, text="OK", command=delete_invalid_filename_error).pack()
+
+
 def dashboard():
     global dash_screen
     dash_screen = Tk()   
@@ -841,15 +871,17 @@ def dashboard():
     #verification.title("Dashboard")
     Label(text="Welcome to the Dashboard", bg="#C70039", width="300", height="2", font=("Calibri", 15)).pack() #adding which user it is would be nice
     button = Button(dash_screen, text = "Back to Login", command = combine_funcs(delete_dashboard, main_account_screen)).place(x=0,y=2)
-    Label(text="FOR TESTING PURPOSES ONLY",bg = "orange",font=("calibri", 14)).place(x=0, y=500)
+
+Label(text="FOR TESTING PURPOSES ONLY",bg = "orange",font=("calibri", 14)).place(x=0, y=500)
     Label(text="Connection status", bg="grey",font=("Helvetica",20))
     connectionButton=Button(verification,text="Check connection")
     connectionButton.place(x=.0,y=2)
+
     #need to find a way to port username to dashboard, likley need to redo the way things save in register
     #username_info = username.get()
     #Label(text="Welcome, signed in as" + username_info ,font=("calibri", 16)).pack()
     
-    def change_status_c2d():
+    """def change_status_c2d():
         status_label = Label(text="Status: connected", bg = 'green', width="30").place(x=60, y=600)
         Button(dash_screen, text = "change status", command = change_status_d2c).place(x=0, y=600)         
 
@@ -872,7 +904,7 @@ def dashboard():
         Button(dash_screen, text = "change pacemaker", command = change_pacemaker_1st).place(x=0, y=550)
         
     Button(dash_screen, text="show status", command = change_status_c2d).place(x=0, y=600)
-    Button(dash_screen, text="show connected pacemaker", command = change_pacemaker_1st).place(x=0, y=550)
+    Button(dash_screen, text="show connected pacemaker", command = change_pacemaker_1st).place(x=0, y=550)"""
     Label(dash_screen, text = "Hello " + name +"!", bg = "yellow", font=("Calibri", 13)).pack()
     userfile = open(name, 'r')
     filelines = userfile.readlines()
@@ -1137,7 +1169,7 @@ def dashboard():
         print(string_mode2send , name)
 
         #CURRENTLY TESTING, not going to uncomment line below until everything works
-        #loadAndSend(string_mode2send , name)
+        loadAndSend(string_mode2send , name)
         send_success()
         
         
