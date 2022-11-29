@@ -1,0 +1,21 @@
+Hello reviewer, thank you for your time. This file is to assist you in running our project.
+If you have any questions, please reach out to doddj2@mcmaster.ca on teams or by email.
+
+To run this code correctly: you will need the following python libraries installed:
+
+Numpy
+Matplotlib
+Pyserial
+Tkinter
+Time
+
+To start testing our program, please open heart view and connect your pacemaker emulator to a usb port. Now, follow these instructions to find the COM port connected to Jlink CDC UART PORT
+
+https://help.fleetmon.com/en/articles/2010900-how-do-i-get-my-com-port-number-windows#:~:text=Open%20Device%20Manager%20(Start%20%E2%86%92,find%20the%20matching%20COM%20Port.
+
+With this number, open the file serialCommunication.py and replace all values of frdm_port = "COM6" with frdm_port = "your com port here".
+
+Now, you may flash the simulink file a2.slx to your pacemaker emulator and run final_main.py. Start by registering a new account or login with the default account (username: a, password: a). 
+
+Thank you and have a great day :)
+(ps take it easy on us)
