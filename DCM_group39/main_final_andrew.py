@@ -1,5 +1,5 @@
 #import modules
-
+import matplotlib.pyplot as plt
 from math import ceil
 from tkinter import *
 import os
@@ -10,6 +10,8 @@ from combineFuncs import combine_funcs
 from combineFuncs import roundToNearest
 from serialCommunication import sendToSimulink
 from serialCommunication import check_connect
+from serialCommunication import read_ecg
+import numpy
 #global constants
 
 #registration
@@ -1151,5 +1153,17 @@ def dashboard():
     
     
 #run start
+plt.figure()
+atrData = []
+ztrData = []
+for i in range(200):
+    z = read_ecg()
+    atrData.append(1-z[0])
+    ztrData.append(1-z[1])
+    print(str(z[0])+", " + str(z[1]) + " ," + str(i))
+plt.plot(range(200),atrData, markersize=10, color='r', label="Atrial")
+plt.plot(range(200),ztrData,markersize=12,color='b',label="Ventrical")  
+plt.legend() 
+plt.show()
 #loadAndSend("AOO","a")
-main_account_screen()
+#main_account_screen()
