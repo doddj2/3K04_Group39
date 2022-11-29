@@ -14,8 +14,7 @@ def check_connect():
 
     pingval = 1
     ping = struct.pack("B",pingval) 
-    frdm_port = "COM6"
-
+    frdm_port = "COM3"
     with serial.Serial(frdm_port, 115200) as pacemaker:
         pacemaker.write(ping)
         connection=0
@@ -29,7 +28,6 @@ def check_connect():
 def sendToSimulink(mode,lrl,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold,HRL):
     
     ### PLEASE CHANGE THIS VALUE TO WHATEVER PORT IS ON YOUR COMPUTER ###
-
     ### thank you ###
     modei = struct.pack("B", mode) #0-VOO 1-AOO 2-VVI 3-AAI 4-VOOR 5-AOOR 6-VVIR 7-AAIR
     lrli = struct.pack("B", lrl)
@@ -110,9 +108,24 @@ def sendToSimulink(mode,lrl,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,
         ATR_signal = struct.unpack("d", data[72:80])[0]
         VENT_signal = struct.unpack("d", data[80:88])[0]
 
-    
-
         if mode_echo == mode and lrl_echo == lrl and url_echo == url and PVARP_echo == sPVARP and RS_echo == sRS and reaction_time_echo == reactionTime and response_factor_echo == responseFactor and activity_threshold_echo == activityThreshold and recovery_time_echo == recoveryTime and MSR_echo == sMSR and atr_amp_echo == AA and atr_pulse_width_echo == APW and ARP_echo == sARP and atr_threshold_echo == AST and vent_amp_echo == VA and vent_pulse_width_echo == VPW and VRP_echo == sVRP and vent_threshold_echo == VST:
             return True
         else:
             return False
+
+def read_ecg():
+    frdm_port = "COM3"
+    Start = b'\x16'
+    SYNC = b'\x22'
+    Fn_set = b'\x55'
+    Signal_echo = Start + SYNC
+    i=0
+    while(i<72):
+        Signal_echo = Signal_echo + struct.pack("B", 0)
+        i = i+1
+    with serial.Serial(frdm_port, 115200) as pacemaker:
+        pacemaker.write(Signal_echo)
+        data = pacemaker.read(88)
+        ATR_signal = struct.unpack("d", data[72:80])[0]
+        VENT_signal = struct.unpack("d", data[80:88])[0]
+        return [ATR_signal,VENT_signal]

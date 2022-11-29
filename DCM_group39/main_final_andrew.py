@@ -1,5 +1,5 @@
 #import modules
-
+import matplotlib.pyplot as plt
 from math import ceil
 from tkinter import *
 import os
@@ -14,7 +14,8 @@ import serial.tools.list_ports
 import struct
 
 from serialCommunication import check_connect
-
+from serialCommunication import read_ecg
+import numpy
 #global constants
 
 #registration
@@ -531,7 +532,7 @@ def loadAndSend(mode, loadFrom):
         
             
                       #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold, HRL
-        tf = sendToSimulink(4,LRL,URL,APA,APW,2.3,4,5,2.3,200,200,200,69,MSR,RT,RF,Rect,AT,HRL)
+        tf = sendToSimulink(4,LRL,URL,APA,APW,2.3,4,5,2.3,200,200,200,69,MSR,RT,RF,Rect,AT)
         if tf == False:
             nomatcherror() ## make popup error saying they dont match
     if(mode == "VOOR"):
@@ -828,6 +829,21 @@ def main_account_screen():
     main_screen.mainloop()
 #egram screen
 def show_egram():
+    plt.figure()
+    atrData = []
+    ztrData = []
+    for i in range(200):
+        z = read_ecg()
+        atrData.append(1-z[0])
+        ztrData.append(1-z[1])
+        print(str(z[0])+", " + str(z[1]) + " ," + str(i))
+    plt.plot(range(200),atrData, markersize=10, color='r', label="Atrial")
+    plt.plot(range(200),ztrData,markersize=12,color='b',label="Ventrical")  
+    plt.legend() 
+    plt.show()
+
+'''
+def show_egram():
     delete_send_success_screen()
     global egram_screen
     egram_screen = Tk()   
@@ -835,13 +851,13 @@ def show_egram():
     egram_screen.title("Egram Data")
     button = Button(egram_screen, text = "Back to Dashboard", command = combine_funcs(delete_egram_screen, dashboard)).pack()
     Label(text="Egram Data from past 30s", bg="#C70039", width="300", height="2", font=("Calibri", 15)).pack()
-    #this will be the function where we pull the two pins for egram data
+    #this will be the function where we pull the two pins for egram data'''
 
 def send_success():
     
     global send_success_screen
     send_success_screen = Tk()   
-    send_success_screen.geometry("300x300")
+    send_success_screen.geometry("696x300")
     send_success_screen.title("Send Success")
     delete_dashboard()
 
@@ -851,13 +867,15 @@ def send_success():
         
     #Button(send_success_screen, text = "Back to Dashboard", command = combine_funcs(delete_send_success_screen, dashboard)).pack()
     Label(send_success_screen, text="Data has been sent!", bg="#94ed80", width="300", height="2", font=("Calibri", 15)).pack()
-    if string_mode2send == 'AOO' or string_mode2send == 'VOO' or string_mode2send == 'AAI' or string_mode2send == 'VVI':
-        Label(send_success_screen, text ="""
+    Label(send_success_screen, text ="""
                     Your selected preset mode has been sent to the pacemaker. You may now look at heartview to see the reults
                     If you would like to see Egram data, Please wait until the "Show Egram Data" button appears.
                     
                                 This will happen once the program has ran for at least 30s""").pack()
-        send_success_screen.after(5000, show_timebutton) #CHANGE to 30s after testing complete
+    send_success_screen.after(500, show_timebutton) #CHANGE to 30s after testing complete
+
+    '''if string_mode2send == 'AOO' or string_mode2send == 'VOO' or string_mode2send == 'AAI' or string_mode2send == 'VVI':
+        
 
     else:
         Label(send_success_screen, text ="""
@@ -865,7 +883,7 @@ def send_success():
                     Unfortunatley, the reactive modes have not been implemented
                     You are unable to view Egram data for this mode""").pack()
         
-        
+  '''      
 
 #creating dashboard after login (this is where all selections will go)
 
@@ -1185,7 +1203,7 @@ def dashboard():
         print(string_mode2send , name)
 
         #CURRENTLY TESTING, not going to uncomment line below until everything works
-        #loadAndSend(string_mode2send , name) #CHANGE
+        loadAndSend(string_mode2send , name) #CHANGE
         send_success()
         
         
@@ -1199,6 +1217,7 @@ def dashboard():
     
     
 #run start
+
 #loadAndSend("AOO","a")
 main_account_screen()
 #loadAndSend(mode, loadFrom)
