@@ -9,13 +9,12 @@ import InputScreen
 from combineFuncs import combine_funcs
 from combineFuncs import roundToNearest
 from serialCommunication import sendToSimulink
-<<<<<<< HEAD
 import serial
 import serial.tools.list_ports
 import struct
-=======
+
 from serialCommunication import check_connect
->>>>>>> c0b1eea961ce6d2297be8bca372d08e7053c30f1
+
 #global constants
 
 #registration
@@ -115,7 +114,7 @@ def register_user():
                 overwrite_error()
                 error = 1
 
-    if tally <= 100: #this must be changed at very end of project to acommidate all files in folder
+    if tally <= 100: #CHANGE
                 
         if password_info != confirm_info:
             password_not_matched()
@@ -451,9 +450,9 @@ def loadAndSend(mode, loadFrom):
         print(LRL,URL,APA,APW)
         #for whatever reason DCM goes in the order 
     #AOO, VOO, AAI, VVI while simulink does VOO, AOO,VVI,AAI with modes 0,1,2,3 respectively
-        sendToSimulink(1,60,120,3.6,5,2.3,4,5,2.3,200,200,200,69,120,30,16,5,1,0)
-        #if tf == False:
-            #nomatcherror() ## make popup error saying they dont match
+        tf = sendToSimulink(1,60,120,3.6,5,2.3,4,5,2.3,200,200,200,69,120,30,16,5,1,0)
+        if tf == False:
+            nomatcherror() ## make popup error saying they dont match
                     #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
         #return
     if(mode == "VOO"):
@@ -476,11 +475,14 @@ def loadAndSend(mode, loadFrom):
         APW = float(data[dataLocation+4])
         ASense = float(data[dataLocation+5])
         ARP = float(data[dataLocation+6])
-        HRL = float(data[dataLocation+7]) 
+        if data[dataLocation+7] != type(float):
+            HRL = 0
+        else:
+            HRL = float(data[dataLocation+7]) 
         RS =  float(data[dataLocation+8]) 
         PVARP =  float(data[dataLocation+9]) 
                       #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
-        tf = sendToSimulink(2,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,30,16,5,1,0)
+        tf = sendToSimulink(2,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,30,16,5,1,HRL)
         if tf == False:
             nomatcherror() ## make popup error saying they dont match
     if(mode == "VVI"):
@@ -491,9 +493,12 @@ def loadAndSend(mode, loadFrom):
         VPW = float(data[dataLocation+4])
         Vsense = float(data[dataLocation+5])
         VRP = float(data[dataLocation+6])
-        #HRL = float([dataLocations+7])
+        if data[dataLocation+7] != type(float):
+            HRL = 0
+        else:
+            HRL = float(data[dataLocation+7])
         RS = float(data[dataLocation + 8])
-        tf = sendToSimulink(3,LRL,URL,4,5,2.3,VPA,VPW,Vsense,VRP,200,200,RS,30,16,5,1,0)
+        tf = sendToSimulink(3,LRL,URL,4,5,2.3,VPA,VPW,Vsense,VRP,200,200,RS,30,16,5,1,HRL)
         if tf == False:
             nomatcherror() ## make popup error saying they dont match
 
@@ -526,7 +531,7 @@ def loadAndSend(mode, loadFrom):
         
             
                       #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold, HRL
-        tf = sendToSimulink(4,LRL,URL,APA,APW,2.3,4,5,2.3,200,200,200,69,MSR,RT,RF,Rect,AT,0)
+        tf = sendToSimulink(4,LRL,URL,APA,APW,2.3,4,5,2.3,200,200,200,69,MSR,RT,RF,Rect,AT,HRL)
         if tf == False:
             nomatcherror() ## make popup error saying they dont match
     if(mode == "VOOR"):
@@ -559,7 +564,7 @@ def loadAndSend(mode, loadFrom):
         
         #for whatever reason DCM goes in the order 
                     #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold, HRL
-        tf = sendToSimulink(5,LRL,URL,4,5,2.3,VPA,VPW,2.3,200,200,200,69,MSR,RT,RF,Rect,AT,0)
+        tf = sendToSimulink(5,LRL,URL,4,5,2.3,VPA,VPW,2.3,200,200,200,69,MSR,RT,RF,Rect,AT,HRL)
         if tf == False:
             nomatcherror() ## make popup error saying they dont match
 
@@ -572,7 +577,10 @@ def loadAndSend(mode, loadFrom):
         APW = float(data[dataLocation+5])
         ASense = float(data[dataLocation+6])
         ARP = float(data[dataLocation+7])
-        #HRL = float(data[dataLocation+8])
+        if data[dataLocation+7] != type(float):
+            HRL = 0
+        else:
+            HRL = float(data[dataLocation+7])
         RS =  float(data[dataLocation+9]) 
         PVARP =  float(data[dataLocation+10])
 
@@ -598,7 +606,7 @@ def loadAndSend(mode, loadFrom):
         Rect = int(data[dataLocation+14])
         
                       #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
-        tf = sendToSimulink(6,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,MSR,RT,RF,Rect,AT,0)
+        tf = sendToSimulink(6,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,MSR,RT,RF,Rect,AT,HRL)
         if tf == False:
             nomatcherror() ## make popup error saying they dont match
 
@@ -611,7 +619,10 @@ def loadAndSend(mode, loadFrom):
         VPW = float(data[dataLocation+5])
         Vsense = float(data[dataLocation+6])
         VRP = float(data[dataLocation+7])
-        #HRL = float([dataLocations+8])
+        if data[dataLocation+8] != type(float):
+            HRL = 0
+        else:
+            HRL = float(data[dataLocation+8])
         RS = float(data[dataLocation + 9])
         AT = data[dataLocation+10]
 
@@ -634,7 +645,7 @@ def loadAndSend(mode, loadFrom):
         RF = int(data[dataLocation+12])
         Rect = int(data[dataLocation+13])
                    #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
-        tf = sendToSimulink(7,LRL,URL,4,5,2.3,VPA,VPW,Vsense,VRP,200,200,MSR,RT,RF,Rect,AT,0)
+        tf = sendToSimulink(7,LRL,URL,4,5,2.3,VPA,VPW,Vsense,VRP,200,200,MSR,RT,RF,Rect,AT,HRL)
         if tf == False:
             nomatcherror() ## make popup error saying they dont match
 
@@ -846,7 +857,7 @@ def send_success():
                     If you would like to see Egram data, Please wait until the "Show Egram Data" button appears.
                     
                                 This will happen once the program has ran for at least 30s""").pack()
-        send_success_screen.after(5000, show_timebutton) #change to 30s after testing complete
+        send_success_screen.after(5000, show_timebutton) #CHANGE to 30s after testing complete
 
     else:
         Label(send_success_screen, text ="""
@@ -873,16 +884,14 @@ def dashboard():
     dash_screen.geometry("600x600")
     dash_screen.title("Dashboard")
     global verification
-    verification = check_connect()
-    #verification.geometry("600x600")
-    #verification.title("Dashboard")
+    #verification = check_connect() #CHANGE
     Label(text="Welcome to the Dashboard", bg="#C70039", width="300", height="2", font=("Calibri", 15)).pack() #adding which user it is would be nice
     button = Button(dash_screen, text = "Back to Login", command = combine_funcs(delete_dashboard, main_account_screen)).place(x=0,y=2)
 
-Label(text="FOR TESTING PURPOSES ONLY",bg = "orange",font=("calibri", 14)).place(x=0, y=500)
+#Label(text="FOR TESTING PURPOSES ONLY",bg = "orange",font=("calibri", 14)).place(x=0, y=500)
     Label(text="Connection status", bg="grey",font=("Helvetica",20))
-    connectionButton=Button(verification,text="Check connection")
-    connectionButton.place(x=.0,y=2)
+    #connectionButton=Button(dash_screen, text="Check connection", command == verification)#CHANGE
+    #connectionButton.place(x=.0,y=2)#CHANGE
 
     #need to find a way to port username to dashboard, likley need to redo the way things save in register
     #username_info = username.get()
@@ -1176,7 +1185,7 @@ Label(text="FOR TESTING PURPOSES ONLY",bg = "orange",font=("calibri", 14)).place
         print(string_mode2send , name)
 
         #CURRENTLY TESTING, not going to uncomment line below until everything works
-        loadAndSend(string_mode2send , name)
+        #loadAndSend(string_mode2send , name) #CHANGE
         send_success()
         
         
