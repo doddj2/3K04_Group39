@@ -47,7 +47,7 @@ with serial.Serial(frdm_port, 115200) as pacemaker:
 
 with serial.Serial(frdm_port, 115200) as pacemaker:
     pacemaker.write(Signal_echo)
-    data = pacemaker.read(72)
+    data = pacemaker.read(88)
 
     mode_echo = struct.unpack('B',data[0:1])[0]
     lrl_echo = struct.unpack('B',data[1:2])[0]
@@ -62,11 +62,13 @@ with serial.Serial(frdm_port, 115200) as pacemaker:
     atr_amp_echo = struct.unpack("d", data[20:28])[0]
     atr_pulse_width_echo = struct.unpack("d", data[28:36])[0]
     ARP_echo = struct.unpack("H", data[36:38])[0]
-    atr_threshold = struct.unpack("d", data[38:46])[0]
+    atr_threshold_echo = struct.unpack("d", data[38:46])[0]
     vent_amp_echo = struct.unpack("d", data[46:54])[0]
     vent_pulse_width_echo = struct.unpack("d", data[54:62])[0]
     VRP_echo = struct.unpack("H", data[62:64])[0]
     vent_threshold_echo = struct.unpack("d", data[64:72])[0]
+    ATR_signal = struct.unpack("d", data[72:80])[0]
+    VENT_signal = struct.unpack("d", data[80:88])[0]
 
 print(len(data))
 print("From the board:")
@@ -83,9 +85,11 @@ print("MSR = ", MSR_echo)
 print("atr_amp = ", atr_amp_echo)
 print("atr_pulse_width = ", atr_pulse_width_echo)
 print("ARP = ", ARP_echo)
-print("atr_threshold = ", atr_threshold)
+print("atr_threshold = ", atr_threshold_echo)
 print("vent_amp = ", vent_amp_echo)
 print("vent_pulse_width = ", vent_pulse_width_echo)
 print("VRP = ", VRP_echo)
 print("vent_threshold = ", vent_threshold_echo)
+print("ART_signal = ", ATR_signal)
+print("VENT_signal = ", VENT_signal)
 
