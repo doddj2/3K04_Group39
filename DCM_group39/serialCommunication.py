@@ -12,18 +12,42 @@ Fn_set = b'\x55'
 
 def check_connect():
 
-    pingval = 1
-    ping = struct.pack("B",pingval) 
-    frdm_port = "COM3"
+    Start = b'\x16'
+    SYNC = b'\x22'
+    Signal_echo = Start + SYNC
+    i=0
+    Signal_echo = Signal_echo + struct.pack("B", 2)
+    while(i<71):
+        Signal_echo = Signal_echo + struct.pack("B", 0)
+        i = i+1
+    #frdm_port = "COM6"
+    connection=0
+    try:
+        with serial.Serial(frdm_port, 115200, timeout = 5) as pacemaker:
+            pacemaker.write(Signal_echo)
+            connection=0
+            #data = pacemaker.read(8)
+            connection = 1
+            return connection
+    except:
+        return connection
+def read_ecg():
+    #frdm_port = "COM6"
+    Start = b'\x16'
+    SYNC = b'\x22'
+    Fn_set = b'\x55'
+    Signal_echo = Start + SYNC
+    i=0
+    while(i<72):
+        Signal_echo = Signal_echo + struct.pack("B", 0)
+        i = i+1
+
     with serial.Serial(frdm_port, 115200) as pacemaker:
-        pacemaker.write(ping)
-        connection=0
-        response = pacemaker.read(0)
-        if response == 1:
-            connection = 1 #on
-        else:
-            connection = 0 #off 
-    return connection
+        pacemaker.write(Signal_echo)
+        data = pacemaker.read(88)
+        ATR_signal = struct.unpack("d", data[72:80])[0]
+        VENT_signal = struct.unpack("d", data[80:88])[0]
+        return [ATR_signal,VENT_signal]
         
 def sendToSimulink(mode,lrl,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold,HRL):
     
@@ -79,13 +103,11 @@ def sendToSimulink(mode,lrl,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,
                        activity_thresholdi + recovery_timei + MSRi + atr_ampi + atr_pulse_widthi + ARPi + atr_thresholdi \
                        + vent_ampi + vent_pulse_widthi + VRPi + vent_thresholdi
 
-    print("arrive here 2")
     with serial.Serial(frdm_port, 115200) as pacemaker:
         pacemaker.write(Signal_set_order)
 
     with serial.Serial(frdm_port, 115200) as pacemaker:
         pacemaker.write(Signal_echo_order)
-        print(len(Signal_set))
         data = pacemaker.read(88)
         mode_echo = struct.unpack('B',data[0:1])[0]
         lrl_echo = struct.unpack('B',data[1:2])[0]

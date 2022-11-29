@@ -1,4 +1,5 @@
 #import modules
+
 import matplotlib.pyplot as plt
 from math import ceil
 from tkinter import *
@@ -9,6 +10,7 @@ import InputScreen
 from combineFuncs import combine_funcs
 from combineFuncs import roundToNearest
 from serialCommunication import sendToSimulink
+from serialCommunication import check_connect
 import serial
 import serial.tools.list_ports
 import struct
@@ -16,6 +18,7 @@ import struct
 from serialCommunication import check_connect
 from serialCommunication import read_ecg
 import numpy
+
 #global constants
 
 #registration
@@ -115,7 +118,7 @@ def register_user():
                 overwrite_error()
                 error = 1
 
-    if tally <= 100: #CHANGE
+    if tally <= 14: #accounts for 4 python programs, allowing for 9 new users in addition to the 'a' default file
                 
         if password_info != confirm_info:
             password_not_matched()
@@ -436,7 +439,14 @@ def VVIR_selections():
     VVIR_screen.addInputBox([2,16],[1],"Recovery Time (min)",5)
     VVIR_screen.open()
     main_account_screen()
-    
+#this function is the screen that appears when simulink sends a value different than one taht was sent to simulink. this is how we verify
+def nomatcherror():
+    global nomatcherror_screen
+    nomatcherror_screen = Toplevel(dash_screen)
+    nomatcherror_screen.title("error")
+    nomatcherror_screen.geometry("150x100")
+    Label(nomatcherror_screen, text="Sent and Received do not match").pack()
+    Button(nomatcherror_screen, text="OK", command=delete_nomatcherror_screen).pack()
 def loadAndSend(mode, loadFrom):
     with open(loadFrom, 'r') as file:
             data = file.readlines()
@@ -451,8 +461,8 @@ def loadAndSend(mode, loadFrom):
         print(LRL,URL,APA,APW)
         #for whatever reason DCM goes in the order 
     #AOO, VOO, AAI, VVI while simulink does VOO, AOO,VVI,AAI with modes 0,1,2,3 respectively
-        tf = sendToSimulink(1,60,120,3.6,5,2.3,4,5,2.3,200,200,200,69,120,30,16,5,1,0)
-        if tf == False:
+        tf = sendToSimulink(1,LRL,URL,APA,APW,2.3,4,5,2.3,200,200,200,69,120,30,16,5,1,0)
+        if tf == False: #if values dont match those that were sent to simulink, this error triggers and a popup appears
             nomatcherror() ## make popup error saying they dont match
                     #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
         #return
@@ -475,17 +485,16 @@ def loadAndSend(mode, loadFrom):
         APA = float(data[dataLocation+3])
         APW = float(data[dataLocation+4])
         ASense = float(data[dataLocation+5])
-        ARP = float(data[dataLocation+6])
-        if data[dataLocation+7] != type(float):
-            HRL = 0
-        else:
-            HRL = float(data[dataLocation+7]) 
-        RS =  float(data[dataLocation+8]) 
-        PVARP =  float(data[dataLocation+9]) 
-                      #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
-        tf = sendToSimulink(2,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,30,16,5,1,HRL)
+        ARP = int(data[dataLocation+6])
+        HRL = 0
+        RS =  0
+        PVARP = 0
+        print("here")
+        tf = sendToSimulink(3,LRL,URL,APA,APW,ASense,4,5,2.3,200,ARP,PVARP,RS,175,30,16,5,1,HRL)
+        print("send")
         if tf == False:
             nomatcherror() ## make popup error saying they dont match
+
     if(mode == "VVI"):
         dataLocation = data.index(str((mode+"\n"))) 
         LRL = int(data[dataLocation+1]) #translate to ppm? 
@@ -493,13 +502,11 @@ def loadAndSend(mode, loadFrom):
         VPA = float(data[dataLocation+3])
         VPW = float(data[dataLocation+4])
         Vsense = float(data[dataLocation+5])
-        VRP = float(data[dataLocation+6])
-        if data[dataLocation+7] != type(float):
-            HRL = 0
-        else:
-            HRL = float(data[dataLocation+7])
-        RS = float(data[dataLocation + 8])
-        tf = sendToSimulink(3,LRL,URL,4,5,2.3,VPA,VPW,Vsense,VRP,200,200,RS,30,16,5,1,HRL)
+        VRP = int(data[dataLocation+6])
+        HRL = 0
+        RS = 0
+                        # mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
+        tf = sendToSimulink(2,LRL,URL,4,5,2.3,VPA,VPW,Vsense,VRP,200,69,RS,175,30,16,5,1,HRL)
         if tf == False:
             nomatcherror() ## make popup error saying they dont match
 
@@ -511,20 +518,23 @@ def loadAndSend(mode, loadFrom):
         APA = float(data[dataLocation+4])
         APW = float(data[dataLocation+5])
         AT = data[dataLocation+6]
-
-        if AT == "V-Low":
+        for i in AT:
+            print(i + '/n')
+        if AT == "V-Low" + "\n":
             AT = float(0.85)
-        if AT == "Low":
+        if AT == "Low" + "\n":
             AT = float(1.71)
-        if AT == "Med-Low":
+        if AT == "Med-Low" + "\n":
+            print("hehehe")
             AT = float(2.55)
-        if AT == "Med":
+        if AT == "Med" + "\n":
+            print("here")
             AT = float(3.40)
-        if AT == "Med-High":
+        if AT == "Med-High" + "\n":
             AT = float(4.26)
-        if AT == "High":
+        if AT == "High" + "\n":
             AT = float(5.1)
-        if AT == "V-High":
+        if AT == "V-High" + "\n":
             AT = float(5.96)
         RT = int(data[dataLocation+7])
         RF = int(data[dataLocation+8])
@@ -532,7 +542,9 @@ def loadAndSend(mode, loadFrom):
         
             
                       #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold, HRL
-        tf = sendToSimulink(4,LRL,URL,APA,APW,2.3,4,5,2.3,200,200,200,69,MSR,RT,RF,Rect,AT)
+
+        tf = sendToSimulink(5,LRL,URL,APA,APW,2.3,4,5,2.3,200,200,200,69,MSR,RT,RF,Rect,AT,0)
+
         if tf == False:
             nomatcherror() ## make popup error saying they dont match
     if(mode == "VOOR"):
@@ -544,19 +556,19 @@ def loadAndSend(mode, loadFrom):
         VPW = float(data[dataLocation+5])
         AT = data[dataLocation+6]
 
-        if AT == "V-Low":
+        if AT == "V-Low" + "\n":
             AT = float(0.85)
-        if AT == "Low":
+        if AT == "Low" + "\n":
             AT = float(1.71)
-        if AT == "Med-Low":
+        if AT == "Med-Low" + "\n":
             AT = float(2.55)
-        if AT == "Med":
+        if AT == "Med" + "\n":
             AT = float(3.40)
-        if AT == "Med-High":
+        if AT == "Med-High" + "\n":
             AT = float(4.26)
-        if AT == "High":
+        if AT == "High" + "\n":
             AT = float(5.1)
-        if AT == "V-High":
+        if AT == "V-High" + "\n":
             AT = float(5.96)
 
         RT = int(data[dataLocation+7])
@@ -565,7 +577,7 @@ def loadAndSend(mode, loadFrom):
         
         #for whatever reason DCM goes in the order 
                     #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold, HRL
-        tf = sendToSimulink(5,LRL,URL,4,5,2.3,VPA,VPW,2.3,200,200,200,69,MSR,RT,RF,Rect,AT,HRL)
+        tf = sendToSimulink(4,LRL,URL,4,5,2.3,VPA,VPW,2.3,200,200,200,69,MSR,RT,RF,Rect,AT,0)
         if tf == False:
             nomatcherror() ## make popup error saying they dont match
 
@@ -577,29 +589,26 @@ def loadAndSend(mode, loadFrom):
         APA = float(data[dataLocation+4])
         APW = float(data[dataLocation+5])
         ASense = float(data[dataLocation+6])
-        ARP = float(data[dataLocation+7])
-        if data[dataLocation+7] != type(float):
-            HRL = 0
-        else:
-            HRL = float(data[dataLocation+7])
-        RS =  float(data[dataLocation+9]) 
-        PVARP =  float(data[dataLocation+10])
+        ARP = int(data[dataLocation+7])
+        HRL = 0
+        RS =  0
+        PVARP =  int(data[dataLocation+10])
 
         AT = data[dataLocation+11]
 
-        if AT == "V-Low":
+        if AT == "V-Low" + "\n":
             AT = float(0.85)
-        if AT == "Low":
+        if AT == "Low" + "\n":
             AT = float(1.71)
-        if AT == "Med-Low":
+        if AT == "Med-Low" + "\n":
             AT = float(2.55)
-        if AT == "Med":
+        if AT == "Med" + "\n":
             AT = float(3.40)
-        if AT == "Med-High":
+        if AT == "Med-High" + "\n":
             AT = float(4.26)
-        if AT == "High":
+        if AT == "High" + "\n":
             AT = float(5.1)
-        if AT == "V-High":
+        if AT == "V-High" + "\n":
             AT = float(5.96)
 
         RT = int(data[dataLocation+12])
@@ -607,7 +616,7 @@ def loadAndSend(mode, loadFrom):
         Rect = int(data[dataLocation+14])
         
                       #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
-        tf = sendToSimulink(6,LRL,URL,APA,APW,ASense,4,5,2.3,200,200,ARP,PVARP,RS,MSR,RT,RF,Rect,AT,HRL)
+        tf = sendToSimulink(7,LRL,URL,APA,APW,ASense,4,5,2.3,200,ARP,PVARP,RS,MSR,RT,RF,Rect,AT,HRL)
         if tf == False:
             nomatcherror() ## make popup error saying they dont match
 
@@ -619,34 +628,32 @@ def loadAndSend(mode, loadFrom):
         VPA = float(data[dataLocation+4])
         VPW = float(data[dataLocation+5])
         Vsense = float(data[dataLocation+6])
-        VRP = float(data[dataLocation+7])
-        if data[dataLocation+8] != type(float):
-            HRL = 0
-        else:
-            HRL = float(data[dataLocation+8])
-        RS = float(data[dataLocation + 9])
+        VRP = int(data[dataLocation+7])
+        HRL = 0
+        RS = 0
         AT = data[dataLocation+10]
+        PVARP = 0
 
-        if AT == "V-Low":
+        if AT == "V-Low" + "\n":
             AT = float(0.85)
-        if AT == "Low":
+        if AT == "Low" + "\n":
             AT = float(1.71)
-        if AT == "Med-Low":
+        if AT == "Med-Low" + "\n":
             AT = float(2.55)
-        if AT == "Med":
+        if AT == "Med" + "\n":
             AT = float(3.40)
-        if AT == "Med-High":
+        if AT == "Med-High" + "\n":
             AT = float(4.26)
-        if AT == "High":
+        if AT == "High" + "\n":
             AT = float(5.1)
-        if AT == "V-High":
+        if AT == "V-High" + "\n":
             AT = float(5.96)
 
         RT = int(data[dataLocation+11])
         RF = int(data[dataLocation+12])
         Rect = int(data[dataLocation+13])
                    #mode,ppm,url,AA,APW,AST,VA,VPW,VST,sVRP,sARP,sPVARP,sRS,sMSR,reactionTime,responseFactor,recoveryTime,activityThreshold
-        tf = sendToSimulink(7,LRL,URL,4,5,2.3,VPA,VPW,Vsense,VRP,200,200,MSR,RT,RF,Rect,AT,HRL)
+        tf = sendToSimulink(6,LRL,URL,4,5,2.3,VPA,VPW,Vsense,VRP,200,PVARP,RS,MSR,RT,RF,Rect,AT,HRL)
         if tf == False:
             nomatcherror() ## make popup error saying they dont match
 
@@ -807,8 +814,11 @@ def delete_dashboard():
 def delete_success_screen():
     success_screen.destroy()
 
-def delete_egram_screen():
-    egram_screen.destroy()
+#def delete_egram_screen():
+
+    #egram_screen.destroy()
+
+
 
 def delete_send_success_screen():
     send_success_screen.destroy()
@@ -838,8 +848,8 @@ def show_egram():
         ztrData.append(1-z[1])
         print(str(z[0])+", " + str(z[1]) + " ," + str(i))
     plt.plot(range(200),atrData, markersize=10, color='r', label="Atrial")
-    plt.plot(range(200),ztrData,markersize=12,color='b',label="Ventrical")  
-    plt.legend() 
+    plt.plot(range(200),ztrData,markersize=12,color='b',label="Ventrical")
+    plt.legend()
     plt.show()
 
 '''
@@ -853,11 +863,14 @@ def show_egram():
     Label(text="Egram Data from past 30s", bg="#C70039", width="300", height="2", font=("Calibri", 15)).pack()
     #this will be the function where we pull the two pins for egram data'''
 
+
 def send_success():
     
     global send_success_screen
     send_success_screen = Tk()   
-    send_success_screen.geometry("696x300")
+
+    send_success_screen.geometry("696x420")
+
     send_success_screen.title("Send Success")
     delete_dashboard()
 
@@ -867,33 +880,19 @@ def send_success():
         
     #Button(send_success_screen, text = "Back to Dashboard", command = combine_funcs(delete_send_success_screen, dashboard)).pack()
     Label(send_success_screen, text="Data has been sent!", bg="#94ed80", width="300", height="2", font=("Calibri", 15)).pack()
+
+    #if string_mode2send == 'AOO' or string_mode2send == 'VOO' or string_mode2send == 'AAI' or string_mode2send == 'VVI':
     Label(send_success_screen, text ="""
-                    Your selected preset mode has been sent to the pacemaker. You may now look at heartview to see the reults
-                    If you would like to see Egram data, Please wait until the "Show Egram Data" button appears.
+                Your selected preset mode has been sent to the pacemaker. You may now look at heartview to see the reults
+                If you would like to see Egram data, Please wait until the "Show Egram Data" button appears.
                     
-                                This will happen once the program has ran for at least 30s""").pack()
-    send_success_screen.after(500, show_timebutton) #CHANGE to 30s after testing complete
+                                       This will happen shortly""").pack()
+    send_success_screen.after(1000, show_timebutton) #CHANGE to 30s after testing complete
 
-    '''if string_mode2send == 'AOO' or string_mode2send == 'VOO' or string_mode2send == 'AAI' or string_mode2send == 'VVI':
-        
-
-    else:
-        Label(send_success_screen, text ="""
-                    Your selected preset mode has been sent to the pacemaker
-                    Unfortunatley, the reactive modes have not been implemented
-                    You are unable to view Egram data for this mode""").pack()
-        
-  '''      
 
 #creating dashboard after login (this is where all selections will go)
 
-def nomatcherror():
-    global nomatcherror_screen
-    nomatcherror_screen = Toplevel(dash_screen)
-    nomatcherror_screen.title("error")
-    nomatcherror_screen.geometry("150x100")
-    Label(nomatcherror_screen, text="Sent and Received do not match").pack()
-    Button(nomatcherror_screen, text="OK", command=delete_invalid_filename_error).pack()
+
 
 
 def dashboard():
@@ -906,39 +905,34 @@ def dashboard():
     Label(text="Welcome to the Dashboard", bg="#C70039", width="300", height="2", font=("Calibri", 15)).pack() #adding which user it is would be nice
     button = Button(dash_screen, text = "Back to Login", command = combine_funcs(delete_dashboard, main_account_screen)).place(x=0,y=2)
 
-#Label(text="FOR TESTING PURPOSES ONLY",bg = "orange",font=("calibri", 14)).place(x=0, y=500)
-    Label(text="Connection status", bg="grey",font=("Helvetica",20))
-    #connectionButton=Button(dash_screen, text="Check connection", command == verification)#CHANGE
-    #connectionButton.place(x=.0,y=2)#CHANGE
+    def change_status_master():
+        if (check_connect()):
+            change_status_c2d()
+        else:
+            change_status_d2c()
 
-    #need to find a way to port username to dashboard, likley need to redo the way things save in register
-    #username_info = username.get()
-    #Label(text="Welcome, signed in as" + username_info ,font=("calibri", 16)).pack()
+    # Label(text="FOR TESTING PURPOSES ONLY",bg = "orange",font=("calibri", 14)).place(x=0, y=500)
+    Label(text="Connection status", bg="grey", font=("Helvetica", 20))
+    connectionButton = Button(dash_screen, text="Check connection", command=change_status_master)  # CHANGE
+    connectionButton.place(x=300, y=400)  # CHANGE
+
+    # need to find a way to port username to dashboard, likley need to redo the way things save in register
+    # username_info = username.get()
+    # Label(text="Welcome, signed in as" + username_info ,font=("calibri", 16)).pack()
+
+    def change_status_c2d():
+        status_label = Label(text="Status: connected", bg='green', width="30")
+        status_label.place(x=300, y=370)
+
+    #  Button(dash_screen, text = "change status", command = change_status_d2c).place(x=0, y=600)
+
+    def change_status_d2c():
+        status_label = Label(text="Status: disconnected", bg='red', width="30")
+        status_label.place(x=300, y=370)
+
+    # Button(dash_screen, text = "change status", command = change_status_c2d).place(x=0, y=600)
     
-    """def change_status_c2d():
-        status_label = Label(text="Status: connected", bg = 'green', width="30").place(x=60, y=600)
-        Button(dash_screen, text = "change status", command = change_status_d2c).place(x=0, y=600)         
 
-    def change_status_d2c():  
-        status_label = Label(text="Status: disconnected", bg = 'red', width="30").place(x=60, y=600)
-        Button(dash_screen, text = "change status", command = change_status_c2d).place(x=0, y=600)
-
-    def change_pacemaker_1st():
-            Label(dash_screen, text = ' ', width = 100, height = 2).place(x=0,y=550)
-            status_label = Label(text="Pacemaker 1 Connected", bg = "cyan",width="30").place(x=80, y=550)
-            Button(dash_screen, text = "change pacemaker", command = change_pacemaker_2nd).place(x=0, y=550)
-            
-            
-    def change_pacemaker_2nd():
-            status_label = Label(text="Pacemaker 2 Connected", bg = "cyan", width="30").place(x=80, y=550)
-            Button(dash_screen, text = "change pacemaker", command = change_pacemaker_3rd).place(x=0, y=550)
-            
-    def change_pacemaker_3rd():
-        status_label = Label(text="Pacemaker 3 Connected",bg = "cyan", width="30").place(x=80, y=550)
-        Button(dash_screen, text = "change pacemaker", command = change_pacemaker_1st).place(x=0, y=550)
-        
-    Button(dash_screen, text="show status", command = change_status_c2d).place(x=0, y=600)
-    Button(dash_screen, text="show connected pacemaker", command = change_pacemaker_1st).place(x=0, y=550)"""
     Label(dash_screen, text = "Hello " + name +"!", bg = "yellow", font=("Calibri", 13)).pack()
     userfile = open(name, 'r')
     filelines = userfile.readlines()
@@ -1213,7 +1207,7 @@ def dashboard():
     Label(dash_screen, text = 'Select preset to send to pacemaker', font=("Calibri", 12), bg = '#94ed80').place(x=0, y=375)
     #Label(dash_screen, text = 'due to changing requirements, Egram data not availavle for reactive modes',bg = 'orange').place(x=150,y=407)
     OptionMenu(dash_screen, mode_to_send, *preset_list).place(x=0, y=405)
-    Button(dash_screen, text = "confirm", command = send_to_pace).place(x=80, y=405) #change to command = loadAndSend(mode_to_send,name) after serial
+    Button(dash_screen, text = "confirm", command = send_to_pace).place(x=80, y=405)
     
     
 #run start
