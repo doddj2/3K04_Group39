@@ -118,7 +118,7 @@ def register_user():
                 overwrite_error()
                 error = 1
 
-    if tally <= 14: #accounts for 4 python programs, allowing for 9 new users in addition to the 'a' default file
+    if tally <= 16: #accounts for 4 python programs, allowing for 9 new users in addition to the 'a' default file
                 
         if password_info != confirm_info:
             password_not_matched()
